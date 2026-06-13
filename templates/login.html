@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.login-container{
+    min-height:80vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-box{
+    width:100%;
+    max-width:400px;
+    padding:25px;
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:18px;
+    box-shadow:0 0 25px rgba(13,202,240,.15);
+}
+
+.login-box input{
+    border-radius:12px;
+    padding:12px;
+}
+
+</style>
+<div class="login-container">
+
+    <div class="login-box">
+
+        <div class="text-center mb-4">
+            <h2 class="text-info fw-bold">W2W ACCESS</h2>
+            <p class="text-muted">Connexion Admin Team</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="text-light mb-1">Username</label>
+                <input type="text" name="username" class="form-control bg-dark text-light border-info">
+            </div>
+
+            <div class="mb-3">
+                <label class="text-light mb-1">Password</label>
+
+                <div class="input-group">
+                    <input type="password"
+                        name="password"
+                        id="password"
+                        class="form-control bg-dark text-light border-info">
+
+                    <button class="btn btn-outline-info" type="button" onclick="togglePassword()">
+                        <i class="bi bi-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Identifiants incorrects
+                </div>
+            {% endif %}
+
+            <button class="btn btn-info w-100">
+                Login
+            </button>
+        </form>
+
+    </div>
+
+</div>
+<script>
+function togglePassword() {
+    const input = document.getElementById("password");
+    const icon = document.getElementById("eyeIcon");
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    } else {
+        input.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    }
+}
+</script>
+{% endblock %}

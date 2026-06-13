@@ -110,12 +110,12 @@ def build_admin_context():
     }
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 def admin_panel(request):
     return render(request, "admin_panel.html", build_admin_context())
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def update_team_settings(request):
     settings = get_team_settings()
@@ -130,7 +130,7 @@ def update_team_settings(request):
     return redirect("admin_panel")
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def add_member(request):
     form = MemberForm(request.POST, request.FILES)
@@ -144,7 +144,7 @@ def add_member(request):
     return redirect("admin_panel")
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 def add_leader(request):
     form = LeaderForm(request.POST or None, request.FILES or None)
 
@@ -156,7 +156,7 @@ def add_leader(request):
     return render(request, "form.html", {"form": form, "title": "Ajouter un leader"})
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 def add_interim(request):
     form = InterimForm(request.POST or None, request.FILES or None)
 
@@ -168,7 +168,7 @@ def add_interim(request):
     return render(request, "form.html", {"form": form, "title": "Ajouter un interim"})
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 def add_rule(request):
     form = RuleForm(request.POST or None)
 
@@ -180,7 +180,7 @@ def add_rule(request):
     return render(request, "form.html", {"form": form, "title": "Ajouter un reglement"})
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 def edit_rule(request, pk):
     rule = get_object_or_404(Rule, pk=pk)
     form = RuleForm(request.POST or None, instance=rule)
@@ -193,7 +193,7 @@ def edit_rule(request, pk):
     return render(request, "form.html", {"form": form, "title": "Modifier un reglement"})
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 def edit_member(request, pk):
     member = get_object_or_404(Member, pk=pk)
     form = MemberForm(request.POST or None, request.FILES or None, instance=member)
@@ -206,7 +206,7 @@ def edit_member(request, pk):
     return render(request, "form.html", {"form": form, "title": "Modifier un membre"})
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 def edit_leader(request, pk):
     leader = get_object_or_404(Leader, pk=pk)
     form = LeaderForm(request.POST or None, request.FILES or None, instance=leader)
@@ -219,7 +219,7 @@ def edit_leader(request, pk):
     return render(request, "form.html", {"form": form, "title": "Modifier un leader"})
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 def edit_interim(request, pk):
     interim = get_object_or_404(Interim, pk=pk)
     form = InterimForm(request.POST or None, request.FILES or None, instance=interim)
@@ -232,7 +232,7 @@ def edit_interim(request, pk):
     return render(request, "form.html", {"form": form, "title": "Modifier un interim"})
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def delete_member(request, pk):
     member = get_object_or_404(Member, pk=pk)
@@ -241,7 +241,7 @@ def delete_member(request, pk):
     return redirect("admin_panel")
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def delete_leader(request, pk):
     leader = get_object_or_404(Leader, pk=pk)
@@ -250,7 +250,7 @@ def delete_leader(request, pk):
     return redirect("admin_panel")
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def delete_interim(request, pk):
     interim = get_object_or_404(Interim, pk=pk)
@@ -259,7 +259,7 @@ def delete_interim(request, pk):
     return redirect("admin_panel")
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def delete_rule(request, pk):
     rule = get_object_or_404(Rule, pk=pk)
@@ -268,7 +268,7 @@ def delete_rule(request, pk):
     return redirect("admin_panel")
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def delete_application(request, pk):
     application = get_object_or_404(RecruitmentApplication, pk=pk)
@@ -277,7 +277,7 @@ def delete_application(request, pk):
     return redirect("admin_panel")
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def accept_application(request, pk):
     application = get_object_or_404(RecruitmentApplication, pk=pk)
@@ -309,7 +309,7 @@ def accept_application(request, pk):
     return redirect("admin_panel")
 
 
-@staff_member_required(login_url="/admin/login/")
+@staff_member_required(login_url="/login/")
 @require_POST
 def reject_application(request, pk):
     application = get_object_or_404(RecruitmentApplication, pk=pk)
