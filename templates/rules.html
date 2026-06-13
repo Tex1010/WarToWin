@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.rules-page{
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
+}
+
+.rules-hero{
+    position:relative;
+    overflow:hidden;
+    padding:1.2rem;
+    border-radius:28px;
+    border:1px solid rgba(255,39,75,.18);
+    background:
+        radial-gradient(circle at top right, rgba(255,39,75,.22), transparent 34%),
+        linear-gradient(135deg, rgba(18,14,20,.98), rgba(10,8,12,.98));
+    box-shadow:0 24px 60px rgba(0,0,0,.28);
+}
+
+.rules-hero::before{
+    content:"";
+    position:absolute;
+    width:240px;
+    height:240px;
+    right:-90px;
+    top:-60px;
+    background:rgba(255,39,75,.14);
+    filter:blur(70px);
+}
+
+.rules-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.55rem .9rem;
+    border-radius:999px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    color:#ffe2e7;
+    font-size:.82rem;
+    margin-bottom:1rem;
+}
+
+.rules-count-card{
+    height:100%;
+    padding:1rem;
+    border-radius:22px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.rules-count-number{
+    font-size:2rem;
+    font-weight:700;
+    color:var(--primary);
+}
+
+.rules-grid{
+    display:grid;
+    gap:1rem;
+}
+
+.rule-card{
+    position:relative;
+    overflow:hidden;
+    padding:1.1rem;
+    border-radius:24px;
+    background:linear-gradient(180deg, rgba(18,17,22,.97), rgba(11,10,14,.96));
+    border:1px solid rgba(255,255,255,.06);
+    box-shadow:0 18px 42px rgba(0,0,0,.2);
+    animation:ruleFadeIn .55s ease both;
+}
+
+.rule-card::before{
+    content:"";
+    position:absolute;
+    inset:0 auto 0 0;
+    width:4px;
+    background:linear-gradient(180deg, var(--primary), var(--primary-soft));
+}
+
+.rule-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(255,39,75,.22);
+    box-shadow:0 24px 50px rgba(255,39,75,.12);
+}
+
+.rule-index{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,39,75,.12);
+    border:1px solid rgba(255,39,75,.18);
+    color:#fff;
+    font-weight:700;
+    margin-bottom:1rem;
+}
+
+.rule-title{
+    font-size:1.15rem;
+    margin-bottom:.6rem;
+    color:#fff;
+}
+
+.rule-description{
+    margin-bottom:0;
+}
+
+.rules-empty{
+    padding:1.2rem;
+    border-radius:24px;
+    text-align:center;
+    background:linear-gradient(180deg, rgba(18,17,22,.97), rgba(11,10,14,.96));
+    border:1px solid rgba(255,255,255,.06);
+}
+
+@keyframes ruleFadeIn{
+    from{
+        opacity:0;
+        transform:translateY(16px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media (max-width:768px){
+    .rules-hero{
+        padding:1rem;
+        border-radius:24px;
+    }
+
+    .rule-card{
+        padding:1rem;
+        border-radius:22px;
+    }
+}
+</style>
+
+<div class="rules-page">
+    <section class="rules-hero hero-glow">
+        <div class="row g-4 align-items-center">
+            <div class="col-12 col-lg-8">
+                <span class="rules-kicker">
+                    <i class="bi bi-shield-check"></i>
+                    Regles officielles W2W
+                </span>
+                <h1 class="text-info mb-3">Règlements de la Team</h1>
+                <p class="mb-0">
+                    Voici les regles qui structurent la team. Elles permettent de garder une bonne ambiance, une organisation claire et une vraie discipline de groupe.
+                </p>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="rules-count-card">
+                    <div class="rules-count-number">{{ rules|length }}</div>
+                    <div class="text-light fw-semibold">Reglements actifs</div>
+                    <p class="mb-0 mt-2">
+                        Lis chaque point avec attention avant de rejoindre ou de rester dans la team.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% if rules %}
+        <section class="rules-grid">
+            {% for rule in rules %}
+                <article class="rule-card" style="animation-delay: {{ forloop.counter0 }}00ms;">
+                    <div class="rule-index">{{ forloop.counter|stringformat:"02d" }}</div>
+                    <h2 class="rule-title">{{ rule.title }}</h2>
+                    <p class="rule-description">
+                        {{ rule.description|default:"Aucune description pour ce reglement." }}
+                    </p>
+                </article>
+            {% endfor %}
+        </section>
+    {% else %}
+        <section class="rules-empty">
+            <h2 class="text-info mb-3">Aucun reglement disponible</h2>
+            <p class="mb-0">
+                Les reglements n'ont pas encore ete publies. Reviens bientot pour consulter les consignes officielles de la team.
+            </p>
+        </section>
+    {% endif %}
+</div>
+{% endblock %}

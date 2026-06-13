@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.home-page{
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
+}
+
+.home-hero{
+    position:relative;
+    overflow:hidden;
+    padding:1.2rem;
+    border:1px solid rgba(255,39,75,.22);
+    border-radius:28px;
+    background:
+        radial-gradient(circle at top right, rgba(255,39,75,.24), transparent 33%),
+        linear-gradient(135deg, rgba(20,16,22,.98), rgba(10,8,12,.98));
+    box-shadow:0 30px 70px rgba(0,0,0,.28);
+}
+
+.home-hero::before{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    right:-70px;
+    top:-40px;
+    background:rgba(255,39,75,.18);
+    filter:blur(70px);
+}
+
+.hero-copy{
+    position:relative;
+    z-index:1;
+}
+
+.hero-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:.55rem;
+    padding:.55rem .9rem;
+    border-radius:999px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    color:#f8d7dd;
+    font-size:.82rem;
+    margin-bottom:1rem;
+}
+
+.hero-title{
+    font-size:clamp(2.2rem, 7vw, 4.8rem);
+    line-height:.95;
+    margin-bottom:1rem;
+}
+
+.hero-title span{
+    color:#fff;
+}
+
+.hero-desc{
+    max-width:600px;
+    color:#d1d5db;
+    font-size:1rem;
+}
+
+.hero-logo-wrap{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:1rem 0 .2rem;
+}
+
+.hero-logo-frame{
+    position:relative;
+    width:min(78vw, 360px);
+    aspect-ratio:1/1;
+    border-radius:28px;
+    padding:.8rem;
+    background:linear-gradient(145deg, rgba(255,39,75,.18), rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 25px 60px rgba(0,0,0,.38);
+}
+
+.hero-logo{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:22px;
+    display:block;
+}
+
+.hero-badge-stack{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:.75rem;
+    margin-top:1.2rem;
+}
+
+.home-stat{
+    padding:1rem;
+    border-radius:22px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.home-stat-value{
+    font-size:1.75rem;
+    font-weight:700;
+}
+
+.home-section{
+    padding:1.1rem;
+    border-radius:26px;
+    background:linear-gradient(180deg, rgba(18,17,22,.96), rgba(11,10,14,.96));
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:1rem;
+    margin-bottom:1rem;
+}
+
+.section-overline{
+    color:#ff8da1;
+    font-size:.82rem;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+}
+
+.section-title-home{
+    margin:0;
+    color:#fff;
+}
+
+.section-subtitle{
+    margin:0;
+    color:var(--muted);
+    font-size:.92rem;
+}
+
+.feature-card,
+.member-card-home,
+.cta-panel{
+    height:100%;
+    padding:1rem;
+    border-radius:22px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.feature-icon{
+    width:48px;
+    height:48px;
+    border-radius:16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.2rem;
+    margin-bottom:.8rem;
+    color:#fff;
+    background:linear-gradient(135deg, rgba(255,39,75,.95), rgba(255,92,120,.65));
+}
+
+.member-card-home{
+    text-align:center;
+}
+
+.member-photo-home{
+    width:92px;
+    height:92px;
+    object-fit:cover;
+    border-radius:50%;
+    margin:0 auto .9rem;
+    border:2px solid rgba(255,39,75,.35);
+    box-shadow:0 10px 25px rgba(255,39,75,.15);
+}
+
+.role-pill{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    padding:.45rem .8rem;
+    border-radius:999px;
+    font-size:.78rem;
+    background:rgba(255,39,75,.12);
+    color:#ffd9df;
+    border:1px solid rgba(255,39,75,.2);
+}
+
+.cta-panel{
+    background:
+        radial-gradient(circle at right center, rgba(0,177,106,.16), transparent 28%),
+        linear-gradient(135deg, rgba(255,39,75,.12), rgba(255,255,255,.03));
+}
+
+@media (max-width: 768px){
+    .home-hero{
+        padding:1rem;
+        border-radius:24px;
+    }
+
+    .hero-badge-stack{
+        grid-template-columns:1fr;
+    }
+
+    .home-section{
+        padding:1rem;
+        border-radius:22px;
+    }
+
+    .section-head{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+}
+</style>
+
+<div class="home-page">
+    <section class="home-hero hero-glow">
+        <div class="row align-items-center g-4">
+            <div class="col-12 col-lg-7">
+                <div class="hero-copy">
+                    <div class="hero-kicker">
+                        <i class="bi bi-fire"></i>
+                        Team mobile competitive
+                    </div>
+
+                    <h1 class="hero-title text-info">
+                        W2W
+                        <span>{{ settings.team_name|default:"War To Win" }}</span>
+                    </h1>
+
+                    <p class="hero-desc mb-3">
+                        {{ settings.welcome_text }}
+                    </p>
+
+                    <div class="d-flex flex-column flex-sm-row gap-3">
+                        <a href="/join/" class="btn btn-info btn-lg px-4">Rejoindre la Team</a>
+                        <a href="/members/" class="btn btn-outline-light btn-lg px-4">Voir les membres</a>
+                    </div>
+
+                    <div class="hero-badge-stack">
+                        <div class="home-stat">
+                            <div class="home-stat-value text-info">{{ members_count }}</div>
+                            <div class="text-light">Membres actifs</div>
+                            <small class="text-muted">Une structure visible et organisee.</small>
+                        </div>
+                        <div class="home-stat">
+                            <div class="home-stat-value text-white">{{ leaders|length }}</div>
+                            <div class="text-light">Leaders</div>
+                            <small class="text-muted">Commandement, recrutement et discipline.</small>
+                        </div>
+                        <div class="home-stat">
+                            <div class="home-stat-value" style="color:#00d084;">{{ interims|length }}</div>
+                            <div class="text-light">Interims</div>
+                            <small class="text-muted">Soutien tactique et suivi des membres.</small>
+                        </div>
+                        <div class="home-stat">
+                            <div class="home-stat-value text-white">24/7</div>
+                            <div class="text-light">Presence mobile</div>
+                            <small class="text-muted">Design pense pour telephone en priorite.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-5">
+                <div class="hero-logo-wrap">
+                    <div class="hero-logo-frame">
+                        {% if settings and settings.logo %}
+                            <img src="{{ settings.logo.url }}" class="hero-logo" alt="{{ settings.team_name }}">
+                        {% else %}
+                            <div class="hero-logo d-flex flex-column justify-content-center align-items-center text-center">
+                                <div class="display-2 fw-bold text-info">W2W</div>
+                                <div class="text-light">War To Win</div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="section-head">
+            <div>
+                <div class="section-overline">Identite</div>
+                <h2 class="section-title-home">Une team avec une presence forte</h2>
+            </div>
+            <p class="section-subtitle">Rouge, noir et blanc pour une image agressive, lisible et premium sur mobile.</p>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-phone"></i></div>
+                    <h5 class="text-light">Experience mobile</h5>
+                    <p class="text-muted mb-0">Navigation simple, boutons plus confortables et sections mieux espacees sur telephone.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+                    <h5 class="text-light">Organisation claire</h5>
+                    <p class="text-muted mb-0">Accueil structure, presentation d'equipe et parcours de recrutement faciles a suivre.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-stars"></i></div>
+                    <h5 class="text-light">Image esport</h5>
+                    <p class="text-muted mb-0">Un style plus professionnel inspire directement du logo W2W et de son energie visuelle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="section-head">
+            <div>
+                <div class="section-overline">Leadership</div>
+                <h2 class="section-title-home">Les leaders de la team</h2>
+            </div>
+            <p class="section-subtitle">Les profils qui portent la vision, le rythme et la cohesion de War To Win.</p>
+        </div>
+
+        <div class="row g-3">
+            {% for leader in leaders %}
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="member-card-home">
+                        {% if leader.photo %}
+                            <img src="{{ leader.photo.url }}" class="member-photo-home" alt="{{ leader.pseudo }}">
+                        {% endif %}
+                        <div class="role-pill mb-3">Leader</div>
+                        <h4 class="text-info mb-1">{{ leader.pseudo }}</h4>
+                        <div class="text-light mb-2">{{ leader.name }}</div>
+                        <p class="text-muted mb-0">{{ leader.slogan|default:"Leader War To Win" }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="feature-card text-center">
+                        <p class="text-muted mb-0">Aucun leader n'est encore affiche.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="section-head">
+            <div>
+                <div class="section-overline">Support Tactique</div>
+                <h2 class="section-title-home">Les interims</h2>
+            </div>
+            <p class="section-subtitle">Des profils relais qui suivent l'activite, l'ambiance et la progression du groupe.</p>
+        </div>
+
+        <div class="row g-3">
+            {% for interim in interims %}
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="member-card-home">
+                        {% if interim.photo %}
+                            <img src="{{ interim.photo.url }}" class="member-photo-home" alt="{{ interim.pseudo }}">
+                        {% endif %}
+                        <div class="role-pill mb-3" style="background:rgba(0,177,106,.12); border-color:rgba(0,177,106,.22); color:#d7ffee;">Interim</div>
+                        <h4 class="text-light mb-1">{{ interim.pseudo }}</h4>
+                        <div class="text-light mb-2">{{ interim.name }}</div>
+                        <p class="text-muted mb-0">{{ interim.slogan|default:"Interim War To Win" }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="feature-card text-center">
+                        <p class="text-muted mb-0">Aucun interim n'est encore affiche.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="cta-panel">
+        <div class="row align-items-center g-3">
+            <div class="col-12 col-lg-8">
+                <div class="section-overline">Recrutement</div>
+                <h2 class="section-title-home mb-2">Pret a rejoindre l'univers W2W ?</h2>
+                <p class="text-muted mb-0">
+                    Envoie ta candidature, ajoute la capture de ton profil Free Fire et entre directement dans le circuit de validation de la team.
+                </p>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="d-grid gap-2">
+                    <a href="/join/" class="btn btn-info btn-lg">Postuler maintenant</a>
+                    <a href="/rules/" class="btn btn-outline-light">Lire les reglements</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

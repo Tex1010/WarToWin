@@ -1,0 +1,37 @@
+git status
+git add .
+git commit -m "Description modification"
+git push
+
+Mandray-------------------------------------------
+venv\Scripts\activate
+pip install -r requirements.txt
+pip install daphne
+pip install channels
+pip install openpyxl
+
+python manage.py makemigrations
+python manage.py migrate
+
+git pull
+
+Admin vaovao----------------------------------------
+
+python manage.py createsuperuser
+
+run----------------------------------------------------
+
+python manage.py runserver 10.0.2.28:8000    
+
+daphne -b 10.0.2.28 -p 8000 config.asgi:application
+
+
+daphne config.asgi:application
+
+mamafa rehetra : python manage.py flush
+
+tree /F
+
+Micreer : 
+python manage.py makemigrations
+python manage.py migrate

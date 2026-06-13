@@ -1,0 +1,310 @@
+<style>
+.member-avatar{
+    width:95px;
+    height:95px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:3px solid #0dcaf0;
+
+    transition:.3s;
+}
+
+.card{
+    background:rgba(17,24,39,.75);
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.badge{
+    margin-top:10px;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.player-card{
+    overflow:hidden;
+    position:relative;
+}
+
+.player-card::before{
+    content:"";
+
+    position:absolute;
+    top:0;
+    left:-100%;
+
+    width:100%;
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.08),
+        transparent
+    );
+
+    transition:.7s;
+}
+
+.player-card:hover::before{
+    left:100%;
+}
+
+.player-card:hover .member-avatar{
+    transform:scale(1.08);
+    box-shadow:0 0 25px rgba(13,202,240,.7);
+}
+.section-title{
+    position:relative;
+    display:inline-block;
+    padding-bottom:8px;
+}
+
+.section-title::after{
+    content:"";
+
+    position:absolute;
+    left:0;
+    bottom:0;
+
+    width:60%;
+    height:3px;
+
+    background:#0dcaf0;
+}
+
+.stat-card{
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
+}
+
+.role-badge{
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:.75rem;
+    font-weight:600;
+}
+
+.leader-badge{
+    background:#facc15;
+    color:#000;
+}
+
+.interim-badge{
+    background:#0dcaf0;
+    color:#000;
+}
+
+</style>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- HEADER -->
+
+<div class="text-center mb-5">
+
+    <i class="bi bi-people-fill text-info fs-1"></i>
+
+    <h1 class="fw-bold mt-2">
+        WarToWin Roster
+    </h1>
+
+    <p class="text-secondary">
+        Official Team Members
+    </p>
+
+</div>
+
+<!-- STATS -->
+
+<div class="row text-center mb-5">
+
+    <div class="col-4">
+
+        <div <div class="card stat-card p-3"> p-3">
+
+            <i class="bi bi-shield-fill-check text-warning fs-2"></i>
+
+            <h4>{{ leaders|length }}</h4>
+
+            <small>Leaders</small>
+
+        </div>
+
+    </div>
+
+    <div class="col-4">
+
+        <div <div class="card stat-card p-3"> p-3">
+
+            <i class="bi bi-lightning-charge-fill text-info fs-2"></i>
+
+            <h4>{{ interims|length }}</h4>
+
+            <small>Interims</small>
+
+        </div>
+
+    </div>
+
+    <div class="col-4">
+
+        <div <div class="card stat-card p-3"> p-3">
+
+            <i class="bi bi-people-fill text-success fs-2"></i>
+
+            <h4>{{ members|length }}</h4>
+
+            <small>Members</small>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- LEADERS -->
+
+<div class="d-flex align-items-center mb-4">
+
+    <i class="bi bi-shield-fill-check text-warning fs-3 me-2"></i>
+
+    <h3 class="mb-0">Leaders</h3>
+
+</div>
+
+<div class="row">
+
+{% for leader in leaders %}
+<div class="col-12 col-md-4 mb-4">
+
+    <div <div class="card stat-card p-3"> player-card text-center p-4 border border-warning">
+
+        {% if leader.photo %}
+            <img src="{{ leader.photo.url }}"
+                 class="member-avatar mx-auto">
+        {% endif %}
+
+        <h4 class="mt-3 text-warning">
+            {{ leader.pseudo }}
+        </h4>
+
+        <p class="text-secondary">
+            {{ leader.slogan }}
+        </p>
+
+        <span class="role-badge leader-badge">
+            Team Leader
+        </span>
+
+    </div>
+
+</div>
+{% endfor %}
+
+</div>
+
+<!-- INTERIMS -->
+
+<div class="d-flex align-items-center mb-4 mt-5">
+
+    <i class="bi bi-lightning-charge-fill text-info fs-3 me-2"></i>
+
+    <h3 class="mb-0">Interims</h3>
+
+</div>
+
+<div class="row">
+
+{% for interim in interims %}
+<div class="col-12 col-md-4 mb-4">
+
+    <div <div class="card stat-card p-3"> text-center p-4 border border-info">
+
+        {% if interim.photo %}
+            <img src="{{ interim.photo.url }}"
+                 class="member-avatar mx-auto">
+        {% endif %}
+
+        <h4 class="mt-3 text-info">
+            {{ interim.pseudo }}
+        </h4>
+
+        <p class="text-secondary">
+            {{ interim.slogan }}
+        </p>
+
+        <span class="badge bg-info text-dark">
+            Interim
+        </span>
+
+    </div>
+
+</div>
+{% endfor %}
+
+</div>
+
+<!-- MEMBERS -->
+
+<div class="d-flex align-items-center mb-4 mt-5">
+
+    <i class="bi bi-people-fill text-success fs-3 me-2"></i>
+
+    <h3 class="mb-0 section-title">Members</h3>
+
+</div>
+
+<div class="row">
+
+{% for member in members %}
+<div class="col-6 mb-4">
+
+    <div <div class="card stat-card p-3"> text-center p-3 h-100">
+
+        {% if member.photo %}
+            <img src="{{ member.photo.url }}"
+                 class="member-avatar mx-auto">
+        {% endif %}
+
+        <h6 class="mt-3">
+            {{ member.pseudo }}
+        </h6>
+
+        <small class="text-secondary">
+            {{ member.slogan }}
+        </small>
+
+    </div>
+
+</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}
