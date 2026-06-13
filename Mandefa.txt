@@ -1,6 +1,5 @@
-git status
 git add .
-git commit -m "Description modification"
+git commit -m "Description des modifications"
 git push
 
 Mandray-------------------------------------------
