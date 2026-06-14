@@ -2,6 +2,7 @@ from django import forms
 from .models import (
     Interim,
     Leader,
+    MatchRequest,
     Member,
     RecruitmentApplication,
     Rule,
@@ -12,19 +13,73 @@ from .models import (
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ["name", "pseudo", "photo", "slogan"]
+        fields = ["name", "pseudo", "photo", "ff_profile_photo", "slogan"]
+        labels = {
+            "name": "Nom complet",
+            "pseudo": "Pseudo",
+            "photo": "Photo du membre",
+            "ff_profile_photo": "Photo de profil Free Fire",
+            "slogan": "Slogan",
+        }
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "pseudo": forms.TextInput(attrs={"class": "form-control"}),
+            "photo": forms.ClearableFileInput(
+                attrs={"class": "form-control", "accept": ".png,.jpg,.jpeg,.webp"}
+            ),
+            "ff_profile_photo": forms.ClearableFileInput(
+                attrs={"class": "form-control", "accept": ".png,.jpg,.jpeg,.webp"}
+            ),
+            "slogan": forms.TextInput(attrs={"class": "form-control"}),
+        }
 
 
 class LeaderForm(forms.ModelForm):
     class Meta:
         model = Leader
-        fields = ["name", "pseudo", "photo", "slogan"]
+        fields = ["name", "pseudo", "photo", "ff_profile_photo", "slogan"]
+        labels = {
+            "name": "Nom complet",
+            "pseudo": "Pseudo",
+            "photo": "Photo du leader",
+            "ff_profile_photo": "Photo de profil Free Fire",
+            "slogan": "Slogan",
+        }
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "pseudo": forms.TextInput(attrs={"class": "form-control"}),
+            "photo": forms.ClearableFileInput(
+                attrs={"class": "form-control", "accept": ".png,.jpg,.jpeg,.webp"}
+            ),
+            "ff_profile_photo": forms.ClearableFileInput(
+                attrs={"class": "form-control", "accept": ".png,.jpg,.jpeg,.webp"}
+            ),
+            "slogan": forms.TextInput(attrs={"class": "form-control"}),
+        }
 
 
 class InterimForm(forms.ModelForm):
     class Meta:
         model = Interim
-        fields = ["name", "pseudo", "photo", "slogan"]
+        fields = ["name", "pseudo", "photo", "ff_profile_photo", "slogan"]
+        labels = {
+            "name": "Nom complet",
+            "pseudo": "Pseudo",
+            "photo": "Photo de l'interim",
+            "ff_profile_photo": "Photo de profil Free Fire",
+            "slogan": "Slogan",
+        }
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "pseudo": forms.TextInput(attrs={"class": "form-control"}),
+            "photo": forms.ClearableFileInput(
+                attrs={"class": "form-control", "accept": ".png,.jpg,.jpeg,.webp"}
+            ),
+            "ff_profile_photo": forms.ClearableFileInput(
+                attrs={"class": "form-control", "accept": ".png,.jpg,.jpeg,.webp"}
+            ),
+            "slogan": forms.TextInput(attrs={"class": "form-control"}),
+        }
 
 
 class RuleForm(forms.ModelForm):
@@ -36,13 +91,46 @@ class RuleForm(forms.ModelForm):
 class TeamSettingsForm(forms.ModelForm):
     class Meta:
         model = TeamSettings
-        fields = ["team_name", "welcome_text", "logo"]
+        fields = [
+            "team_tag",
+            "team_name",
+            "welcome_text",
+            "logo",
+            "font_choice",
+            "background_color",
+            "background_soft_color",
+            "card_color",
+            "card_soft_color",
+            "primary_color",
+            "primary_soft_color",
+            "accent_color",
+            "text_color",
+            "muted_color",
+        ]
         labels = {
+            "team_tag": "Tag de la team",
             "team_name": "Nom de la team",
             "welcome_text": "Texte d'accueil",
             "logo": "Logo de la team",
+            "font_choice": "Police du site",
+            "background_color": "Couleur de fond",
+            "background_soft_color": "Fond secondaire",
+            "card_color": "Couleur des cartes",
+            "card_soft_color": "Couleur des cartes secondaires",
+            "primary_color": "Couleur principale",
+            "primary_soft_color": "Couleur principale secondaire",
+            "accent_color": "Couleur d'accent",
+            "text_color": "Couleur du texte",
+            "muted_color": "Couleur du texte secondaire",
         }
         widgets = {
+            "team_tag": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ex: W2W",
+                    "maxlength": 20,
+                }
+            ),
             "team_name": forms.TextInput(
                 attrs={
                     "class": "form-control",
@@ -62,6 +150,34 @@ class TeamSettingsForm(forms.ModelForm):
                     "accept": ".png,.jpg,.jpeg,.webp",
                 }
             ),
+            "font_choice": forms.Select(attrs={"class": "form-select"}),
+            "background_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
+            "background_soft_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
+            "card_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
+            "card_soft_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
+            "primary_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
+            "primary_soft_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
+            "accent_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
+            "text_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
+            "muted_color": forms.TextInput(
+                attrs={"class": "form-control form-control-color", "type": "color"}
+            ),
         }
 
 
@@ -74,6 +190,7 @@ class RecruitmentForm(forms.ModelForm):
             "free_fire_uid",
             "level",
             "whatsapp",
+            "facebook_profile",
             "motivation",
             "profile_screenshot",
         ]
@@ -83,6 +200,7 @@ class RecruitmentForm(forms.ModelForm):
             "free_fire_uid": "UID Free Fire",
             "level": "Niveau de jeu",
             "whatsapp": "Numero WhatsApp",
+            "facebook_profile": "Nom ou lien du profil Facebook",
             "motivation": "Pourquoi veux-tu rejoindre la team ?",
             "profile_screenshot": "Capture du profil Free Fire",
         }
@@ -116,6 +234,13 @@ class RecruitmentForm(forms.ModelForm):
                     "placeholder": "Ex: +242 06 123 45 67",
                     "autocomplete": "tel",
                     "inputmode": "tel",
+                }
+            ),
+            "facebook_profile": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ex: Jean Mavoungou ou https://facebook.com/...",
+                    "autocomplete": "url",
                 }
             ),
             "motivation": forms.Textarea(
@@ -195,3 +320,62 @@ class RecruitmentForm(forms.ModelForm):
             )
 
         return screenshot
+
+
+class MatchRequestForm(forms.ModelForm):
+    requested_at = forms.DateTimeField(
+        input_formats=["%Y-%m-%dT%H:%M"],
+        widget=forms.DateTimeInput(
+            attrs={
+                "class": "form-control",
+                "type": "datetime-local",
+            },
+            format="%Y-%m-%dT%H:%M",
+        ),
+    )
+
+    class Meta:
+        model = MatchRequest
+        fields = [
+            "requester_name",
+            "contact_info",
+            "request_type",
+            "requested_at",
+            "message",
+        ]
+        labels = {
+            "requester_name": "Nom du visiteur ou de la team",
+            "contact_info": "Contact (WhatsApp, Facebook ou autre)",
+            "request_type": "Type de demande",
+            "requested_at": "Date et heure souhaitees",
+            "message": "Message",
+        }
+        widgets = {
+            "requester_name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ex: Team Phoenix",
+                }
+            ),
+            "contact_info": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Ex: +242 06 123 45 67 ou lien Facebook",
+                }
+            ),
+            "request_type": forms.Select(attrs={"class": "form-select"}),
+            "message": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Ajoute un detail utile pour la demande.",
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["request_type"].choices = [
+            ("", "Choisis TvT ou TvG"),
+            *MatchRequest.REQUEST_TYPE_CHOICES,
+        ]

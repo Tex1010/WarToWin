@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from .forms import (
     InterimForm,
     LeaderForm,
+    MatchRequestForm,
     MemberForm,
     RecruitmentForm,
     RuleForm,
@@ -16,11 +17,12 @@ from .forms import (
 from .models import (
     Interim,
     Leader,
+    MatchRequest,
     Member,
     RecruitmentApplication,
     Rule,
-    TeamSettings,
 )
+from .utils import get_team_settings
 
 
 def home(request):
@@ -28,6 +30,18 @@ def home(request):
     leaders = Leader.objects.all()
     interims = Interim.objects.all()
     members_count = Member.objects.count()
+    match_form = MatchRequestForm(request.POST or None)
+
+    if request.method == "POST" and request.POST.get("form_name") == "match_request":
+        if match_form.is_valid():
+            match_form.save()
+            messages.success(
+                request,
+                "Ta demande de match a bien ete envoyee. L'admin la verifiera bientot.",
+            )
+            return redirect("home")
+
+        messages.error(request, "Impossible d'envoyer la demande de match.")
 
     return render(
         request,
@@ -37,6 +51,7 @@ def home(request):
             "leaders": leaders,
             "interims": interims,
             "members_count": members_count,
+            "match_form": match_form,
         },
     )
 
@@ -68,19 +83,6 @@ def recruitment(request):
     return render(request, "recruitment.html", {"form": form})
 
 
-def get_team_settings():
-    settings = TeamSettings.objects.first()
-
-    if settings:
-        return settings
-
-    settings = TeamSettings.objects.create(
-        team_name="War To Win",
-        welcome_text="Une team mobile ambitieuse, disciplinee et prete pour les prochains defis.",
-    )
-    return settings
-
-
 def build_admin_context():
     team_settings = get_team_settings()
     pending_applications = RecruitmentApplication.objects.filter(
@@ -88,6 +90,12 @@ def build_admin_context():
     )
     reviewed_applications = RecruitmentApplication.objects.exclude(
         status=RecruitmentApplication.STATUS_PENDING
+    )
+    pending_match_requests = MatchRequest.objects.filter(
+        status=MatchRequest.STATUS_PENDING
+    )
+    reviewed_match_requests = MatchRequest.objects.exclude(
+        status=MatchRequest.STATUS_PENDING
     )
 
     return {
@@ -107,6 +115,10 @@ def build_admin_context():
         "rejected_count": reviewed_applications.filter(
             status=RecruitmentApplication.STATUS_REJECTED
         ).count(),
+        "pending_match_requests": pending_match_requests,
+        "reviewed_match_requests": reviewed_match_requests,
+        "match_requests_count": MatchRequest.objects.count(),
+        "pending_match_count": pending_match_requests.count(),
     }
 
 
@@ -299,6 +311,7 @@ def accept_application(request, pk):
             name=application.full_name,
             pseudo=application.pseudo,
             slogan=f"Niveau {application.get_level_display()}",
+            ff_profile_photo=application.profile_screenshot,
         )
         application.status = RecruitmentApplication.STATUS_ACCEPTED
         application.admin_note = admin_note
@@ -324,4 +337,49 @@ def reject_application(request, pk):
     application.save(update_fields=["status", "admin_note", "reviewed_at"])
 
     messages.success(request, "Candidature refusee.")
+    return redirect("admin_panel")
+
+
+@staff_member_required(login_url="/login/")
+@require_POST
+def accept_match_request(request, pk):
+    match_request = get_object_or_404(MatchRequest, pk=pk)
+
+    if match_request.status != MatchRequest.STATUS_PENDING:
+        messages.warning(request, "Cette demande a deja ete traitee.")
+        return redirect("admin_panel")
+
+    match_request.status = MatchRequest.STATUS_ACCEPTED
+    match_request.admin_note = request.POST.get("admin_note", "").strip()
+    match_request.reviewed_at = timezone.now()
+    match_request.save(update_fields=["status", "admin_note", "reviewed_at"])
+
+    messages.success(request, "Demande de match acceptee.")
+    return redirect("admin_panel")
+
+
+@staff_member_required(login_url="/login/")
+@require_POST
+def reject_match_request(request, pk):
+    match_request = get_object_or_404(MatchRequest, pk=pk)
+
+    if match_request.status != MatchRequest.STATUS_PENDING:
+        messages.warning(request, "Cette demande a deja ete traitee.")
+        return redirect("admin_panel")
+
+    match_request.status = MatchRequest.STATUS_REJECTED
+    match_request.admin_note = request.POST.get("admin_note", "").strip()
+    match_request.reviewed_at = timezone.now()
+    match_request.save(update_fields=["status", "admin_note", "reviewed_at"])
+
+    messages.success(request, "Demande de match refusee.")
+    return redirect("admin_panel")
+
+
+@staff_member_required(login_url="/login/")
+@require_POST
+def delete_match_request(request, pk):
+    match_request = get_object_or_404(MatchRequest, pk=pk)
+    match_request.delete()
+    messages.success(request, "Demande de match supprimee de l'historique.")
     return redirect("admin_panel")

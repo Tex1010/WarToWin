@@ -199,6 +199,23 @@
         linear-gradient(135deg, rgba(255,39,75,.12), rgba(255,255,255,.03));
 }
 
+.home-form-field{
+    margin-bottom:1rem;
+}
+
+.home-form-label{
+    display:block;
+    margin-bottom:.45rem;
+    color:#f1f5f9;
+    font-size:.92rem;
+}
+
+.home-form-note{
+    color:var(--muted);
+    font-size:.82rem;
+    margin-top:.35rem;
+}
+
 @media (max-width: 768px){
     .home-hero{
         padding:1rem;
@@ -228,11 +245,11 @@
                 <div class="hero-copy">
                     <div class="hero-kicker">
                         <i class="bi bi-fire"></i>
-                        Team mobile competitive
+                        Team mobile competitive en Free Fire
                     </div>
 
                     <h1 class="hero-title text-info">
-                        W2W
+                        {{ settings.team_tag|default:"W2W" }}
                         <span>{{ settings.team_name|default:"War To Win" }}</span>
                     </h1>
 
@@ -277,8 +294,8 @@
                             <img src="{{ settings.logo.url }}" class="hero-logo" alt="{{ settings.team_name }}">
                         {% else %}
                             <div class="hero-logo d-flex flex-column justify-content-center align-items-center text-center">
-                                <div class="display-2 fw-bold text-info">W2W</div>
-                                <div class="text-light">War To Win</div>
+                                <div class="display-2 fw-bold text-info">{{ settings.team_tag|default:"W2W" }}</div>
+                                <div class="text-light">{{ settings.team_name|default:"War To Win" }}</div>
                             </div>
                         {% endif %}
                     </div>
@@ -324,7 +341,7 @@
     <section class="home-section">
         <div class="section-head">
             <div>
-                <div class="section-overline">Leadership</div>
+                <div class="section-overline">Direction</div>
                 <h2 class="section-title-home">Les leaders de la team</h2>
             </div>
             <p class="section-subtitle">Les profils qui portent la vision, le rythme et la cohesion de War To Win.</p>
@@ -341,6 +358,9 @@
                         <h4 class="text-info mb-1">{{ leader.pseudo }}</h4>
                         <div class="text-light mb-2">{{ leader.name }}</div>
                         <p class="text-muted mb-0">{{ leader.slogan|default:"Leader War To Win" }}</p>
+                        {% if leader.ff_profile_photo %}
+                            <a href="{{ leader.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
+                        {% endif %}
                     </div>
                 </div>
             {% empty %}
@@ -373,6 +393,9 @@
                         <h4 class="text-light mb-1">{{ interim.pseudo }}</h4>
                         <div class="text-light mb-2">{{ interim.name }}</div>
                         <p class="text-muted mb-0">{{ interim.slogan|default:"Interim War To Win" }}</p>
+                        {% if interim.ff_profile_photo %}
+                            <a href="{{ interim.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
+                        {% endif %}
                     </div>
                 </div>
             {% empty %}
@@ -398,6 +421,92 @@
                 <div class="d-grid gap-2">
                     <a href="/join/" class="btn btn-info btn-lg">Postuler maintenant</a>
                     <a href="/rules/" class="btn btn-outline-light">Lire les reglements</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="section-head">
+            <div>
+                <div class="section-overline">Demandes de match</div>
+                <h2 class="section-title-home">Demander un TvT ou un TvG</h2>
+            </div>
+            <p class="section-subtitle">Le visiteur choisit le type de match, la date et l'heure. L'admin accepte ou refuse ensuite la demande.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-12 col-lg-5">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-controller"></i></div>
+                    <h5 class="text-light">Planifie un affrontement</h5>
+                    <p class="text-muted mb-0">
+                        Envoie une demande rapide pour organiser un TvT ou un TvG avec la team.
+                    </p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-7">
+                <div class="feature-card">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="form_name" value="match_request">
+
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="home-form-field">
+                                    <label class="home-form-label" for="{{ match_form.requester_name.id_for_label }}">{{ match_form.requester_name.label }}</label>
+                                    {{ match_form.requester_name }}
+                                    {% for error in match_form.requester_name.errors %}
+                                        <div class="text-danger small mt-1">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="home-form-field">
+                                    <label class="home-form-label" for="{{ match_form.contact_info.id_for_label }}">{{ match_form.contact_info.label }}</label>
+                                    {{ match_form.contact_info }}
+                                    <div class="home-form-note">Ajoute un contact pour recevoir la reponse.</div>
+                                    {% for error in match_form.contact_info.errors %}
+                                        <div class="text-danger small mt-1">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="home-form-field">
+                                    <label class="home-form-label" for="{{ match_form.request_type.id_for_label }}">{{ match_form.request_type.label }}</label>
+                                    {{ match_form.request_type }}
+                                    {% for error in match_form.request_type.errors %}
+                                        <div class="text-danger small mt-1">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="home-form-field">
+                                    <label class="home-form-label" for="{{ match_form.requested_at.id_for_label }}">{{ match_form.requested_at.label }}</label>
+                                    {{ match_form.requested_at }}
+                                    {% for error in match_form.requested_at.errors %}
+                                        <div class="text-danger small mt-1">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="home-form-field">
+                                    <label class="home-form-label" for="{{ match_form.message.id_for_label }}">{{ match_form.message.label }}</label>
+                                    {{ match_form.message }}
+                                    <div class="home-form-note">Ce champ est facultatif.</div>
+                                    {% for error in match_form.message.errors %}
+                                        <div class="text-danger small mt-1">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-info">Envoyer la demande</button>
+                    </form>
                 </div>
             </div>
         </div>

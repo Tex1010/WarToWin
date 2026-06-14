@@ -41,7 +41,21 @@ urlpatterns = [
         views.reject_application,
         name="reject_application",
     ),
+    path(
+        "match-requests/<int:pk>/accept/",
+        views.accept_match_request,
+        name="accept_match_request",
+    ),
+    path(
+        "match-requests/<int:pk>/reject/",
+        views.reject_match_request,
+        name="reject_match_request",
+    ),
+    path(
+        "match-requests/<int:pk>/delete/",
+        views.delete_match_request,
+        name="delete_match_request",
+    ),
     path("login/", auth_views.LoginView.as_view(template_name="login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"),
-    path("logout/", auth_views.LogoutView.as_view(next_page="/login/"), name="logout"),
 ]

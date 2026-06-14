@@ -7,14 +7,19 @@
     <h2 class="text-info mb-4">{{ title }}</h2>
 
     <form method="POST" enctype="multipart/form-data"
-          class="bg-dark p-4 rounded">
+          class="bg-dark p-4 rounded"
+          {% if "Modifier" in title %}
+          data-confirm-title="Confirmer la modification"
+          data-confirm-message="Veux-tu vraiment enregistrer cette modification ?"
+          data-confirm-button="Oui, enregistrer"
+          {% endif %}>
 
         {% csrf_token %}
 
         {{ form.as_p }}
 
         <button class="btn btn-info w-100 mt-3">
-            Save
+            Enregistrer
         </button>
 
     </form>

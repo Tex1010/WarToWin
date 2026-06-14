@@ -248,6 +248,17 @@
 
                 <div class="col-12">
                     <div class="join-field">
+                        <label class="join-label" for="{{ form.facebook_profile.id_for_label }}">{{ form.facebook_profile.label }}</label>
+                        {{ form.facebook_profile }}
+                        <div class="join-note">Tu peux entrer ton nom Facebook ou coller directement le lien de ton profil.</div>
+                        {% for error in form.facebook_profile.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="join-field">
                         <label class="join-label" for="{{ form.motivation.id_for_label }}">{{ form.motivation.label }}</label>
                         {{ form.motivation }}
                         <div class="join-note">Dis en quelques phrases ce que tu peux apporter a la team.</div>
