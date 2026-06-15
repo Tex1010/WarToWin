@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure--zgl#uc7^nsw3h9*l-qeb@ozr@_gb+k&d-7tnjh3!ry1j*u*3j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".trycloudflare.com",
+]
 
 
 # Application definition
@@ -141,13 +145,14 @@ TEMPLATES[0]['DIRS'] = [
 
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
-
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://10.12.224.142:8000',
-    'http://127.0.0.1:8000',
+    "http://localhost",
+    "http://127.0.0.1",
+    "https://*.trycloudflare.com",
 ]
 
 LOGIN_URL = "/login/"

@@ -8,6 +8,7 @@ pip install -r requirements.txt
 pip install daphne
 pip install channels
 pip install openpyxl
+pip install waitress
 
 python manage.py makemigrations
 python manage.py migrate
@@ -34,3 +35,15 @@ tree /F
 Micreer : 
 python manage.py makemigrations
 python manage.py migrate
+
+
+cd D:\cloudflared
+.\cloudflared.exe tunnel --url http://10.0.2.76:8000
+
+
+venv\Scripts\activate
+>> python manage.py runserver 10.0.2.76:8000
+
+waitress-serve --host=10.0.2.76 --port=8000 wartowin.wsgi:application
+
+D:\cloudflared\cloudflared.exe tunnel --config D:\cloudflared\config.yml run wartowin
