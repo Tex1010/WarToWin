@@ -329,122 +329,134 @@
     </div>
 
     <div class="card p-4 mb-5 border border-secondary">
-        <div class="row g-4 align-items-start">
-            <div class="col-12 col-lg-4">
-                <h3 class="text-warning mb-3">Identite et theme</h3>
-                <div class="text-center text-lg-start admin-preview-card">
-                    <div class="admin-mini-note mb-2">Apercu de l'identite affichee sur l'accueil</div>
-                    {% if settings.logo %}
-                        <img src="{{ settings.logo.url }}" class="admin-preview-logo mb-3" alt="Logo de la team">
-                    {% else %}
-                        <div class="admin-preview-logo d-inline-flex align-items-center justify-content-center mb-3">
-                            <span class="fs-2 fw-bold text-info">{{ settings.team_tag|default:"W2W" }}</span>
-                        </div>
-                    {% endif %}
-                    <div class="admin-identity-tag">{{ settings.team_tag|default:"W2W" }}</div>
-                    <h5 class="text-info mb-1">{{ settings.team_name }}</h5>
-                    <div class="admin-mini-note mb-2">Police: {{ settings.get_font_choice_display }}</div>
-                    <p class="text-muted mb-2">{{ settings.welcome_text }}</p>
-                    <div class="theme-swatch-grid">
-                        <div class="theme-swatch" style="background: {{ settings.background_color }};">
-                            <span class="theme-swatch-label">Fond</span>
-                            <span class="theme-swatch-value">{{ settings.background_color }}</span>
-                        </div>
-                        <div class="theme-swatch" style="background: {{ settings.primary_color }};">
-                            <span class="theme-swatch-label">Principale</span>
-                            <span class="theme-swatch-value">{{ settings.primary_color }}</span>
-                        </div>
-                        <div class="theme-swatch" style="background: {{ settings.accent_color }};">
-                            <span class="theme-swatch-label">Accent</span>
-                            <span class="theme-swatch-value">{{ settings.accent_color }}</span>
-                        </div>
-                    </div>
-                    <div class="admin-mini-note">
-                        Le tag, le nom, le texte, le logo, les couleurs et la police sont modifies ici.
-                    </div>
+        <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
+            <h3 class="text-warning mb-0">Identite et theme</h3>
+            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#adminSettingsModal">
+                Parametres interface
+            </button>
+        </div>
+
+        <div class="text-center text-lg-start admin-preview-card">
+            <div class="admin-mini-note mb-2">Apercu de l'identite affichee sur l'accueil</div>
+            {% if settings.logo %}
+                <img src="{{ settings.logo.url }}" class="admin-preview-logo mb-3" alt="Logo de la team">
+            {% else %}
+                <div class="admin-preview-logo d-inline-flex align-items-center justify-content-center mb-3">
+                    <span class="fs-2 fw-bold text-info">{{ settings.team_tag|default:"W2W" }}</span>
+                </div>
+            {% endif %}
+            <div class="admin-identity-tag">{{ settings.team_tag|default:"W2W" }}</div>
+            <h5 class="text-info mb-1">{{ settings.team_name }}</h5>
+            <div class="admin-mini-note mb-2">Police: {{ settings.get_font_choice_display }}</div>
+            <p class="text-muted mb-2">{{ settings.welcome_text }}</p>
+            <div class="theme-swatch-grid">
+                <div class="theme-swatch" style="background: {{ settings.background_color }};">
+                    <span class="theme-swatch-label">Fond</span>
+                    <span class="theme-swatch-value">{{ settings.background_color }}</span>
+                </div>
+                <div class="theme-swatch" style="background: {{ settings.primary_color }};">
+                    <span class="theme-swatch-label">Principale</span>
+                    <span class="theme-swatch-value">{{ settings.primary_color }}</span>
+                </div>
+                <div class="theme-swatch" style="background: {{ settings.accent_color }};">
+                    <span class="theme-swatch-label">Accent</span>
+                    <span class="theme-swatch-value">{{ settings.accent_color }}</span>
                 </div>
             </div>
+            <div class="admin-mini-note">
+                Clique sur “Parametres interface” pour modifier l'apparence.
+            </div>
+        </div>
+    </div>
 
-            <div class="col-12 col-lg-8">
-                <form method="post" action="/admin-panel/settings/" enctype="multipart/form-data"
-                      data-confirm-title="Confirmer la modification"
-                      data-confirm-message="Veux-tu vraiment enregistrer les changements d'apparence et d'identite ?"
-                      data-confirm-button="Oui, modifier">
-                    {% csrf_token %}
-                    <div class="row g-3">
-                        <div class="col-12 col-md-4">
-                            <label class="form-label">{{ settings_form.team_tag.label }}</label>
-                            {{ settings_form.team_tag }}
-                        </div>
-                        <div class="col-12 col-md-8">
-                            <label class="form-label">{{ settings_form.team_name.label }}</label>
-                            {{ settings_form.team_name }}
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">{{ settings_form.welcome_text.label }}</label>
-                            {{ settings_form.welcome_text }}
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">{{ settings_form.logo.label }}</label>
-                            {{ settings_form.logo }}
-                            <div class="form-text">Formats acceptes: PNG, JPG, JPEG et WEBP.</div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label class="form-label">{{ settings_form.font_choice.label }}</label>
-                            {{ settings_form.font_choice }}
-                            <div class="form-text">Choisis une des 3 polices disponibles.</div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="card p-3 h-100">
-                                <div class="form-text mb-2">Apercu de la police</div>
-                                <div class="fs-4" style="font-family:var(--heading-font);">WarToWin</div>
-                                <div class="text-muted">Texte d'exemple pour l'interface.</div>
+    <div class="modal fade" id="adminSettingsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content bg-dark text-white border border-info">
+                <div class="modal-header">
+                    <h5 class="modal-title">Parametres de l'interface</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/admin-panel/settings/" enctype="multipart/form-data"
+                          data-confirm-title="Confirmer la modification"
+                          data-confirm-message="Veux-tu vraiment enregistrer les changements d'apparence et d'identite ?"
+                          data-confirm-button="Oui, modifier">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">{{ settings_form.team_tag.label }}</label>
+                                {{ settings_form.team_tag }}
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <label class="form-label">{{ settings_form.team_name.label }}</label>
+                                {{ settings_form.team_name }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">{{ settings_form.welcome_text.label }}</label>
+                                {{ settings_form.welcome_text }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">{{ settings_form.logo.label }}</label>
+                                {{ settings_form.logo }}
+                                <div class="form-text">Formats acceptes: PNG, JPG, JPEG et WEBP.</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">{{ settings_form.font_choice.label }}</label>
+                                {{ settings_form.font_choice }}
+                                <div class="form-text">Choisis une des 3 polices disponibles.</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="card p-3 h-100">
+                                    <div class="form-text mb-2">Apercu de la police</div>
+                                    <div class="fs-4" style="font-family:var(--heading-font);">WarToWin</div>
+                                    <div class="text-muted">Texte d'exemple pour l'interface.</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h5 class="text-light mb-2">Couleurs du theme</h5>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.background_color.label }}</label>
+                                {{ settings_form.background_color }}
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.background_soft_color.label }}</label>
+                                {{ settings_form.background_soft_color }}
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.card_color.label }}</label>
+                                {{ settings_form.card_color }}
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.card_soft_color.label }}</label>
+                                {{ settings_form.card_soft_color }}
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.primary_color.label }}</label>
+                                {{ settings_form.primary_color }}
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.primary_soft_color.label }}</label>
+                                {{ settings_form.primary_soft_color }}
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.accent_color.label }}</label>
+                                {{ settings_form.accent_color }}
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.text_color.label }}</label>
+                                {{ settings_form.text_color }}
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <label class="form-label">{{ settings_form.muted_color.label }}</label>
+                                {{ settings_form.muted_color }}
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-info w-100">Mettre a jour l'apparence</button>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <h5 class="text-light mb-2">Couleurs du theme</h5>
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.background_color.label }}</label>
-                            {{ settings_form.background_color }}
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.background_soft_color.label }}</label>
-                            {{ settings_form.background_soft_color }}
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.card_color.label }}</label>
-                            {{ settings_form.card_color }}
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.card_soft_color.label }}</label>
-                            {{ settings_form.card_soft_color }}
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.primary_color.label }}</label>
-                            {{ settings_form.primary_color }}
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.primary_soft_color.label }}</label>
-                            {{ settings_form.primary_soft_color }}
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.accent_color.label }}</label>
-                            {{ settings_form.accent_color }}
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.text_color.label }}</label>
-                            {{ settings_form.text_color }}
-                        </div>
-                        <div class="col-6 col-md-4">
-                            <label class="form-label">{{ settings_form.muted_color.label }}</label>
-                            {{ settings_form.muted_color }}
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-info">Mettre a jour l'apparence</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
