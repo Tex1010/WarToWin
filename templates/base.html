@@ -78,9 +78,22 @@ html[data-theme="light"] .text-secondary{
     color:var(--muted) !important;
 }
 
-html[data-theme="light"] .bg-dark,
-html[data-theme="light"] .bg-black{
+html[data-theme="light"] .bg-dark:not(.modal-content):not(.modal-header):not(.modal-body):not(.modal-footer),
+html[data-theme="light"] .bg-black:not(.modal-content):not(.modal-header):not(.modal-body):not(.modal-footer){
     background-color:transparent !important;
+}
+
+html[data-theme="light"] .modal-content.bg-dark{
+    background:linear-gradient(180deg, var(--card), var(--card-2)) !important;
+    color:var(--text) !important;
+}
+
+html[data-theme="light"] .modal-content.text-white{
+    color:var(--text) !important;
+}
+
+html[data-theme="light"] .btn-close-white{
+    filter:none !important;
 }
 
 html[data-theme="light"] .btn-outline-light{
@@ -128,7 +141,8 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    z-index:10050;
+    /* Toujours visible au-dessus des contenus (y compris les modals) */
+    z-index:11000;
     box-shadow:0 14px 35px rgba(0,0,0,.22);
 }
 
@@ -138,6 +152,11 @@ body{
 
 .theme-toggle:active{
     transform:scale(.96);
+}
+
+/* Quand un modal est ouvert, on décale le toggle pour éviter de gêner l'entête du modal */
+body.modal-open .theme-toggle{
+    top:calc(env(safe-area-inset-top, 0px) + 78px);
 }
 
 p{
