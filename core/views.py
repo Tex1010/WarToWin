@@ -316,7 +316,8 @@ def accept_application(request, pk):
         application.status = RecruitmentApplication.STATUS_ACCEPTED
         application.admin_note = admin_note
         application.reviewed_at = timezone.now()
-        application.save(update_fields=["status", "admin_note", "reviewed_at"])
+        application.reviewed_by = request.user
+        application.save(update_fields=["status", "admin_note", "reviewed_at", "reviewed_by"])
 
     messages.success(request, "Candidature acceptee et membre ajoute.")
     return redirect("admin_panel")
@@ -334,7 +335,8 @@ def reject_application(request, pk):
     application.status = RecruitmentApplication.STATUS_REJECTED
     application.admin_note = request.POST.get("admin_note", "").strip()
     application.reviewed_at = timezone.now()
-    application.save(update_fields=["status", "admin_note", "reviewed_at"])
+    application.reviewed_by = request.user
+    application.save(update_fields=["status", "admin_note", "reviewed_at", "reviewed_by"])
 
     messages.success(request, "Candidature refusee.")
     return redirect("admin_panel")
@@ -352,7 +354,8 @@ def accept_match_request(request, pk):
     match_request.status = MatchRequest.STATUS_ACCEPTED
     match_request.admin_note = request.POST.get("admin_note", "").strip()
     match_request.reviewed_at = timezone.now()
-    match_request.save(update_fields=["status", "admin_note", "reviewed_at"])
+    match_request.reviewed_by = request.user
+    match_request.save(update_fields=["status", "admin_note", "reviewed_at", "reviewed_by"])
 
     messages.success(request, "Demande de match acceptee.")
     return redirect("admin_panel")
@@ -370,7 +373,8 @@ def reject_match_request(request, pk):
     match_request.status = MatchRequest.STATUS_REJECTED
     match_request.admin_note = request.POST.get("admin_note", "").strip()
     match_request.reviewed_at = timezone.now()
-    match_request.save(update_fields=["status", "admin_note", "reviewed_at"])
+    match_request.reviewed_by = request.user
+    match_request.save(update_fields=["status", "admin_note", "reviewed_at", "reviewed_by"])
 
     messages.success(request, "Demande de match refusee.")
     return redirect("admin_panel")

@@ -563,11 +563,13 @@
                 <div class="admin-meta">
                     <span class="badge bg-dark border border-secondary">UID {{ application.free_fire_uid }}</span>
                     <span class="badge bg-dark border border-secondary">{{ application.reviewed_at|date:"d/m/Y H:i" }}</span>
+                    <span class="badge bg-dark border border-secondary">Par {{ application.reviewed_by.username|default:"inconnu" }}</span>
                 </div>
 
                 <p class="admin-desc mb-2">{{ application.admin_note|default:"Aucune note admin." }}</p>
 
                 <div class="admin-actions-row">
+                    {% if request.user.username == 'admin' %}
                     <form method="post" action="/applications/{{ application.id }}/delete/"
                           data-confirm-title="Supprimer la candidature"
                           data-confirm-message="Veux-tu vraiment supprimer cette candidature de l'historique ?"
@@ -578,6 +580,7 @@
                             Supprimer
                         </button>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         {% empty %}
@@ -669,11 +672,13 @@
                         <span class="badge bg-dark border border-secondary">{{ request.contact_info }}</span>
                     {% endif %}
                     <span class="badge bg-dark border border-secondary">{{ request.reviewed_at|date:"d/m/Y H:i" }}</span>
+                    <span class="badge bg-dark border border-secondary">Par {{ request.reviewed_by.username|default:"inconnu" }}</span>
                 </div>
 
                 <p class="admin-desc mb-2">{{ request.admin_note|default:"Aucune note admin." }}</p>
 
                 <div class="admin-actions-row">
+                    {% if request.user.username == 'admin' %}
                     <form method="post" action="/match-requests/{{ request.id }}/delete/"
                           data-confirm-title="Supprimer la demande"
                           data-confirm-message="Veux-tu vraiment supprimer cette demande de match de l'historique ?"
@@ -684,6 +689,7 @@
                             Supprimer
                         </button>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         {% empty %}

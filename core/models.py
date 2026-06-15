@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class TeamSettings(models.Model):
@@ -152,6 +153,13 @@ class RecruitmentApplication(models.Model):
     admin_note = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     reviewed_at = models.DateTimeField(blank=True, null=True)
+    reviewed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="reviewed_recruitment_applications",
+    )
 
     class Meta:
         ordering = ["-created_at"]
@@ -192,6 +200,13 @@ class MatchRequest(models.Model):
     admin_note = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     reviewed_at = models.DateTimeField(blank=True, null=True)
+    reviewed_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="reviewed_match_requests",
+    )
 
     class Meta:
         ordering = ["requested_at", "-created_at"]
