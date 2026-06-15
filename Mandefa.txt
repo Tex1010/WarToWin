@@ -1,5 +1,5 @@
 git add .
-git commit -m "Description des modifications"
+git commit -m "update"
 git push
 
 Mandray-------------------------------------------
@@ -13,7 +13,7 @@ pip install waitress
 python manage.py makemigrations
 python manage.py migrate
 
-git pull
+git pull --rebase
 
 Admin vaovao----------------------------------------
 
