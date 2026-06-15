@@ -13,8 +13,8 @@
     width:100%;
     max-width:400px;
     padding:25px;
-    background:#111827;
-    border:1px solid #1f2937;
+    background:linear-gradient(180deg, var(--card), var(--card-2));
+    border:1px solid var(--border);
     border-radius:18px;
     box-shadow:0 0 25px rgba(13,202,240,.15);
 }
@@ -38,18 +38,18 @@
             {% csrf_token %}
 
             <div class="mb-3">
-                <label class="text-light mb-1">Nom d'utilisateur</label>
-                <input type="text" name="username" class="form-control bg-dark text-light border-info">
+                <label class="form-label">Nom d'utilisateur</label>
+                <input type="text" name="username" class="form-control">
             </div>
 
             <div class="mb-3">
-                <label class="text-light mb-1">Mot de passe</label>
+                <label class="form-label">Mot de passe</label>
 
                 <div class="input-group">
                     <input type="password"
                         name="password"
                         id="password"
-                        class="form-control bg-dark text-light border-info">
+                        class="form-control">
 
                     <button class="btn btn-outline-info" type="button" onclick="togglePassword()">
                         <i class="bi bi-eye" id="eyeIcon"></i>

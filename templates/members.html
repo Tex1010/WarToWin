@@ -14,7 +14,7 @@
     border:1px solid rgba(255,39,75,.18);
     background:
         radial-gradient(circle at top right, rgba(255,39,75,.22), transparent 34%),
-        linear-gradient(135deg, rgba(18,14,20,.98), rgba(10,8,12,.98));
+        linear-gradient(135deg, var(--card), var(--card-2));
 }
 
 .members-nav{
@@ -37,7 +37,7 @@
     border-radius:999px;
     border:1px solid rgba(255,255,255,.08);
     background:rgba(255,255,255,.04);
-    color:#fff;
+    color:var(--text);
     font-weight:700;
     text-decoration:none;
     transition:.25s ease;
@@ -74,9 +74,8 @@
     height:100%;
     padding:1rem;
     border-radius:24px;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(17,24,39,.75);
-    backdrop-filter:blur(12px);
+    border:1px solid var(--border);
+    background:linear-gradient(180deg, var(--card), var(--card-2));
     transition:.3s;
     text-align:center;
 }
@@ -103,8 +102,8 @@
 .members-section{
     padding:1.1rem;
     border-radius:26px;
-    background:linear-gradient(180deg, rgba(18,17,22,.96), rgba(11,10,14,.96));
-    border:1px solid rgba(255,255,255,.06);
+    background:linear-gradient(180deg, var(--card), var(--card-2));
+    border:1px solid var(--border);
 }
 
 .members-section-title{
@@ -234,32 +233,32 @@
         </div>
 
         <div class="members-nav" id="membersNav">
-            <button type="button" class="members-nav-btn active" data-target="leaders-panel">Leaders</button>
+            <button type="button" class="members-nav-btn active" data-target="members-panel">Membres</button>
             <button type="button" class="members-nav-btn" data-target="interims-panel">Interims</button>
-            <button type="button" class="members-nav-btn" data-target="members-panel">Membres</button>
+            <button type="button" class="members-nav-btn" data-target="leaders-panel">Leaders</button>
         </div>
 
         <div class="admin-mini-note mt-2 mb-3">Utilise la barre horizontale pour changer de groupe. Les profils s'affichent en liste (un en dessous de l'autre).</div>
 
-        <div id="leaders-panel" class="members-carousel active">
+        <div id="members-panel" class="members-carousel active">
             <div class="members-section-title">
-                <i class="bi bi-shield-fill-check text-warning fs-3"></i>
-                <h3 class="mb-0">Leaders</h3>
+                <i class="bi bi-people-fill text-success fs-3"></i>
+                <h3 class="mb-0">Membres</h3>
             </div>
-            {% if leaders %}
+            {% if members %}
                 <div class="members-slider">
-                    {% for leader in leaders %}
+                    {% for member in members %}
                         <div class="members-slide">
-                            <div class="member-card border border-warning">
-                                {% if leader.photo %}
-                                    <img src="{{ leader.photo.url }}" class="member-avatar" alt="{{ leader.pseudo }}">
+                            <div class="member-card">
+                                {% if member.photo %}
+                                    <img src="{{ member.photo.url }}" class="member-avatar" alt="{{ member.pseudo }}">
                                 {% endif %}
-                                <span class="role-badge leader-badge">Leader</span>
-                                <h4 class="text-warning">{{ leader.pseudo }}</h4>
-                                <div class="text-light mb-2">{{ leader.name }}</div>
-                                <p class="text-secondary">{{ leader.slogan|default:"Leader War To Win" }}</p>
-                                {% if leader.ff_profile_photo %}
-                                    <a href="{{ leader.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
+                                <span class="role-badge member-badge">Membre</span>
+                                <h5>{{ member.pseudo }}</h5>
+                                <div class="text-light mb-2">{{ member.name }}</div>
+                                <small class="text-secondary d-block mb-3">{{ member.slogan|default:"Aucun slogan" }}</small>
+                                {% if member.ff_profile_photo %}
+                                    <a href="{{ member.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -267,7 +266,7 @@
                 </div>
             {% else %}
                 <div class="card p-4 text-center border border-secondary">
-                    <p class="text-muted mb-0">Aucun leader affiche pour le moment.</p>
+                    <p class="text-muted mb-0">Aucun membre affiche pour le moment.</p>
                 </div>
             {% endif %}
         </div>
@@ -303,25 +302,25 @@
             {% endif %}
         </div>
 
-        <div id="members-panel" class="members-carousel">
+        <div id="leaders-panel" class="members-carousel">
             <div class="members-section-title">
-                <i class="bi bi-people-fill text-success fs-3"></i>
-                <h3 class="mb-0">Membres</h3>
+                <i class="bi bi-shield-fill-check text-warning fs-3"></i>
+                <h3 class="mb-0">Leaders</h3>
             </div>
-            {% if members %}
+            {% if leaders %}
                 <div class="members-slider">
-                    {% for member in members %}
+                    {% for leader in leaders %}
                         <div class="members-slide">
-                            <div class="member-card">
-                                {% if member.photo %}
-                                    <img src="{{ member.photo.url }}" class="member-avatar" alt="{{ member.pseudo }}">
+                            <div class="member-card border border-warning">
+                                {% if leader.photo %}
+                                    <img src="{{ leader.photo.url }}" class="member-avatar" alt="{{ leader.pseudo }}">
                                 {% endif %}
-                                <span class="role-badge member-badge">Membre</span>
-                                <h5>{{ member.pseudo }}</h5>
-                                <div class="text-light mb-2">{{ member.name }}</div>
-                                <small class="text-secondary d-block mb-3">{{ member.slogan|default:"Aucun slogan" }}</small>
-                                {% if member.ff_profile_photo %}
-                                    <a href="{{ member.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
+                                <span class="role-badge leader-badge">Leader</span>
+                                <h4 class="text-warning">{{ leader.pseudo }}</h4>
+                                <div class="text-light mb-2">{{ leader.name }}</div>
+                                <p class="text-secondary">{{ leader.slogan|default:"Leader War To Win" }}</p>
+                                {% if leader.ff_profile_photo %}
+                                    <a href="{{ leader.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -329,7 +328,7 @@
                 </div>
             {% else %}
                 <div class="card p-4 text-center border border-secondary">
-                    <p class="text-muted mb-0">Aucun membre affiche pour le moment.</p>
+                    <p class="text-muted mb-0">Aucun leader affiche pour le moment.</p>
                 </div>
             {% endif %}
         </div>
