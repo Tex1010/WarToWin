@@ -59,18 +59,15 @@
 }
 
 .members-slider{
-    display:grid;
-    grid-auto-flow:column;
-    grid-auto-columns:100%;
+    display:flex;
+    flex-direction:column;
     gap:1rem;
-    overflow-x:auto;
-    padding-bottom:.5rem;
-    scrollbar-width:thin;
-    scroll-snap-type:x mandatory;
+    overflow:visible;
+    padding-bottom:0;
 }
 
 .members-slide{
-    scroll-snap-align:start;
+    width:100%;
 }
 
 .member-card{
@@ -135,6 +132,24 @@
     border:1px solid rgba(255,255,255,.08);
     color:#fff;
     font-size:.82rem;
+}
+
+.stat-card{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.stat-card h4{
+    margin:.45rem 0 .25rem;
+    font-size:clamp(1.35rem, 5vw, 1.85rem);
+    font-weight:800;
+    color:#fff;
+}
+
+.stat-card small{
+    display:block;
+    font-size:.9rem;
+    color:var(--muted);
 }
 
 .role-badge{
@@ -215,7 +230,7 @@
                 <i class="bi bi-layout-text-sidebar-reverse text-info fs-3"></i>
                 <h3 class="mb-0">Navigation horizontale</h3>
             </div>
-            <span class="members-count-pill">Affichage une carte a la fois</span>
+            <span class="members-count-pill">Trie par poste</span>
         </div>
 
         <div class="members-nav" id="membersNav">
@@ -224,7 +239,7 @@
             <button type="button" class="members-nav-btn" data-target="members-panel">Membres</button>
         </div>
 
-        <div class="admin-mini-note mt-2 mb-3">Utilise la barre horizontale pour changer de groupe, puis glisse a gauche ou a droite pour voir les profils un par un.</div>
+        <div class="admin-mini-note mt-2 mb-3">Utilise la barre horizontale pour changer de groupe. Les profils s'affichent en liste (un en dessous de l'autre).</div>
 
         <div id="leaders-panel" class="members-carousel active">
             <div class="members-section-title">

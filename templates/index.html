@@ -55,7 +55,12 @@
     margin-bottom:1rem;
 }
 
-.hero-title span{
+.hero-title .hero-tag,
+.hero-title .hero-name{
+    display:block;
+}
+
+.hero-title .hero-name{
     color:#fff;
 }
 
@@ -100,14 +105,18 @@
 }
 
 .home-stat{
+    aspect-ratio:1/1;
     padding:1rem;
     border-radius:22px;
     background:rgba(255,255,255,.04);
     border:1px solid rgba(255,255,255,.06);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
 .home-stat-value{
-    font-size:1.75rem;
+    font-size:clamp(1.2rem, 5vw, 1.75rem);
     font-weight:700;
 }
 
@@ -216,14 +225,61 @@
     margin-top:.35rem;
 }
 
+.home-roster-nav{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    gap:.75rem;
+    overflow-x:auto;
+    padding-bottom:.35rem;
+    scrollbar-width:thin;
+    scroll-snap-type:x proximity;
+}
+
+.home-roster-nav-btn{
+    flex:0 0 auto;
+    min-width:max-content;
+    padding:.85rem 1rem;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.04);
+    color:#fff;
+    font-weight:700;
+    text-decoration:none;
+    transition:.25s ease;
+    scroll-snap-align:start;
+}
+
+.home-roster-nav-btn.active{
+    background:linear-gradient(135deg, var(--primary), var(--primary-soft));
+    border-color:transparent;
+}
+
+.home-roster-panel{
+    display:none;
+}
+
+.home-roster-panel.active{
+    display:block;
+}
+
+.home-roster-slider{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    overflow:visible;
+    padding-bottom:0;
+}
+
+.home-roster-slide{
+    width:100%;
+}
+
 @media (max-width: 768px){
     .home-hero{
         padding:1rem;
         border-radius:24px;
-    }
-
-    .hero-badge-stack{
-        grid-template-columns:1fr;
     }
 
     .home-section{
@@ -249,8 +305,8 @@
                     </div>
 
                     <h1 class="hero-title text-info">
-                        {{ settings.team_tag|default:"W2W" }}
-                        <span>{{ settings.team_name|default:"War To Win" }}</span>
+                        <span class="hero-tag">{{ settings.team_tag|default:"W2W" }}</span>
+                        <span class="hero-name">{{ settings.team_name|default:"War To Win" }}</span>
                     </h1>
 
                     <p class="hero-desc mb-3">
@@ -260,6 +316,9 @@
                     <div class="d-flex flex-column flex-sm-row gap-3">
                         <a href="/join/" class="btn btn-info btn-lg px-4">Rejoindre la Team</a>
                         <a href="/members/" class="btn btn-outline-light btn-lg px-4">Voir les membres</a>
+                        <button type="button" class="btn btn-outline-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#homeQuickActionsModal">
+                            Menu
+                        </button>
                     </div>
 
                     <div class="hero-badge-stack">
@@ -342,69 +401,72 @@
         <div class="section-head">
             <div>
                 <div class="section-overline">Direction</div>
-                <h2 class="section-title-home">Les leaders de la team</h2>
+                <h2 class="section-title-home">Leaders & interims</h2>
             </div>
-            <p class="section-subtitle">Les profils qui portent la vision, le rythme et la cohesion de War To Win.</p>
+            <p class="section-subtitle">Listes triees par poste (leaders puis interims).</p>
         </div>
 
-        <div class="row g-3">
-            {% for leader in leaders %}
-                <div class="col-12 col-md-6 col-xl-4">
-                    <div class="member-card-home">
-                        {% if leader.photo %}
-                            <img src="{{ leader.photo.url }}" class="member-photo-home" alt="{{ leader.pseudo }}">
-                        {% endif %}
-                        <div class="role-pill mb-3">Leader</div>
-                        <h4 class="text-info mb-1">{{ leader.pseudo }}</h4>
-                        <div class="text-light mb-2">{{ leader.name }}</div>
-                        <p class="text-muted mb-0">{{ leader.slogan|default:"Leader War To Win" }}</p>
-                        {% if leader.ff_profile_photo %}
-                            <a href="{{ leader.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
-                        {% endif %}
-                    </div>
-                </div>
-            {% empty %}
-                <div class="col-12">
-                    <div class="feature-card text-center">
-                        <p class="text-muted mb-0">Aucun leader n'est encore affiche.</p>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <section class="home-section">
-        <div class="section-head">
-            <div>
-                <div class="section-overline">Support Tactique</div>
-                <h2 class="section-title-home">Les interims</h2>
-            </div>
-            <p class="section-subtitle">Des profils relais qui suivent l'activite, l'ambiance et la progression du groupe.</p>
+        <div class="home-roster-nav" id="homeRosterNav">
+            <button type="button" class="home-roster-nav-btn active" data-target="home-leaders-panel">Leaders</button>
+            <button type="button" class="home-roster-nav-btn" data-target="home-interims-panel">Interims</button>
         </div>
 
-        <div class="row g-3">
-            {% for interim in interims %}
-                <div class="col-12 col-md-6 col-xl-4">
-                    <div class="member-card-home">
-                        {% if interim.photo %}
-                            <img src="{{ interim.photo.url }}" class="member-photo-home" alt="{{ interim.pseudo }}">
-                        {% endif %}
-                        <div class="role-pill mb-3" style="background:rgba(0,177,106,.12); border-color:rgba(0,177,106,.22); color:#d7ffee;">Interim</div>
-                        <h4 class="text-light mb-1">{{ interim.pseudo }}</h4>
-                        <div class="text-light mb-2">{{ interim.name }}</div>
-                        <p class="text-muted mb-0">{{ interim.slogan|default:"Interim War To Win" }}</p>
-                        {% if interim.ff_profile_photo %}
-                            <a href="{{ interim.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
-                        {% endif %}
-                    </div>
+        <div class="admin-mini-note mt-2 mb-3">
+            Change de groupe avec la barre, puis fais defiler (scroll) pour voir la liste complete.
+        </div>
+
+        <div id="home-leaders-panel" class="home-roster-panel active">
+            {% if leaders %}
+                <div class="home-roster-slider">
+                    {% for leader in leaders %}
+                        <div class="home-roster-slide">
+                            <div class="member-card-home">
+                                {% if leader.photo %}
+                                    <img src="{{ leader.photo.url }}" class="member-photo-home" alt="{{ leader.pseudo }}">
+                                {% endif %}
+                                <div class="role-pill mb-3">Leader</div>
+                                <h4 class="text-info mb-1">{{ leader.pseudo }}</h4>
+                                <div class="text-light mb-2">{{ leader.name }}</div>
+                                <p class="text-muted mb-0">{{ leader.slogan|default:"Leader War To Win" }}</p>
+                                {% if leader.ff_profile_photo %}
+                                    <a href="{{ leader.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% empty %}
-                <div class="col-12">
-                    <div class="feature-card text-center">
-                        <p class="text-muted mb-0">Aucun interim n'est encore affiche.</p>
-                    </div>
+            {% else %}
+                <div class="feature-card text-center">
+                    <p class="text-muted mb-0">Aucun leader n'est encore affiche.</p>
                 </div>
-            {% endfor %}
+            {% endif %}
+        </div>
+
+        <div id="home-interims-panel" class="home-roster-panel">
+            {% if interims %}
+                <div class="home-roster-slider">
+                    {% for interim in interims %}
+                        <div class="home-roster-slide">
+                            <div class="member-card-home">
+                                {% if interim.photo %}
+                                    <img src="{{ interim.photo.url }}" class="member-photo-home" alt="{{ interim.pseudo }}">
+                                {% endif %}
+                                <div class="role-pill mb-3" style="background:rgba(0,177,106,.12); border-color:rgba(0,177,106,.22); color:#d7ffee;">Interim</div>
+                                <h4 class="text-light mb-1">{{ interim.pseudo }}</h4>
+                                <div class="text-light mb-2">{{ interim.name }}</div>
+                                <p class="text-muted mb-0">{{ interim.slogan|default:"Interim War To Win" }}</p>
+                                {% if interim.ff_profile_photo %}
+                                    <a href="{{ interim.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="feature-card text-center">
+                    <p class="text-muted mb-0">Aucun interim n'est encore affiche.</p>
+                </div>
+            {% endif %}
         </div>
     </section>
 
@@ -426,27 +488,28 @@
         </div>
     </section>
 
-    <section class="home-section">
-        <div class="section-head">
-            <div>
-                <div class="section-overline">Demandes de match</div>
-                <h2 class="section-title-home">Demander un TvT ou un TvG</h2>
-            </div>
-            <p class="section-subtitle">Le visiteur choisit le type de match, la date et l'heure. L'admin accepte ou refuse ensuite la demande.</p>
-        </div>
+</div>
 
-        <div class="row g-4">
-            <div class="col-12 col-lg-5">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="bi bi-controller"></i></div>
-                    <h5 class="text-light">Planifie un affrontement</h5>
-                    <p class="text-muted mb-0">
-                        Envoie une demande rapide pour organiser un TvT ou un TvG avec la team.
-                    </p>
-                </div>
+<div class="modal fade" id="homeQuickActionsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark text-white border border-info">
+            <div class="modal-header">
+                <h5 class="modal-title">Menu accueil</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="col-12 col-lg-7">
+            <div class="modal-body">
+                <div class="d-grid gap-2 mb-4">
+                    <a href="/rules/" class="btn btn-outline-light">Reglements</a>
+                    <a href="/join/" class="btn btn-outline-light">Rejoindre la Team</a>
+                </div>
+
                 <div class="feature-card">
+                    <div class="d-flex justify-content-between align-items-center gap-2 mb-2 flex-wrap">
+                        <h5 class="text-light mb-0">Demandes de match (TvT / TvG)</h5>
+                        <span class="badge bg-info">Option</span>
+                    </div>
+                    <p class="text-muted mb-3">Remplis le formulaire ici sans descendre tout en bas de la page.</p>
+
                     <form method="post" novalidate>
                         {% csrf_token %}
                         <input type="hidden" name="form_name" value="match_request">
@@ -505,11 +568,30 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-info">Envoyer la demande</button>
+                        <button type="submit" class="btn btn-info w-100">Envoyer la demande</button>
                     </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".home-roster-nav-btn");
+    const panels = document.querySelectorAll(".home-roster-panel");
+
+    buttons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const targetId = this.dataset.target;
+
+            buttons.forEach((item) => item.classList.remove("active"));
+            panels.forEach((panel) => panel.classList.remove("active"));
+
+            this.classList.add("active");
+            document.getElementById(targetId)?.classList.add("active");
+        });
+    });
+});
+</script>
 {% endblock %}
