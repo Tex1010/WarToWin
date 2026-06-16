@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
 from .models import (
     Interim,
     Leader,
@@ -411,3 +414,44 @@ class MatchRequestForm(forms.ModelForm):
             ("", "Choisis TvT ou TvG"),
             *MatchRequest.REQUEST_TYPE_CHOICES,
         ]
+
+
+User = get_user_model()
+
+
+class UsernameUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["username"]
+        labels = {"username": "Nom d'utilisateur"}
+        widgets = {"username": forms.TextInput(attrs={"class": "form-control"})}
+
+    def clean_username(self):
+        username = (self.cleaned_data.get("username") or "").strip()
+
+        if not username:
+            raise ValidationError("Le nom d'utilisateur est obligatoire.")
+
+        username_exists = User.objects.filter(username__iexact=username)
+
+        if self.instance and self.instance.pk:
+            username_exists = username_exists.exclude(pk=self.instance.pk)
+
+        if username_exists.exists():
+            raise ValidationError("Ce nom d'utilisateur existe deja.")
+
+        return username
+
+
+class AdminUserAccountForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "is_active"]
+        labels = {
+            "username": "Nom d'utilisateur",
+            "is_active": "Compte actif",
+        }
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "is_active": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+        }

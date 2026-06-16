@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h1 class="text-info mb-1">Mon compte</h1>
+        {% if member %}
+            <div class="text-muted">Profil: {{ member.pseudo }} · {{ member.name }}</div>
+        {% else %}
+            <div class="text-muted">Aucun profil membre lie a ce compte.</div>
+        {% endif %}
+    </div>
+    <form method="post" action="/logout/">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Deconnexion</button>
+    </form>
+</div>
+
+<div class="row g-4">
+    {% if member and profile_form %}
+    <div class="col-12">
+        <div class="card p-4">
+            <h3 class="text-info mb-3">Mes informations membre</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="form_name" value="profile">
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">{{ profile_form.name.label }}</label>
+                        {{ profile_form.name }}
+                        {% if profile_form.name.errors %}
+                            <div class="text-danger mt-2">{{ profile_form.name.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">{{ profile_form.pseudo.label }}</label>
+                        {{ profile_form.pseudo }}
+                        {% if profile_form.pseudo.errors %}
+                            <div class="text-danger mt-2">{{ profile_form.pseudo.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">{{ profile_form.slogan.label }}</label>
+                        {{ profile_form.slogan }}
+                        {% if profile_form.slogan.errors %}
+                            <div class="text-danger mt-2">{{ profile_form.slogan.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">{{ profile_form.photo.label }}</label>
+                        {{ profile_form.photo }}
+                        {% if member.photo %}
+                            <div class="form-text">Photo actuelle: <a href="{{ member.photo.url }}" target="_blank">voir</a></div>
+                        {% endif %}
+                        {% if profile_form.photo.errors %}
+                            <div class="text-danger mt-2">{{ profile_form.photo.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">{{ profile_form.ff_profile_photo.label }}</label>
+                        {{ profile_form.ff_profile_photo }}
+                        {% if member.ff_profile_photo %}
+                            <div class="form-text">Photo FF actuelle: <a href="{{ member.ff_profile_photo.url }}" target="_blank">voir</a></div>
+                        {% endif %}
+                        {% if profile_form.ff_profile_photo.errors %}
+                            <div class="text-danger mt-2">{{ profile_form.ff_profile_photo.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-info w-100 mt-4">Mettre a jour mon profil</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="col-12 col-lg-6">
+        <div class="card p-4">
+            <h3 class="text-info mb-3">Modifier le nom d'utilisateur</h3>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="form_name" value="username">
+                <div class="mb-3">
+                    <label class="form-label">{{ username_form.username.label }}</label>
+                    {{ username_form.username }}
+                    {% if username_form.username.errors %}
+                        <div class="text-danger mt-2">{{ username_form.username.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-info w-100">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+        <div class="card p-4">
+            <h3 class="text-info mb-3">Changer le mot de passe</h3>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="form_name" value="password">
+
+                <div class="mb-3">
+                    <label class="form-label">{{ password_form.old_password.label }}</label>
+                    {{ password_form.old_password }}
+                    {% if password_form.old_password.errors %}
+                        <div class="text-danger mt-2">{{ password_form.old_password.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">{{ password_form.new_password1.label }}</label>
+                    {{ password_form.new_password1 }}
+                    {% if password_form.new_password1.errors %}
+                        <div class="text-danger mt-2">{{ password_form.new_password1.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">{{ password_form.new_password2.label }}</label>
+                    {{ password_form.new_password2 }}
+                    {% if password_form.new_password2.errors %}
+                        <div class="text-danger mt-2">{{ password_form.new_password2.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-info w-100">Mettre a jour</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

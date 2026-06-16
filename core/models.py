@@ -91,6 +91,13 @@ class Interim(models.Model):
 class Member(models.Model):
     name = models.CharField(max_length=100)
     pseudo = models.CharField(max_length=100, unique=True)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="member_profile",
+    )
 
     photo = models.ImageField(
         upload_to="members/",

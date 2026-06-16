@@ -56,6 +56,18 @@ urlpatterns = [
         views.delete_match_request,
         name="delete_match_request",
     ),
-    path("login/", auth_views.LoginView.as_view(template_name="login.html"), name="login"),
+    path("account/", views.member_account, name="member_account"),
+    path("admin-panel/user-accounts/", views.user_accounts, name="user_accounts"),
+    path(
+        "admin-panel/user-accounts/<int:member_id>/create/",
+        views.create_member_account,
+        name="create_member_account",
+    ),
+    path(
+        "admin-panel/user-accounts/<int:member_id>/",
+        views.user_account_edit,
+        name="user_account_edit",
+    ),
+    path("login/", views.CustomLoginView.as_view(), name="login"),
     path("logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"),
 ]

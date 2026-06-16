@@ -1,15 +1,24 @@
+import re
+import secrets
+
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import get_user_model, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.views import LoginView
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from .forms import (
+    AdminUserAccountForm,
     InterimForm,
     LeaderForm,
     MatchRequestForm,
     MemberForm,
+    UsernameUpdateForm,
     RecruitmentForm,
     RuleForm,
     TeamSettingsForm,
@@ -23,6 +32,65 @@ from .models import (
     Rule,
 )
 from .utils import get_team_settings
+
+
+User = get_user_model()
+
+
+def _sanitize_username(value: str) -> str:
+    value = (value or "").strip().replace(" ", "_")
+    value = re.sub(r"[^\w.@+-]+", "", value, flags=re.UNICODE)
+    return value[:150]
+
+
+def _available_username(base: str) -> str:
+    base = _sanitize_username(base)
+    if not base:
+        base = "member"
+
+    candidate = base
+    idx = 2
+    while User.objects.filter(username__iexact=candidate).exists():
+        suffix = str(idx)
+        candidate = f"{base[:150 - len(suffix)]}{suffix}"
+        idx += 1
+    return candidate
+
+
+def _ensure_member_account(member: Member):
+    if member.user_id:
+        return member.user, None, False
+
+    username = _available_username(member.pseudo or member.name or "member")
+    password = secrets.token_urlsafe(9)
+    user = User.objects.create_user(username=username, password=password)
+    member.user = user
+    member.save(update_fields=["user"])
+    return user, password, True
+
+
+def _apply_bootstrap_classes(form):
+    for field in form.fields.values():
+        input_type = getattr(field.widget, "input_type", "")
+        existing = field.widget.attrs.get("class", "")
+        if input_type == "checkbox":
+            field.widget.attrs["class"] = (existing + " form-check-input").strip()
+        else:
+            field.widget.attrs["class"] = (existing + " form-control").strip()
+
+
+class CustomLoginView(LoginView):
+    template_name = "login.html"
+
+    def get_success_url(self):
+        redirect_to = self.get_redirect_url()
+        if redirect_to:
+            return redirect_to
+
+        if self.request.user.is_staff:
+            return "/admin-panel/"
+
+        return "/account/"
 
 
 def home(request):
@@ -148,8 +216,15 @@ def add_member(request):
     form = MemberForm(request.POST, request.FILES)
 
     if form.is_valid():
-        form.save()
-        messages.success(request, "Membre ajoute avec succes.")
+        member = form.save()
+        _, password, created = _ensure_member_account(member)
+        if created:
+            messages.success(
+                request,
+                f"Membre ajoute avec succes. Compte cree: {member.user.username} / {password}",
+            )
+        else:
+            messages.success(request, "Membre ajoute avec succes.")
     else:
         messages.error(request, "Impossible d'ajouter le membre.")
 
@@ -307,21 +382,138 @@ def accept_application(request, pk):
         return redirect("admin_panel")
 
     with transaction.atomic():
-        Member.objects.create(
+        member = Member.objects.create(
             name=application.full_name,
             pseudo=application.pseudo,
             photo=application.profile_photo,
             slogan=f"Niveau {application.get_level_display()}",
             ff_profile_photo=application.profile_screenshot,
         )
+        _, password, _ = _ensure_member_account(member)
         application.status = RecruitmentApplication.STATUS_ACCEPTED
         application.admin_note = admin_note
         application.reviewed_at = timezone.now()
         application.reviewed_by = request.user
         application.save(update_fields=["status", "admin_note", "reviewed_at", "reviewed_by"])
 
-    messages.success(request, "Candidature acceptee et membre ajoute.")
+    messages.success(
+        request,
+        f"Candidature acceptee, membre ajoute, compte cree: {member.user.username} / {password}",
+    )
     return redirect("admin_panel")
+
+
+@login_required(login_url="/login/")
+def member_account(request):
+    if request.user.is_staff:
+        return redirect("admin_panel")
+
+    member = Member.objects.filter(user=request.user).first()
+    profile_form = MemberForm(instance=member) if member else None
+    username_form = UsernameUpdateForm(instance=request.user)
+    password_form = PasswordChangeForm(user=request.user)
+    _apply_bootstrap_classes(password_form)
+
+    if request.method == "POST":
+        form_name = request.POST.get("form_name")
+        if form_name == "profile":
+            if not member:
+                messages.error(request, "Aucun profil membre n'est lie a ce compte.")
+                return redirect("member_account")
+
+            profile_form = MemberForm(request.POST, request.FILES, instance=member)
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, "Profil membre mis a jour.")
+                return redirect("member_account")
+        elif form_name == "username":
+            username_form = UsernameUpdateForm(request.POST, instance=request.user)
+            if username_form.is_valid():
+                username_form.save()
+                messages.success(request, "Nom d'utilisateur mis a jour.")
+                return redirect("member_account")
+        elif form_name == "password":
+            password_form = PasswordChangeForm(user=request.user, data=request.POST)
+            _apply_bootstrap_classes(password_form)
+            if password_form.is_valid():
+                password_form.save()
+                update_session_auth_hash(request, request.user)
+                messages.success(request, "Mot de passe mis a jour.")
+                return redirect("member_account")
+        else:
+            messages.error(request, "Action inconnue.")
+
+    return render(
+        request,
+        "member_account.html",
+        {
+            "member": member,
+            "profile_form": profile_form,
+            "username_form": username_form,
+            "password_form": password_form,
+        },
+    )
+
+
+@staff_member_required(login_url="/login/")
+def user_accounts(request):
+    members = Member.objects.select_related("user").order_by("pseudo")
+    return render(request, "user_accounts.html", {"members": members})
+
+
+@staff_member_required(login_url="/login/")
+@require_POST
+def create_member_account(request, member_id):
+    member = get_object_or_404(Member, pk=member_id)
+    _, password, created = _ensure_member_account(member)
+    if created:
+        messages.success(
+            request,
+            f"Compte cree pour {member.pseudo}: {member.user.username} / {password}",
+        )
+    else:
+        messages.info(request, f"{member.pseudo} a deja un compte.")
+    return redirect("user_accounts")
+
+
+@staff_member_required(login_url="/login/")
+def user_account_edit(request, member_id):
+    member = get_object_or_404(Member, pk=member_id)
+    if not member.user_id:
+        messages.error(request, "Ce membre n'a pas encore de compte.")
+        return redirect("user_accounts")
+
+    account_form = AdminUserAccountForm(instance=member.user)
+    password_form = SetPasswordForm(user=member.user)
+    _apply_bootstrap_classes(password_form)
+
+    if request.method == "POST":
+        form_name = request.POST.get("form_name")
+        if form_name == "account":
+            account_form = AdminUserAccountForm(request.POST, instance=member.user)
+            if account_form.is_valid():
+                account_form.save()
+                messages.success(request, "Compte mis a jour.")
+                return redirect("user_account_edit", member_id=member.id)
+        elif form_name == "password":
+            password_form = SetPasswordForm(user=member.user, data=request.POST)
+            _apply_bootstrap_classes(password_form)
+            if password_form.is_valid():
+                password_form.save()
+                messages.success(request, "Mot de passe reinitialise.")
+                return redirect("user_account_edit", member_id=member.id)
+        else:
+            messages.error(request, "Action inconnue.")
+
+    return render(
+        request,
+        "user_account_edit.html",
+        {
+            "member": member,
+            "account_form": account_form,
+            "password_form": password_form,
+        },
+    )
 
 
 @staff_member_required(login_url="/login/")

@@ -195,6 +195,17 @@
         <i class="bi bi-people-fill text-info fs-1"></i>
         <h1 class="fw-bold mt-2">Effectif WarToWin</h1>
         <p class="text-secondary mb-0">Les leaders, interims et membres officiels de la team.</p>
+        <div class="mt-3 d-flex justify-content-center gap-2 flex-wrap">
+            {% if request.user.is_authenticated and not request.user.is_staff %}
+                <a href="/account/" class="btn btn-info">Mon compte</a>
+                <form method="post" action="/logout/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-light">Deconnexion</button>
+                </form>
+            {% else %}
+                <a href="/login/?next=/account/" class="btn btn-info">Login</a>
+            {% endif %}
+        </div>
     </section>
 
     <section class="members-section">
