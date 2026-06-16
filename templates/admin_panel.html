@@ -278,10 +278,6 @@
                 <i class="bi bi-stars"></i>
                 Ajouter un leader
             </a>
-            <a href="/add-interim/" class="btn btn-secondary admin-action-btn">
-                <i class="bi bi-lightning-charge-fill"></i>
-                Ajouter un interim
-            </a>
             <a href="/add-rule/" class="btn btn-light admin-action-btn">
                 <i class="bi bi-journal-plus"></i>
                 Ajouter un reglement
@@ -304,12 +300,6 @@
             <div class="card p-3 text-center border border-warning">
                 <h3 class="text-warning mb-1">{{ leaders|length }}</h3>
                 <small class="text-muted">Leaders</small>
-            </div>
-        </div>
-        <div class="col-6 col-lg-2">
-            <div class="card p-3 text-center border border-secondary">
-                <h3 class="text-light mb-1">{{ interims|length }}</h3>
-                <small class="text-muted">Interims</small>
             </div>
         </div>
         <div class="col-6 col-lg-2">
@@ -723,7 +713,6 @@
         <div class="admin-roster-nav" id="adminRosterNav">
             <button type="button" class="admin-roster-btn active" data-target="admin-members-panel">Membres</button>
             <button type="button" class="admin-roster-btn" data-target="admin-leaders-panel">Leaders</button>
-            <button type="button" class="admin-roster-btn" data-target="admin-interims-panel">Interims</button>
         </div>
 
         <div class="admin-mini-note mt-2 mb-3">Astuce: change de groupe avec la barre, puis swipe gauche/droite pour parcourir.</div>
@@ -808,45 +797,6 @@
             {% endif %}
         </div>
 
-        <div id="admin-interims-panel" class="admin-roster-panel">
-            {% if interims %}
-                <div class="admin-roster-slider">
-                    {% for interim in interims %}
-                        <div class="admin-roster-slide">
-                            <div class="card p-3 border border-secondary">
-                                <div class="admin-profile-stack">
-                                    {% if interim.photo %}
-                                        <img src="{{ interim.photo.url }}" class="admin-avatar" alt="{{ interim.pseudo }}">
-                                    {% endif %}
-                                    <div class="flex-grow-1">
-                                        <h5 class="text-light mb-1">{{ interim.pseudo }}</h5>
-                                        <div class="text-light">{{ interim.name }}</div>
-                                        <small class="text-muted">{{ interim.slogan|default:"Aucun slogan" }}</small>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 mt-3 flex-wrap">
-                                    {% if interim.ff_profile_photo %}
-                                        <a href="{{ interim.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm flex-fill">Voir la photo FF</a>
-                                    {% endif %}
-                                    <a href="/edit-interim/{{ interim.id }}/" class="btn btn-warning btn-sm flex-fill">Modifier</a>
-                                    <form method="post" action="/delete-interim/{{ interim.id }}/" class="flex-fill"
-                                          data-confirm-title="Supprimer l'interim"
-                                          data-confirm-message="Veux-tu vraiment supprimer cet interim ?"
-                                          data-confirm-button="Oui, supprimer">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm w-100">Supprimer</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="card p-4 text-center border border-secondary">
-                    <p class="text-muted mb-0">Aucun interim enregistre.</p>
-                </div>
-            {% endif %}
-        </div>
     </section>
 
     <h2 class="text-light mb-3">Reglements</h2>

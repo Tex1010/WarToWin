@@ -14,7 +14,6 @@ from django.views.decorators.http import require_POST
 
 from .forms import (
     AdminUserAccountForm,
-    InterimForm,
     LeaderForm,
     MatchRequestForm,
     MemberForm,
@@ -24,7 +23,6 @@ from .forms import (
     TeamSettingsForm,
 )
 from .models import (
-    Interim,
     Leader,
     MatchRequest,
     Member,
@@ -96,7 +94,6 @@ class CustomLoginView(LoginView):
 def home(request):
     settings = get_team_settings()
     leaders = Leader.objects.all()
-    interims = Interim.objects.all()
     members_count = Member.objects.count()
     match_form = MatchRequestForm(request.POST or None)
 
@@ -117,7 +114,6 @@ def home(request):
         {
             "settings": settings,
             "leaders": leaders,
-            "interims": interims,
             "members_count": members_count,
             "match_form": match_form,
         },
@@ -127,7 +123,6 @@ def home(request):
 def members(request):
     context = {
         "leaders": Leader.objects.all(),
-        "interims": Interim.objects.all(),
         "members": Member.objects.all(),
     }
     return render(request, "members.html", context)
@@ -169,7 +164,6 @@ def build_admin_context():
     return {
         "members": Member.objects.all(),
         "leaders": Leader.objects.all(),
-        "interims": Interim.objects.all(),
         "rules": Rule.objects.all(),
         "settings": team_settings,
         "settings_form": TeamSettingsForm(instance=team_settings),
@@ -244,18 +238,6 @@ def add_leader(request):
 
 
 @staff_member_required(login_url="/login/")
-def add_interim(request):
-    form = InterimForm(request.POST or None, request.FILES or None)
-
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        messages.success(request, "Interim ajoute avec succes.")
-        return redirect("admin_panel")
-
-    return render(request, "form.html", {"form": form, "title": "Ajouter un interim"})
-
-
-@staff_member_required(login_url="/login/")
 def add_rule(request):
     form = RuleForm(request.POST or None)
 
@@ -307,19 +289,6 @@ def edit_leader(request, pk):
 
 
 @staff_member_required(login_url="/login/")
-def edit_interim(request, pk):
-    interim = get_object_or_404(Interim, pk=pk)
-    form = InterimForm(request.POST or None, request.FILES or None, instance=interim)
-
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        messages.success(request, "Interim modifie avec succes.")
-        return redirect("admin_panel")
-
-    return render(request, "form.html", {"form": form, "title": "Modifier un interim"})
-
-
-@staff_member_required(login_url="/login/")
 @require_POST
 def delete_member(request, pk):
     member = get_object_or_404(Member, pk=pk)
@@ -334,15 +303,6 @@ def delete_leader(request, pk):
     leader = get_object_or_404(Leader, pk=pk)
     leader.delete()
     messages.success(request, "Leader supprime.")
-    return redirect("admin_panel")
-
-
-@staff_member_required(login_url="/login/")
-@require_POST
-def delete_interim(request, pk):
-    interim = get_object_or_404(Interim, pk=pk)
-    interim.delete()
-    messages.success(request, "Interim supprime.")
     return redirect("admin_panel")
 
 

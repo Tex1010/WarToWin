@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import (
-    Interim,
     Leader,
     MatchRequest,
     Member,
@@ -11,7 +10,6 @@ from .models import (
 
 admin.site.register(TeamSettings)
 admin.site.register(Leader)
-admin.site.register(Interim)
 admin.site.register(Member)
 admin.site.register(Rule)
 admin.site.register(MatchRequest)

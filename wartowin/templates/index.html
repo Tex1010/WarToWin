@@ -105,7 +105,6 @@
 }
 
 .home-stat{
-    aspect-ratio:1/1;
     padding:1rem;
     border-radius:22px;
     background:rgba(255,255,255,.04);
@@ -113,11 +112,34 @@
     display:flex;
     flex-direction:column;
     justify-content:center;
+    align-items:center;
+    text-align:center;
+    gap:.75rem;
+    min-height:180px;
+}
+
+.home-stat-icon{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:54px;
+    height:54px;
+    border-radius:18px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.08);
+    font-size:1.5rem;
+}
+
+.home-stat-label{
+    font-size:1rem;
+    color:#fff;
+    font-weight:700;
 }
 
 .home-stat-value{
-    font-size:clamp(1.2rem, 5vw, 1.75rem);
-    font-weight:700;
+    font-size:clamp(2.8rem, 9vw, 4.4rem);
+    font-weight:900;
+    line-height:1;
 }
 
 .home-section{
@@ -487,30 +509,24 @@
                         <a href="/join/" class="btn btn-info btn-lg px-4">Rejoindre la Team</a>
                         <a href="/members/" class="btn btn-outline-light btn-lg px-4">Voir les membres</a>
                         <button type="button" class="btn btn-outline-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#homeQuickActionsModal">
-                            Menu
+                            Demande TvG/GvG
                         </button>
                     </div>
 
                     <div class="hero-badge-stack">
                         <div class="home-stat">
+                            <div class="home-stat-icon text-info">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <div class="home-stat-label">Membres actifs</div>
                             <div class="home-stat-value text-info">{{ members_count }}</div>
-                            <div class="text-light">Membres actifs</div>
-                            <small class="text-muted">Une structure visible et organisee.</small>
                         </div>
                         <div class="home-stat">
+                            <div class="home-stat-icon text-warning">
+                                <i class="bi bi-shield-fill-check"></i>
+                            </div>
+                            <div class="home-stat-label">Leaders actifs</div>
                             <div class="home-stat-value text-white">{{ leaders|length }}</div>
-                            <div class="text-light">Leaders</div>
-                            <small class="text-muted">Commandement, recrutement et discipline.</small>
-                        </div>
-                        <div class="home-stat">
-                            <div class="home-stat-value" style="color:#00d084;">{{ interims|length }}</div>
-                            <div class="text-light">Interims</div>
-                            <small class="text-muted">Soutien tactique et suivi des membres.</small>
-                        </div>
-                        <div class="home-stat">
-                            <div class="home-stat-value text-white">24/7</div>
-                            <div class="text-light">Presence mobile</div>
-                            <small class="text-muted">Design pense pour telephone en priorite.</small>
                         </div>
                     </div>
                 </div>
@@ -537,18 +553,13 @@
         <div class="section-head">
             <div>
                 <div class="section-overline">Direction</div>
-                <h2 class="section-title-home">Leaders & interims</h2>
+                <h2 class="section-title-home">Leaders</h2>
             </div>
-            <p class="section-subtitle">Listes triees par poste avec le meme design que la fenetre membres.</p>
-        </div>
-
-        <div class="home-roster-nav" id="homeRosterNav">
-            <button type="button" class="home-roster-nav-btn active" data-target="home-leaders-panel">Leaders</button>
-            <button type="button" class="home-roster-nav-btn" data-target="home-interims-panel">Interims</button>
+            <p class="section-subtitle">Les responsables visibles de la team.</p>
         </div>
 
         <div class="admin-mini-note mt-2 mb-3">
-            Change de groupe avec la barre, puis fais defiler pour voir la liste complete. Appuie sur une photo pour l'ouvrir en taille reelle.
+            Fais defiler pour voir la liste complete. Appuie sur une photo pour l'ouvrir en taille reelle.
         </div>
 
         <div id="home-leaders-panel" class="home-roster-panel active">
@@ -576,35 +587,6 @@
             {% else %}
                 <div class="feature-card text-center">
                     <p class="text-muted mb-0">Aucun leader n'est encore affiche.</p>
-                </div>
-            {% endif %}
-        </div>
-
-        <div id="home-interims-panel" class="home-roster-panel">
-            {% if interims %}
-                <div class="home-roster-slider">
-                    {% for interim in interims %}
-                        <div class="home-roster-slide">
-                            <div class="roster-card roster-card--interim">
-                                {% if interim.photo %}
-                                    <a href="{{ interim.photo.url }}" target="_blank" rel="noopener noreferrer" class="roster-photo-link" aria-label="Voir la photo de profil de {{ interim.pseudo }}">
-                                        <img src="{{ interim.photo.url }}" class="roster-avatar" alt="{{ interim.pseudo }}">
-                                    </a>
-                                {% endif %}
-                                <span class="roster-role-badge roster-role-badge--interim">Interim</span>
-                                <h5 class="roster-name roster-name--interim">{{ interim.pseudo }}</h5>
-                                <div class="roster-realname">{{ interim.name }}</div>
-                                <p class="roster-slogan">{{ interim.slogan|default:"Interim War To Win" }}</p>
-                                {% if interim.ff_profile_photo %}
-                                    <a href="{{ interim.ff_profile_photo.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="feature-card text-center">
-                    <p class="text-muted mb-0">Aucun interim n'est encore affiche.</p>
                 </div>
             {% endif %}
         </div>

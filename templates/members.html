@@ -194,7 +194,7 @@
     <section class="members-hero text-center">
         <i class="bi bi-people-fill text-info fs-1"></i>
         <h1 class="fw-bold mt-2">Effectif WarToWin</h1>
-        <p class="text-secondary mb-0">Les leaders, interims et membres officiels de la team.</p>
+        <p class="text-secondary mb-0">Les leaders et membres officiels de la team.</p>
         <div class="mt-3 d-flex justify-content-center gap-2 flex-wrap">
             {% if request.user.is_authenticated and not request.user.is_staff %}
                 <a href="/account/" class="btn btn-info">Mon compte</a>
@@ -210,21 +210,14 @@
 
     <section class="members-section">
         <div class="row text-center g-3">
-            <div class="col-4">
+            <div class="col-6">
                 <div class="card stat-card p-3">
                     <i class="bi bi-shield-fill-check text-warning fs-2"></i>
                     <h4>{{ leaders|length }}</h4>
                     <small>Leaders</small>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card stat-card p-3">
-                    <i class="bi bi-lightning-charge-fill text-info fs-2"></i>
-                    <h4>{{ interims|length }}</h4>
-                    <small>Interims</small>
-                </div>
-            </div>
-            <div class="col-4">
+            <div class="col-6">
                 <div class="card stat-card p-3">
                     <i class="bi bi-people-fill text-success fs-2"></i>
                     <h4>{{ members|length }}</h4>
@@ -245,7 +238,6 @@
 
         <div class="members-nav" id="membersNav">
             <button type="button" class="members-nav-btn active" data-target="members-panel">Membres</button>
-            <button type="button" class="members-nav-btn" data-target="interims-panel">Interims</button>
             <button type="button" class="members-nav-btn" data-target="leaders-panel">Leaders</button>
         </div>
 
@@ -278,37 +270,6 @@
             {% else %}
                 <div class="card p-4 text-center border border-secondary">
                     <p class="text-muted mb-0">Aucun membre affiche pour le moment.</p>
-                </div>
-            {% endif %}
-        </div>
-
-        <div id="interims-panel" class="members-carousel">
-            <div class="members-section-title">
-                <i class="bi bi-lightning-charge-fill text-info fs-3"></i>
-                <h3 class="mb-0">Interims</h3>
-            </div>
-            {% if interims %}
-                <div class="members-slider">
-                    {% for interim in interims %}
-                        <div class="members-slide">
-                            <div class="member-card border border-info">
-                                {% if interim.photo %}
-                                    <img src="{{ interim.photo.url }}" class="member-avatar" alt="{{ interim.pseudo }}">
-                                {% endif %}
-                                <span class="role-badge interim-badge">Interim</span>
-                                <h4 class="text-info">{{ interim.pseudo }}</h4>
-                                <div class="text-light mb-2">{{ interim.name }}</div>
-                                <p class="text-secondary">{{ interim.slogan|default:"Interim War To Win" }}</p>
-                                {% if interim.ff_profile_photo %}
-                                    <a href="{{ interim.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="card p-4 text-center border border-secondary">
-                    <p class="text-muted mb-0">Aucun interim affiche pour le moment.</p>
                 </div>
             {% endif %}
         </div>
