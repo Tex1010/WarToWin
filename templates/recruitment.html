@@ -52,6 +52,41 @@
     margin-bottom:1rem;
 }
 
+.join-step{
+    display:none;
+}
+
+.join-step.active{
+    display:block;
+}
+
+.join-step-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:.85rem;
+}
+
+.join-step-counter{
+    display:inline-flex;
+    align-items:center;
+    gap:.45rem;
+    padding:.55rem .85rem;
+    border-radius:999px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    color:var(--muted);
+    font-size:.82rem;
+    margin-bottom:1rem;
+}
+
+.join-step-title{
+    margin-bottom:.35rem;
+}
+
+.join-step-subtitle{
+    margin-bottom:1rem;
+}
+
 .join-label{
     display:block;
     font-size:.92rem;
@@ -105,6 +140,11 @@
     border-radius:18px;
     font-weight:700;
     box-shadow:0 14px 30px rgba(13,202,240,.18);
+}
+
+.join-step-next{
+    min-width:140px;
+    border-radius:16px;
 }
 
 .join-mini-card{
@@ -185,7 +225,7 @@ html[data-theme="light"] .join-submit-wrapper{
     </div>
 
     <div class="join-form-card">
-        <form method="post" enctype="multipart/form-data" novalidate>
+        <form method="post" enctype="multipart/form-data" novalidate id="joinProgressiveForm" data-has-errors="{% if form.errors %}true{% else %}false{% endif %}">
             {% csrf_token %}
 
             {% if form.non_field_errors %}
@@ -194,106 +234,330 @@ html[data-theme="light"] .join-submit-wrapper{
                 </div>
             {% endif %}
 
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <div class="join-field">
-                        <label class="join-label" for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }}</label>
-                        {{ form.full_name }}
-                        <div class="join-note">Entre ton vrai nom ou le nom que la team doit utiliser.</div>
-                        {% for error in form.full_name.errors %}
-                            <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
+            <div class="join-step-counter">
+                <i class="bi bi-ui-checks-grid"></i>
+                <span id="joinStepCounter">Etape 1 sur 9</span>
+            </div>
 
-                <div class="col-12 col-md-6">
-                    <div class="join-field">
-                        <label class="join-label" for="{{ form.pseudo.id_for_label }}">{{ form.pseudo.label }}</label>
-                        {{ form.pseudo }}
-                        <div class="join-note">Utilise exactement le meme pseudo que dans Free Fire.</div>
-                        {% for error in form.pseudo.errors %}
-                            <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <div class="join-field">
-                        <label class="join-label" for="{{ form.free_fire_uid.id_for_label }}">{{ form.free_fire_uid.label }}</label>
-                        {{ form.free_fire_uid }}
-                        <div class="join-note">Seulement les chiffres de ton identifiant joueur.</div>
-                        {% for error in form.free_fire_uid.errors %}
-                            <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6">
-                    <div class="join-field">
-                        <label class="join-label" for="{{ form.level.id_for_label }}">{{ form.level.label }}</label>
-                        {{ form.level }}
-                        <div class="join-note">Choisis le niveau qui correspond le mieux a ton jeu actuel.</div>
-                        {% for error in form.level.errors %}
-                            <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="join-field">
-                        <label class="join-label" for="{{ form.whatsapp.id_for_label }}">{{ form.whatsapp.label }}</label>
-                        {{ form.whatsapp }}
-                        <div class="join-note">Facultatif, mais utile si la team veut te contacter vite.</div>
-                        {% for error in form.whatsapp.errors %}
-                            <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="join-field">
-                        <label class="join-label" for="{{ form.facebook_profile.id_for_label }}">{{ form.facebook_profile.label }}</label>
-                        {{ form.facebook_profile }}
-                        <div class="join-note">Tu peux entrer ton nom Facebook ou coller directement le lien de ton profil.</div>
-                        {% for error in form.facebook_profile.errors %}
-                            <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="join-field">
-                        <label class="join-label" for="{{ form.motivation.id_for_label }}">{{ form.motivation.label }}</label>
-                        {{ form.motivation }}
-                        <div class="join-note">Dis en quelques phrases ce que tu peux apporter a la team.</div>
-                        {% for error in form.motivation.errors %}
-                            <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="join-field">
-                        <label class="join-label" for="{{ form.profile_screenshot.id_for_label }}">{{ form.profile_screenshot.label }}</label>
-                        <div class="upload-panel">
-                            {{ form.profile_screenshot }}
-                            <div class="join-note">
-                                Ajoute une capture propre de ton profil. Formats acceptes: PNG, JPG, JPEG, WEBP. Taille max: 5 Mo.
-                            </div>
+            <div class="join-step active" data-step="1">
+                <h3 class="join-step-title text-info">Commence par ton nom complet</h3>
+                <p class="join-step-subtitle text-muted">Remplis ce champ puis appuie sur Suivant pour continuer.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.full_name.id_for_label }}">{{ form.full_name.label }}</label>
+                            {{ form.full_name }}
+                            <div class="join-note">Entre ton vrai nom ou le nom que la team doit utiliser.</div>
+                            {% for error in form.full_name.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
-                        {% for error in form.profile_screenshot.errors %}
-                            <div class="text-danger small mt-1">{{ error }}</div>
-                        {% endfor %}
+                    </div>
+                    <div class="join-step-actions">
+                        <button type="button" class="btn btn-info join-step-next" data-next-step="2" hidden>Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-step" data-step="2">
+                <h3 class="join-step-title text-info">Entre ton pseudo Free Fire</h3>
+                <p class="join-step-subtitle text-muted">Utilise exactement le meme pseudo que dans le jeu.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.pseudo.id_for_label }}">{{ form.pseudo.label }}</label>
+                            {{ form.pseudo }}
+                            <div class="join-note">Utilise exactement le meme pseudo que dans Free Fire.</div>
+                            {% for error in form.pseudo.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="join-step-actions">
+                        <button type="button" class="btn btn-info join-step-next" data-next-step="3" hidden>Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-step" data-step="3">
+                <h3 class="join-step-title text-info">Ajoute ton UID Free Fire</h3>
+                <p class="join-step-subtitle text-muted">Entre uniquement les chiffres de ton identifiant joueur.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.free_fire_uid.id_for_label }}">{{ form.free_fire_uid.label }}</label>
+                            {{ form.free_fire_uid }}
+                            <div class="join-note">Seulement les chiffres de ton identifiant joueur.</div>
+                            {% for error in form.free_fire_uid.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="join-step-actions">
+                        <button type="button" class="btn btn-info join-step-next" data-next-step="4" hidden>Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-step" data-step="4">
+                <h3 class="join-step-title text-info">Choisis ton niveau</h3>
+                <p class="join-step-subtitle text-muted">Selectionne le niveau qui correspond le mieux a ton jeu actuel.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.level.id_for_label }}">{{ form.level.label }}</label>
+                            {{ form.level }}
+                            <div class="join-note">Choisis le niveau qui correspond le mieux a ton jeu actuel.</div>
+                            {% for error in form.level.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="join-step-actions">
+                        <button type="button" class="btn btn-info join-step-next" data-next-step="5" hidden>Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-step" data-step="5">
+                <h3 class="join-step-title text-info">Ajoute ton WhatsApp</h3>
+                <p class="join-step-subtitle text-muted">Ce champ est facultatif, mais pratique pour te contacter rapidement.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.whatsapp.id_for_label }}">{{ form.whatsapp.label }}</label>
+                            {{ form.whatsapp }}
+                            <div class="join-note">Facultatif, mais utile si la team veut te contacter vite.</div>
+                            {% for error in form.whatsapp.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="join-step-actions">
+                        <button type="button" class="btn btn-info join-step-next" data-next-step="6">Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-step" data-step="6">
+                <h3 class="join-step-title text-info">Ajoute ton profil Facebook</h3>
+                <p class="join-step-subtitle text-muted">Tu peux mettre un nom Facebook ou directement un lien.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.facebook_profile.id_for_label }}">{{ form.facebook_profile.label }}</label>
+                            {{ form.facebook_profile }}
+                            <div class="join-note">Tu peux entrer ton nom Facebook ou coller directement le lien de ton profil.</div>
+                            {% for error in form.facebook_profile.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="join-step-actions">
+                        <button type="button" class="btn btn-info join-step-next" data-next-step="7">Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-step" data-step="7">
+                <h3 class="join-step-title text-info">Explique ta motivation</h3>
+                <p class="join-step-subtitle text-muted">Dis en quelques phrases ce que tu peux apporter a la team.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.motivation.id_for_label }}">{{ form.motivation.label }}</label>
+                            {{ form.motivation }}
+                            <div class="join-note">Dis en quelques phrases ce que tu peux apporter a la team.</div>
+                            {% for error in form.motivation.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="join-step-actions">
+                        <button type="button" class="btn btn-info join-step-next" data-next-step="8" hidden>Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-step" data-step="8">
+                <h3 class="join-step-title text-info">Ajoute ta photo de profil</h3>
+                <p class="join-step-subtitle text-muted">Cette photo servira directement pour l'affichage du membre s'il est accepte.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.profile_photo.id_for_label }}">{{ form.profile_photo.label }}</label>
+                            <div class="upload-panel">
+                                {{ form.profile_photo }}
+                                <div class="join-note">
+                                    Ajoute une photo claire de ton profil. Formats acceptes: PNG, JPG, JPEG, WEBP. Taille max: 5 Mo.
+                                </div>
+                            </div>
+                            {% for error in form.profile_photo.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="join-step-actions">
+                        <button type="button" class="btn btn-info join-step-next" data-next-step="9" hidden>Suivant</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="join-step" data-step="9">
+                <h3 class="join-step-title text-info">Ajoute la capture de ton profil</h3>
+                <p class="join-step-subtitle text-muted">La capture est obligatoire pour terminer la candidature.</p>
+                <div class="join-field">
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="join-label" for="{{ form.profile_screenshot.id_for_label }}">{{ form.profile_screenshot.label }}</label>
+                            <div class="upload-panel">
+                                {{ form.profile_screenshot }}
+                                <div class="join-note">
+                                    Ajoute une capture propre de ton profil. Formats acceptes: PNG, JPG, JPEG, WEBP. Taille max: 5 Mo.
+                                </div>
+                            </div>
+                            {% for error in form.profile_screenshot.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="join-submit-wrapper">
-                <button type="submit" class="btn btn-info w-100 mt-2 join-submit">
+                <button type="submit" class="btn btn-info w-100 mt-2 join-submit" id="joinSubmitButton" hidden>
                     Envoyer ma candidature
                 </button>
             </div>
         </form>
     </div>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("joinProgressiveForm");
+
+    if (!form) {
+        return;
+    }
+
+    const steps = Array.from(form.querySelectorAll(".join-step"));
+    const stepCounter = document.getElementById("joinStepCounter");
+    const submitButton = document.getElementById("joinSubmitButton");
+    const fieldSelectors = {
+        1: "#{{ form.full_name.id_for_label }}",
+        2: "#{{ form.pseudo.id_for_label }}",
+        3: "#{{ form.free_fire_uid.id_for_label }}",
+        4: "#{{ form.level.id_for_label }}",
+        5: "#{{ form.whatsapp.id_for_label }}",
+        6: "#{{ form.facebook_profile.id_for_label }}",
+        7: "#{{ form.motivation.id_for_label }}",
+        8: "#{{ form.profile_photo.id_for_label }}",
+        9: "#{{ form.profile_screenshot.id_for_label }}"
+    };
+    const optionalSteps = new Set([5, 6]);
+
+    function getField(stepNumber) {
+        const selector = fieldSelectors[stepNumber];
+        return selector ? form.querySelector(selector) : null;
+    }
+
+    function isFieldFilled(field, stepNumber) {
+        if (!field) {
+            return false;
+        }
+
+        if (field.type === "file") {
+            return field.files && field.files.length > 0;
+        }
+
+        if (field.tagName === "SELECT") {
+            return field.value.trim() !== "";
+        }
+
+        if (optionalSteps.has(stepNumber)) {
+            return true;
+        }
+
+        return field.value.trim() !== "";
+    }
+
+    function updateNextButton(stepNumber) {
+        const step = form.querySelector('.join-step[data-step="' + stepNumber + '"]');
+        const nextButton = step ? step.querySelector(".join-step-next") : null;
+        const field = getField(stepNumber);
+
+        if (!nextButton) {
+            return;
+        }
+
+        nextButton.hidden = !isFieldFilled(field, stepNumber);
+    }
+
+    function updateSubmitVisibility() {
+        const finalField = getField(9);
+        submitButton.hidden = !isFieldFilled(finalField, 9);
+    }
+
+    function updateCounter() {
+        const visibleSteps = steps.filter((step) => step.classList.contains("active")).length;
+        const current = Math.max(visibleSteps, 1);
+        stepCounter.textContent = "Etape " + current + " sur " + steps.length;
+    }
+
+    function revealStep(stepNumber, focusField) {
+        const step = form.querySelector('.join-step[data-step="' + stepNumber + '"]');
+
+        if (!step) {
+            return;
+        }
+
+        step.classList.add("active");
+        updateCounter();
+        updateNextButton(stepNumber);
+        updateSubmitVisibility();
+
+        if (focusField) {
+            const field = getField(stepNumber);
+            field?.focus();
+        }
+    }
+
+    steps.forEach((step) => {
+        const stepNumber = Number(step.dataset.step);
+        const field = getField(stepNumber);
+        const nextButton = step.querySelector(".join-step-next");
+
+        if (field) {
+            const eventName = field.type === "file" || field.tagName === "SELECT" ? "change" : "input";
+            field.addEventListener(eventName, function () {
+                updateNextButton(stepNumber);
+                updateSubmitVisibility();
+            });
+        }
+
+        if (nextButton) {
+            nextButton.addEventListener("click", function () {
+                revealStep(Number(nextButton.dataset.nextStep), true);
+            });
+        }
+    });
+
+    if (form.dataset.hasErrors === "true") {
+        steps.forEach((step) => step.classList.add("active"));
+        submitButton.hidden = false;
+        updateCounter();
+        return;
+    }
+
+    steps.forEach((step) => {
+        if (Number(step.dataset.step) !== 1) {
+            step.classList.remove("active");
+        }
+    });
+
+    updateNextButton(1);
+    updateSubmitVisibility();
+    updateCounter();
+});
+</script>
 {% endblock %}

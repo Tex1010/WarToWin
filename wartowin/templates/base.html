@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               user-scalable=no">
+
+    <title>{{ settings.team_name|default:"WarToWin" }}</title>
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+
+:root{
+    --bg:{{ settings.background_color|default:"#050507" }};
+    --bg-soft:{{ settings.background_soft_color|default:"#0f0a0d" }};
+    --card:{{ settings.card_color|default:"#121116" }};
+    --card-2:{{ settings.card_soft_color|default:"#17141c" }};
+    --border:rgba(255,255,255,.08);
+    --primary:{{ settings.primary_color|default:"#ff274b" }};
+    --primary-soft:{{ settings.primary_soft_color|default:"#ff5c78" }};
+    --accent:{{ settings.accent_color|default:"#00b16a" }};
+    --text:{{ settings.text_color|default:"#ffffff" }};
+    --muted:{{ settings.muted_color|default:"#a7acba" }};
+    --glow:rgba(255,39,75,.28);
+    {% if settings.font_choice == "poppins" %}
+    --heading-font:'Poppins',sans-serif;
+    --body-font:'Poppins',sans-serif;
+    {% elif settings.font_choice == "rajdhani" %}
+    --heading-font:'Rajdhani',sans-serif;
+    --body-font:'Rajdhani',sans-serif;
+    {% else %}
+    --heading-font:'Orbitron',sans-serif;
+    --body-font:'Inter',sans-serif;
+    {% endif %}
+}
+
+html{
+    touch-action:manipulation;
+    scroll-behavior:smooth;
+}
+
+*{
+    -webkit-tap-highlight-color:transparent;
+}
+
+body{
+    font-family:var(--heading-font);
+    background:linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 45%, var(--bg) 100%);
+    color:var(--text);
+    padding-bottom:85px;
+    overflow-x:hidden;
+    min-height:100vh;
+}
+
+p{
+    font-family:var(--body-font);
+    color:var(--text) !important;
+    line-height:1.75;
+    letter-spacing:.01em;
+}
+
+.text-muted{
+    color:var(--muted) !important;
+}
+
+small,
+.form-text,
+.admin-mini-note,
+.section-subtitle{
+    font-family:var(--body-font);
+}
+
+body,
+button,
+input,
+select,
+textarea{
+    font-family:var(--body-font);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-brand,
+.btn,
+.section-title,
+.hero-title{
+    font-family:var(--heading-font);
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(115deg, rgba(255,255,255,.02) 0%, transparent 24%),
+        radial-gradient(circle at 20% 10%, var(--primary), transparent 24%),
+        radial-gradient(circle at 85% 20%, var(--accent), transparent 20%);
+    opacity:.12;
+    z-index:-2;
+}
+
+/* ========================= */
+/* HERO */
+/* ========================= */
+
+.hero-glow{
+    position:relative;
+}
+
+.hero-glow::before{
+    content:'';
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:var(--primary);
+    filter:blur(120px);
+    opacity:.2;
+    left:50%;
+    transform:translateX(-50%);
+    top:-80px;
+    z-index:-1;
+}
+
+/* ========================= */
+/* LOGO */
+/* ========================= */
+
+.team-logo{
+    transition:.3s;
+    border-radius:24px;
+}
+
+.team-logo:active{
+    transform:scale(.97);
+}
+
+/* ========================= */
+/* CARDS */
+/* ========================= */
+
+.card{
+    background:linear-gradient(180deg, var(--card), var(--card-2));
+    border:1px solid var(--border);
+    border-radius:22px;
+    transition:.25s ease;
+    overflow:hidden;
+    box-shadow:0 18px 45px rgba(0,0,0,.22);
+}
+
+.card:active{
+    transform:scale(.98);
+}
+
+.card:hover{
+    border-color:rgba(255,39,75,.22);
+}
+
+/* ========================= */
+/* AVATAR */
+/* ========================= */
+
+.member-avatar{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:50%;
+}
+
+/* ========================= */
+/* COUNTER */
+/* ========================= */
+
+.counter-box{
+    min-width:180px;
+    border-radius:20px;
+}
+
+/* ========================= */
+/* TITLES */
+/* ========================= */
+
+.section-title{
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-weight:700;
+}
+
+/* ========================= */
+/* BADGES */
+/* ========================= */
+
+.badge{
+    padding:8px 14px;
+    border-radius:10px;
+}
+
+/* ========================= */
+/* NAVBAR */
+/* ========================= */
+
+.navbar{
+    backdrop-filter:blur(12px);
+    background:var(--bg-soft) !important;
+    border-color:rgba(255,255,255,.07) !important;
+}
+
+.navbar-brand{
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+/* ========================= */
+/* MOBILE BOTTOM NAV */
+/* ========================= */
+
+.mobile-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:70px;
+    background:var(--bg-soft);
+    backdrop-filter:blur(15px);
+    border-top:1px solid rgba(255,255,255,.06);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    z-index:9999;
+}
+
+.nav-item-mobile{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-decoration:none;
+    color:var(--muted);
+    transition:.2s;
+}
+
+.nav-item-mobile i{
+    font-size:22px;
+}
+
+.nav-item-mobile small{
+    font-size:11px;
+    margin-top:2px;
+}
+
+.nav-item-mobile:active{
+    transform:scale(.92);
+}
+
+.nav-item-mobile:hover{
+    color:var(--primary);
+}
+
+/* ========================= */
+/* BUTTONS */
+/* ========================= */
+
+.btn{
+    border-radius:14px;
+    font-weight:700;
+}
+
+.btn-info{
+    background:linear-gradient(135deg, var(--primary), var(--primary-soft));
+    border-color:transparent;
+    color:#fff;
+    box-shadow:0 14px 32px rgba(255,39,75,.18);
+}
+
+.btn-info:hover,
+.btn-info:focus{
+    background:linear-gradient(135deg, var(--primary-soft), var(--primary));
+    color:#fff;
+}
+
+.btn-outline-light{
+    border-color:rgba(255,255,255,.18);
+}
+
+.btn-outline-light:hover{
+    background:#fff;
+    color:#111;
+}
+
+.text-info{
+    color:var(--primary) !important;
+}
+
+.border-info{
+    border-color:rgba(255,39,75,.45) !important;
+}
+
+.bg-info{
+    background:linear-gradient(135deg, var(--primary), var(--primary-soft)) !important;
+}
+
+.alert{
+    border-radius:18px;
+}
+
+.confirm-modal .modal-content{
+    background:linear-gradient(180deg, var(--card), var(--card-2));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:24px;
+    color:var(--text);
+}
+
+.confirm-modal .modal-header,
+.confirm-modal .modal-footer{
+    border-color:rgba(255,255,255,.08);
+}
+
+.confirm-modal .modal-title{
+    color:var(--text);
+}
+
+.modal-content.bg-dark{
+    background:linear-gradient(180deg, var(--card), var(--card-2)) !important;
+    color:var(--text) !important;
+}
+
+.mobile-ready-cta{
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    width:min(calc(100vw - 2rem), 320px);
+    z-index:12000;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:.55rem;
+    pointer-events:none;
+}
+
+.mobile-ready-cta.is-visible{
+    display:flex;
+}
+
+.mobile-ready-cta-note{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:.45rem;
+    padding:.45rem .85rem;
+    border-radius:999px;
+    background:rgba(5,5,8,.78);
+    border:1px solid rgba(255,255,255,.1);
+    color:#fff;
+    font-size:.82rem;
+    box-shadow:0 10px 24px rgba(0,0,0,.24);
+}
+
+.mobile-ready-cta-btn{
+    width:100%;
+    min-height:58px;
+    border:none;
+    border-radius:20px;
+    background:linear-gradient(135deg, var(--primary), var(--primary-soft));
+    color:#fff;
+    font-weight:800;
+    letter-spacing:.02em;
+    box-shadow:0 18px 40px rgba(255,39,75,.35);
+    animation:w2wBlinkCta .9s ease-in-out infinite alternate;
+    pointer-events:auto;
+}
+
+.mobile-ready-cta-btn:active{
+    transform:scale(.98);
+}
+
+@keyframes w2wBlinkCta{
+    0%{
+        opacity:.62;
+        box-shadow:0 10px 26px rgba(255,39,75,.18);
+    }
+    100%{
+        opacity:1;
+        box-shadow:0 0 0 6px rgba(255,39,75,.09), 0 22px 48px rgba(255,39,75,.38);
+    }
+}
+
+.form-label{
+    color:#f3f4f6;
+    font-weight:600;
+}
+
+.form-text{
+    color:var(--muted) !important;
+}
+
+.form-control,
+.form-select{
+    min-height:50px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.05);
+    color:var(--text);
+    box-shadow:none;
+}
+
+.form-control-color{
+    min-height:52px;
+    width:100%;
+    padding:.35rem;
+}
+
+.form-control::placeholder{
+    color:#97a0b3;
+}
+
+.form-control:focus,
+.form-select:focus{
+    background:rgba(255,255,255,.06);
+    color:var(--text);
+    border-color:rgba(255,39,75,.55);
+    box-shadow:0 0 0 .2rem rgba(255,39,75,.14);
+}
+
+textarea.form-control{
+    min-height:120px;
+}
+
+.form-select option{
+    color:var(--text);
+    background:var(--card-2);
+}
+
+input[type="file"].form-control{
+    padding:.45rem .65rem;
+    color:#eef2ff;
+}
+
+input[type="file"].form-control::file-selector-button{
+    margin-right:.8rem;
+    padding:.55rem .9rem;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg, var(--primary), var(--primary-soft));
+    color:#fff;
+    font-weight:700;
+}
+
+.table-dark{
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: rgba(255,255,255,.02);
+    --bs-table-hover-bg: rgba(255,255,255,.03);
+    --bs-table-border-color: rgba(255,255,255,.06);
+    color:#f5f5f5;
+}
+
+/* Boutons de formulaire toujours visibles dans les modals mobiles */
+.modal-body form > .btn.btn-info.w-100:last-child,
+.modal-body form .row > .col-12 > .btn.btn-info.w-100:last-child{
+    min-height:56px;
+    border-radius:18px;
+    box-shadow:0 14px 30px rgba(255,39,75,.18);
+}
+
+/* ========================= */
+/* SCROLLBAR */
+/* ========================= */
+
+::-webkit-scrollbar{
+    width:6px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--primary);
+    border-radius:10px;
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media(max-width:768px){
+
+    .display-4{
+        font-size:2rem;
+    }
+
+    .lead{
+        font-size:1rem;
+    }
+
+    .card{
+        margin-bottom:12px;
+    }
+
+    .container.py-5{
+        padding-top:1.5rem !important;
+        padding-bottom:6rem !important;
+    }
+
+    p,
+    p.text-muted{
+        font-size:.98rem;
+        line-height:1.72;
+    }
+
+    #homeQuickActionsModal .modal-dialog,
+    #adminSettingsModal .modal-dialog{
+        width:calc(100vw - 1rem);
+        max-width:none;
+        margin:.5rem auto;
+    }
+
+    #homeQuickActionsModal .modal-content,
+    #adminSettingsModal .modal-content{
+        min-height:calc(100dvh - 1rem);
+        border-radius:24px;
+    }
+
+    #homeQuickActionsModal .modal-header,
+    #adminSettingsModal .modal-header{
+        position:sticky;
+        top:0;
+        z-index:3;
+        background:linear-gradient(180deg, rgba(18,17,22,.98), rgba(18,17,22,.92));
+        backdrop-filter:blur(10px);
+    }
+
+    .modal-dialog-scrollable .modal-body,
+    #homeQuickActionsModal .modal-body{
+        padding:1rem;
+        padding-bottom:1.25rem;
+    }
+
+    .modal-dialog-scrollable .modal-body form > .btn.btn-info.w-100:last-child,
+    .modal-dialog-scrollable .modal-body form .row > .col-12 > .btn.btn-info.w-100:last-child,
+    #homeQuickActionsModal .modal-body form > .btn.btn-info.w-100:last-child,
+    #homeQuickActionsModal .modal-body form .row > .col-12 > .btn.btn-info.w-100:last-child{
+        display:none !important;
+    }
+
+    #homeQuickActionsModal .feature-card{
+        padding:1rem;
+        border-radius:22px;
+    }
+
+    #homeQuickActionsModal .modal-body .d-grid.gap-2.mb-4{
+        position:sticky;
+        top:0;
+        z-index:2;
+        padding-bottom:.85rem;
+        margin-bottom:1rem !important;
+        background:linear-gradient(180deg, rgba(18,17,22,.98), rgba(18,17,22,.78) 70%, rgba(18,17,22,0));
+    }
+
+    #adminSettingsModal .modal-body .row.g-3{
+        --bs-gutter-y:.9rem;
+        --bs-gutter-x:.75rem;
+    }
+
+    #adminSettingsModal .modal-body .card.p-3.h-100{
+        border-radius:18px;
+    }
+
+    .mobile-ready-cta{
+        display:none;
+    }
+
+    .mobile-ready-cta.is-visible{
+        display:flex;
+    }
+}
+
+</style>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom d-none d-lg-flex">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="/">
+            {{ settings.team_tag|default:"W2W" }} {{ settings.team_name|default:"WarToWin" }}
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Accueil</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/members/">Membres</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/rules/">Règlements</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/join/">Rejoindre la Team</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+
+<div class="container py-5">
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags|default:'info' }}{% endif %} border-0 shadow-sm">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+<div class="modal fade confirm-modal" id="confirmationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalTitle">Confirmation</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0" id="confirmationModalMessage">Confirmer cette action ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Non</button>
+                <button type="button" class="btn btn-info" id="confirmationModalConfirm">Oui</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mobile-ready-cta" id="mobileReadyCta" aria-hidden="true">
+    <div class="mobile-ready-cta-note">
+        <i class="bi bi-stars"></i>
+        Formulaire pret
+    </div>
+    <button type="button" class="mobile-ready-cta-btn" id="mobileReadyCtaButton">
+        Envoyer
+    </button>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+
+<nav class="mobile-nav d-lg-none">
+
+    <a href="/" class="nav-item-mobile">
+        <i class="bi bi-house-fill"></i>
+        <small>Accueil</small>
+    </a>
+
+    <a href="/members/" class="nav-item-mobile">
+        <i class="bi bi-people-fill"></i>
+        <small>Membres</small>
+    </a>
+
+    <a href="/rules/" class="nav-item-mobile">
+        <i class="bi bi-journal-text"></i>
+        <small>Regles</small>
+    </a>
+
+    <a href="/join/" class="nav-item-mobile">
+        <i class="bi bi-person-plus-fill"></i>
+        <small>Rejoindre</small>
+    </a>
+
+    <a href="/admin-panel/" class="nav-item-mobile">
+        <i class="bi bi-gear-fill"></i>
+        <small>Admin</small>
+    </a>
+
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const modalElement = document.getElementById("confirmationModal");
+    const modalTitle = document.getElementById("confirmationModalTitle");
+    const modalMessage = document.getElementById("confirmationModalMessage");
+    const modalConfirm = document.getElementById("confirmationModalConfirm");
+
+    if (!modalElement || !modalTitle || !modalMessage || !modalConfirm) {
+        return;
+    }
+
+    const modalInstance = new bootstrap.Modal(modalElement);
+    let pendingAction = null;
+
+    document.querySelectorAll("form[data-confirm-title]").forEach((form) => {
+        form.addEventListener("submit", function (event) {
+            if (form.dataset.confirmed === "true") {
+                form.dataset.confirmed = "false";
+                return;
+            }
+
+            event.preventDefault();
+            pendingAction = function () {
+                form.dataset.confirmed = "true";
+                form.submit();
+            };
+
+            modalTitle.textContent = form.dataset.confirmTitle || "Confirmation";
+            modalMessage.textContent = form.dataset.confirmMessage || "Confirmer cette action ?";
+            modalConfirm.textContent = form.dataset.confirmButton || "Oui";
+            modalInstance.show();
+        });
+    });
+
+    modalConfirm.addEventListener("click", function () {
+        if (pendingAction) {
+            pendingAction();
+            pendingAction = null;
+        }
+        modalInstance.hide();
+    });
+
+    modalElement.addEventListener("hidden.bs.modal", function () {
+        pendingAction = null;
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const ctaWrap = document.getElementById("mobileReadyCta");
+    const ctaButton = document.getElementById("mobileReadyCtaButton");
+
+    if (!ctaWrap || !ctaButton) {
+        return;
+    }
+
+    const modalConfigs = [
+        { modalId: "homeQuickActionsModal", submitLabel: "Envoyer la demande" },
+        { modalId: "adminSettingsModal", submitLabel: "Mettre a jour l'apparence" }
+    ];
+
+    let activeConfig = null;
+
+    function isMobileViewport() {
+        return window.innerWidth <= 768;
+    }
+
+    function hideFloatingCta() {
+        ctaWrap.classList.remove("is-visible");
+        ctaWrap.setAttribute("aria-hidden", "true");
+        activeConfig = null;
+    }
+
+    function formIsReady(form) {
+        if (!form) {
+            return false;
+        }
+
+        const requiredFields = Array.from(form.querySelectorAll("[required]")).filter((field) => {
+            return !field.disabled && field.type !== "hidden";
+        });
+
+        if (!requiredFields.length) {
+            return form.checkValidity();
+        }
+
+        return requiredFields.every((field) => {
+            if (field.type === "checkbox" || field.type === "radio") {
+                return field.checked;
+            }
+
+            if (field.type === "file") {
+                return field.files && field.files.length > 0;
+            }
+
+            return String(field.value || "").trim().length > 0 && field.checkValidity();
+        });
+    }
+
+    function updateFloatingCta() {
+        if (!activeConfig || !isMobileViewport()) {
+            hideFloatingCta();
+            return;
+        }
+
+        const modalElement = document.getElementById(activeConfig.modalId);
+        const form = modalElement ? modalElement.querySelector("form") : null;
+        const submitButton = form ? form.querySelector('button[type="submit"].btn-info') : null;
+
+        if (!modalElement || !form || !submitButton || !modalElement.classList.contains("show")) {
+            hideFloatingCta();
+            return;
+        }
+
+        if (!formIsReady(form)) {
+            ctaWrap.classList.remove("is-visible");
+            ctaWrap.setAttribute("aria-hidden", "true");
+            return;
+        }
+
+        ctaButton.textContent = activeConfig.submitLabel;
+        ctaWrap.classList.add("is-visible");
+        ctaWrap.setAttribute("aria-hidden", "false");
+    }
+
+    modalConfigs.forEach((config) => {
+        const modalElement = document.getElementById(config.modalId);
+
+        if (!modalElement) {
+            return;
+        }
+
+        const form = modalElement.querySelector("form");
+
+        modalElement.addEventListener("shown.bs.modal", function () {
+            activeConfig = config;
+            updateFloatingCta();
+        });
+
+        modalElement.addEventListener("hidden.bs.modal", function () {
+            hideFloatingCta();
+        });
+
+        if (form) {
+            ["input", "change", "keyup"].forEach((eventName) => {
+                form.addEventListener(eventName, updateFloatingCta);
+            });
+        }
+    });
+
+    ctaButton.addEventListener("click", function () {
+        if (!activeConfig) {
+            return;
+        }
+
+        const modalElement = document.getElementById(activeConfig.modalId);
+        const form = modalElement ? modalElement.querySelector("form") : null;
+        const submitButton = form ? form.querySelector('button[type="submit"].btn-info') : null;
+
+        if (!form || !submitButton || !formIsReady(form)) {
+            updateFloatingCta();
+            return;
+        }
+
+        if (typeof form.requestSubmit === "function") {
+            form.requestSubmit(submitButton);
+        } else {
+            submitButton.click();
+        }
+    });
+
+    const confirmationModal = document.getElementById("confirmationModal");
+
+    if (confirmationModal) {
+        confirmationModal.addEventListener("shown.bs.modal", hideFloatingCta);
+        confirmationModal.addEventListener("hidden.bs.modal", updateFloatingCta);
+    }
+
+    window.addEventListener("resize", updateFloatingCta);
+});
+</script>
+
+</body>
+</html>

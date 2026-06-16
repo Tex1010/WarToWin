@@ -475,6 +475,14 @@
                     <div class="card p-4 border border-danger">
                         <div class="row g-4 align-items-start">
                             <div class="col-lg-3">
+                                {% if application.profile_photo %}
+                                <div class="ratio ratio-1x1 rounded overflow-hidden border border-secondary mb-3">
+                                    <img src="{{ application.profile_photo.url }}" class="w-100 h-100 object-fit-cover" alt="Photo de profil du candidat">
+                                </div>
+                                <a href="{{ application.profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm w-100 mb-3">
+                                    Voir la photo
+                                </a>
+                                {% endif %}
                                 <div class="ratio ratio-4x3 rounded overflow-hidden border border-secondary">
                                     <img src="{{ application.profile_screenshot.url }}" class="w-100 h-100 object-fit-cover" alt="Capture du profil Free Fire">
                                 </div>
@@ -486,6 +494,9 @@
                                 <div class="d-flex flex-wrap gap-2 mb-3">
                                     <span class="badge bg-info">{{ application.pseudo }}</span>
                                     <span class="badge bg-secondary">{{ application.get_level_display }}</span>
+                                    {% if application.profile_photo %}
+                                        <span class="badge bg-dark border border-info">Photo fournie</span>
+                                    {% endif %}
                                     <span class="badge bg-dark border border-danger">Nouveau</span>
                                 </div>
                                 <h4 class="text-light">{{ application.full_name }}</h4>
@@ -569,7 +580,7 @@
                 <p class="admin-desc mb-2">{{ application.admin_note|default:"Aucune note admin." }}</p>
 
                 <div class="admin-actions-row">
-                    {% if request.user.username == 'admin' %}
+                    {% if user.username == 'admin' %}
                     <form method="post" action="/applications/{{ application.id }}/delete/"
                           data-confirm-title="Supprimer la candidature"
                           data-confirm-message="Veux-tu vraiment supprimer cette candidature de l'historique ?"
@@ -651,15 +662,15 @@
 
     <h2 class="text-warning mb-3">Historique des demandes de match</h2>
     <div class="admin-mobile-list mb-5">
-        {% for request in reviewed_match_requests %}
+        {% for match_request in reviewed_match_requests %}
             <div class="admin-item-card">
                 <div class="admin-item-head">
                     <div>
-                        <h4 class="text-light mb-1">{{ request.requester_name }}</h4>
-                        <div class="text-light">{{ request.get_request_type_display }} le {{ request.requested_at|date:"d/m/Y H:i" }}</div>
+                        <h4 class="text-light mb-1">{{ match_request.requester_name }}</h4>
+                        <div class="text-light">{{ match_request.get_request_type_display }} le {{ match_request.requested_at|date:"d/m/Y H:i" }}</div>
                     </div>
                     <div>
-                        {% if request.status == 'accepted' %}
+                        {% if match_request.status == 'accepted' %}
                             <span class="admin-status-pill"><i class="bi bi-check-circle-fill text-success"></i> Acceptee</span>
                         {% else %}
                             <span class="admin-status-pill"><i class="bi bi-x-circle-fill text-danger"></i> Refusee</span>
@@ -668,18 +679,18 @@
                 </div>
 
                 <div class="admin-meta">
-                    {% if request.contact_info %}
-                        <span class="badge bg-dark border border-secondary">{{ request.contact_info }}</span>
+                    {% if match_request.contact_info %}
+                        <span class="badge bg-dark border border-secondary">{{ match_request.contact_info }}</span>
                     {% endif %}
-                    <span class="badge bg-dark border border-secondary">{{ request.reviewed_at|date:"d/m/Y H:i" }}</span>
-                    <span class="badge bg-dark border border-secondary">Par {{ request.reviewed_by.username|default:"inconnu" }}</span>
+                    <span class="badge bg-dark border border-secondary">{{ match_request.reviewed_at|date:"d/m/Y H:i" }}</span>
+                    <span class="badge bg-dark border border-secondary">Par {{ match_request.reviewed_by.username|default:"inconnu" }}</span>
                 </div>
 
-                <p class="admin-desc mb-2">{{ request.admin_note|default:"Aucune note admin." }}</p>
+                <p class="admin-desc mb-2">{{ match_request.admin_note|default:"Aucune note admin." }}</p>
 
                 <div class="admin-actions-row">
                     {% if request.user.username == 'admin' %}
-                    <form method="post" action="/match-requests/{{ request.id }}/delete/"
+                    <form method="post" action="/match-requests/{{ match_request.id }}/delete/"
                           data-confirm-title="Supprimer la demande"
                           data-confirm-message="Veux-tu vraiment supprimer cette demande de match de l'historique ?"
                           data-confirm-button="Oui, supprimer">

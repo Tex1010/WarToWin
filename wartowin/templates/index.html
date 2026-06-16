@@ -154,7 +154,6 @@
 }
 
 .feature-card,
-.member-card-home,
 .cta-panel{
     height:100%;
     padding:1rem;
@@ -163,43 +162,111 @@
     border:1px solid rgba(255,255,255,.06);
 }
 
-.feature-icon{
-    width:48px;
-    height:48px;
-    border-radius:16px;
+.roster-card{
+    --roster-accent:rgba(255,255,255,.18);
+    --roster-shadow:rgba(255,255,255,.1);
+    height:100%;
+    min-height:280px;
+    padding:1rem;
+    border-radius:24px;
+    border:1px solid var(--roster-accent);
+    background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+    backdrop-filter:blur(8px);
+    transition:.3s ease;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+}
+
+.roster-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 26px var(--roster-shadow);
+}
+
+.roster-card--leader{
+    --roster-accent:rgba(250,204,21,.55);
+    --roster-shadow:rgba(250,204,21,.2);
+}
+
+.roster-card--interim{
+    --roster-accent:rgba(13,202,240,.55);
+    --roster-shadow:rgba(13,202,240,.2);
+}
+
+.roster-photo-link{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    font-size:1.2rem;
-    margin-bottom:.8rem;
-    color:#fff;
-    background:linear-gradient(135deg, rgba(255,39,75,.95), rgba(255,92,120,.65));
+    margin:0 auto .95rem;
+    border-radius:50%;
+    text-decoration:none;
 }
 
-.member-card-home{
-    text-align:center;
+.roster-photo-link:focus-visible{
+    outline:2px solid var(--text);
+    outline-offset:4px;
 }
 
-.member-photo-home{
-    width:92px;
-    height:92px;
+.roster-avatar{
+    width:96px;
+    height:96px;
     object-fit:cover;
     border-radius:50%;
-    margin:0 auto .9rem;
-    border:2px solid rgba(255,39,75,.35);
-    box-shadow:0 10px 25px rgba(255,39,75,.15);
+    border:3px solid var(--roster-accent);
+    transition:.3s ease;
+    box-shadow:0 0 0 4px rgba(255,255,255,.03);
 }
 
-.role-pill{
+.roster-card:hover .roster-avatar,
+.roster-photo-link:hover .roster-avatar{
+    transform:scale(1.06);
+    box-shadow:0 0 25px var(--roster-shadow);
+}
+
+.roster-role-badge{
     display:inline-flex;
-    justify-content:center;
     align-items:center;
-    padding:.45rem .8rem;
+    justify-content:center;
+    padding:.45rem .9rem;
     border-radius:999px;
     font-size:.78rem;
-    background:rgba(255,39,75,.12);
-    color:#ffd9df;
-    border:1px solid rgba(255,39,75,.2);
+    margin-bottom:.9rem;
+    font-weight:700;
+}
+
+.roster-role-badge--leader{
+    background:#facc15;
+    color:#111;
+}
+
+.roster-role-badge--interim{
+    background:#0dcaf0;
+    color:#111;
+}
+
+.roster-name{
+    margin-bottom:.35rem;
+    font-weight:700;
+}
+
+.roster-name--leader{
+    color:#facc15;
+}
+
+.roster-name--interim{
+    color:#0dcaf0;
+}
+
+.roster-realname{
+    color:var(--text);
+    margin-bottom:.5rem;
+}
+
+.roster-slogan{
+    color:var(--muted) !important;
+    margin-bottom:1rem;
 }
 
 .cta-panel{
@@ -276,6 +343,100 @@
     width:100%;
 }
 
+.home-quick-card{
+    padding:1rem;
+    border-radius:22px;
+}
+
+.home-wizard-progress{
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+    margin-bottom:1rem;
+}
+
+.home-wizard-dot{
+    width:100%;
+    height:8px;
+    border-radius:999px;
+    background:rgba(255,255,255,.1);
+    transition:.25s ease;
+}
+
+.home-wizard-dot.active{
+    background:linear-gradient(135deg, var(--primary), var(--primary-soft));
+    box-shadow:0 0 16px rgba(255,39,75,.22);
+}
+
+.home-wizard-step{
+    display:none;
+    min-height:270px;
+    padding:.35rem 0 0;
+}
+
+.home-wizard-step.active{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.home-wizard-kicker{
+    color:#ff8da1;
+    font-size:.8rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:.55rem;
+}
+
+.home-wizard-title{
+    font-size:clamp(1.3rem, 4vw, 1.75rem);
+    margin-bottom:.45rem;
+    color:#fff;
+}
+
+.home-wizard-text{
+    color:var(--muted) !important;
+    margin-bottom:1rem;
+}
+
+.home-wizard-step .form-control,
+.home-wizard-step .form-select{
+    min-height:56px;
+    font-size:1rem;
+}
+
+.home-wizard-step textarea.form-control{
+    min-height:150px;
+}
+
+.home-wizard-actions{
+    display:flex;
+    gap:.75rem;
+    margin-top:1rem;
+}
+
+.home-wizard-actions .btn{
+    min-height:52px;
+}
+
+.home-wizard-actions .btn[hidden]{
+    display:none !important;
+}
+
+.home-wizard-summary{
+    padding:.85rem 1rem;
+    border-radius:18px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    margin-bottom:1rem;
+}
+
+.home-wizard-summary strong{
+    display:block;
+    color:#fff;
+    margin-bottom:.2rem;
+}
+
 @media (max-width: 768px){
     .home-hero{
         padding:1rem;
@@ -290,6 +451,15 @@
     .section-head{
         flex-direction:column;
         align-items:flex-start;
+    }
+
+    .home-quick-card{
+        padding:.95rem;
+        border-radius:20px;
+    }
+
+    .home-wizard-step{
+        min-height:240px;
     }
 }
 </style>
@@ -317,7 +487,7 @@
                         <a href="/join/" class="btn btn-info btn-lg px-4">Rejoindre la Team</a>
                         <a href="/members/" class="btn btn-outline-light btn-lg px-4">Voir les membres</a>
                         <button type="button" class="btn btn-outline-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#homeQuickActionsModal">
-                            Demander un match
+                            Menu
                         </button>
                     </div>
 
@@ -369,7 +539,7 @@
                 <div class="section-overline">Direction</div>
                 <h2 class="section-title-home">Leaders & interims</h2>
             </div>
-            <p class="section-subtitle">Listes triees par poste (leaders puis interims).</p>
+            <p class="section-subtitle">Listes triees par poste avec le meme design que la fenetre membres.</p>
         </div>
 
         <div class="home-roster-nav" id="homeRosterNav">
@@ -378,7 +548,7 @@
         </div>
 
         <div class="admin-mini-note mt-2 mb-3">
-            Change de groupe avec la barre, puis fais defiler (scroll) pour voir la liste complete.
+            Change de groupe avec la barre, puis fais defiler pour voir la liste complete. Appuie sur une photo pour l'ouvrir en taille reelle.
         </div>
 
         <div id="home-leaders-panel" class="home-roster-panel active">
@@ -386,16 +556,18 @@
                 <div class="home-roster-slider">
                     {% for leader in leaders %}
                         <div class="home-roster-slide">
-                            <div class="member-card-home">
+                            <div class="roster-card roster-card--leader">
                                 {% if leader.photo %}
-                                    <img src="{{ leader.photo.url }}" class="member-photo-home" alt="{{ leader.pseudo }}">
+                                    <a href="{{ leader.photo.url }}" target="_blank" rel="noopener noreferrer" class="roster-photo-link" aria-label="Voir la photo de profil de {{ leader.pseudo }}">
+                                        <img src="{{ leader.photo.url }}" class="roster-avatar" alt="{{ leader.pseudo }}">
+                                    </a>
                                 {% endif %}
-                                <div class="role-pill mb-3">Leader</div>
-                                <h4 class="text-info mb-1">{{ leader.pseudo }}</h4>
-                                <div class="text-light mb-2">{{ leader.name }}</div>
-                                <p class="text-muted mb-0">{{ leader.slogan|default:"Leader War To Win" }}</p>
+                                <span class="roster-role-badge roster-role-badge--leader">Leader</span>
+                                <h5 class="roster-name roster-name--leader">{{ leader.pseudo }}</h5>
+                                <div class="roster-realname">{{ leader.name }}</div>
+                                <p class="roster-slogan">{{ leader.slogan|default:"Leader War To Win" }}</p>
                                 {% if leader.ff_profile_photo %}
-                                    <a href="{{ leader.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
+                                    <a href="{{ leader.ff_profile_photo.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -413,16 +585,18 @@
                 <div class="home-roster-slider">
                     {% for interim in interims %}
                         <div class="home-roster-slide">
-                            <div class="member-card-home">
+                            <div class="roster-card roster-card--interim">
                                 {% if interim.photo %}
-                                    <img src="{{ interim.photo.url }}" class="member-photo-home" alt="{{ interim.pseudo }}">
+                                    <a href="{{ interim.photo.url }}" target="_blank" rel="noopener noreferrer" class="roster-photo-link" aria-label="Voir la photo de profil de {{ interim.pseudo }}">
+                                        <img src="{{ interim.photo.url }}" class="roster-avatar" alt="{{ interim.pseudo }}">
+                                    </a>
                                 {% endif %}
-                                <div class="role-pill mb-3" style="background:rgba(0,177,106,.12); border-color:rgba(0,177,106,.22); color:#d7ffee;">Interim</div>
-                                <h4 class="text-light mb-1">{{ interim.pseudo }}</h4>
-                                <div class="text-light mb-2">{{ interim.name }}</div>
-                                <p class="text-muted mb-0">{{ interim.slogan|default:"Interim War To Win" }}</p>
+                                <span class="roster-role-badge roster-role-badge--interim">Interim</span>
+                                <h5 class="roster-name roster-name--interim">{{ interim.pseudo }}</h5>
+                                <div class="roster-realname">{{ interim.name }}</div>
+                                <p class="roster-slogan">{{ interim.slogan|default:"Interim War To Win" }}</p>
                                 {% if interim.ff_profile_photo %}
-                                    <a href="{{ interim.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
+                                    <a href="{{ interim.ff_profile_photo.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm mt-3">Voir la photo FF</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -460,22 +634,34 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content bg-dark text-white border border-info">
             <div class="modal-header">
-                <h5 class="modal-title">Planifier un match</h5>
+                <h5 class="modal-title">Menu accueil</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="feature-card">
                     <div class="d-flex justify-content-between align-items-center gap-2 mb-2 flex-wrap">
-                        <h5 class="text-light mb-0">Preparation de votre demande</h5>
+                        <h5 class="text-light mb-0">Demandes de match (TvT / TvG)</h5>
+                        <span class="badge bg-info">Option</span>
                     </div>
-                    <p class="text-muted mb-3">Remplis le formulaire ici sans descendre tout en bas de la page.</p>
+                    <p class="text-muted mb-3">Remplis une etape a la fois pour garder une fenetre plus courte et plus claire.</p>
 
-                    <form method="post" novalidate>
+                    <form method="post" novalidate id="homeMatchWizardForm">
                         {% csrf_token %}
                         <input type="hidden" name="form_name" value="match_request">
 
-                        <div class="row">
-                            <div class="col-12 col-md-6">
+                        <div class="home-quick-card">
+                            <div class="home-wizard-progress" aria-label="Progression du formulaire">
+                                <span class="home-wizard-dot active" data-step-dot="0"></span>
+                                <span class="home-wizard-dot" data-step-dot="1"></span>
+                                <span class="home-wizard-dot" data-step-dot="2"></span>
+                                <span class="home-wizard-dot" data-step-dot="3"></span>
+                                <span class="home-wizard-dot" data-step-dot="4"></span>
+                            </div>
+
+                            <div class="home-wizard-step active" data-step="0">
+                                <div class="home-wizard-kicker">Etape 1 sur 5</div>
+                                <h6 class="home-wizard-title">Qui fait la demande ?</h6>
+                                <p class="home-wizard-text">Entre le nom du visiteur ou celui de la team qui demande le match.</p>
                                 <div class="home-form-field">
                                     <label class="home-form-label" for="{{ match_form.requester_name.id_for_label }}">{{ match_form.requester_name.label }}</label>
                                     {{ match_form.requester_name }}
@@ -485,7 +671,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-6">
+                            <div class="home-wizard-step" data-step="1">
+                                <div class="home-wizard-kicker">Etape 2 sur 5</div>
+                                <h6 class="home-wizard-title">Quel contact peut recevoir la reponse ?</h6>
+                                <p class="home-wizard-text">Ajoute un WhatsApp, un Facebook ou un autre moyen de contact.</p>
                                 <div class="home-form-field">
                                     <label class="home-form-label" for="{{ match_form.contact_info.id_for_label }}">{{ match_form.contact_info.label }}</label>
                                     {{ match_form.contact_info }}
@@ -496,7 +685,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-6">
+                            <div class="home-wizard-step" data-step="2">
+                                <div class="home-wizard-kicker">Etape 3 sur 5</div>
+                                <h6 class="home-wizard-title">Quel type de match veux-tu ?</h6>
+                                <p class="home-wizard-text">Choisis simplement le mode de demande entre TvT et TvG.</p>
                                 <div class="home-form-field">
                                     <label class="home-form-label" for="{{ match_form.request_type.id_for_label }}">{{ match_form.request_type.label }}</label>
                                     {{ match_form.request_type }}
@@ -506,7 +698,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-6">
+                            <div class="home-wizard-step" data-step="3">
+                                <div class="home-wizard-kicker">Etape 4 sur 5</div>
+                                <h6 class="home-wizard-title">Quand voulez-vous jouer ?</h6>
+                                <p class="home-wizard-text">Choisis la date et l'heure souhaitees pour que la team puisse confirmer.</p>
                                 <div class="home-form-field">
                                     <label class="home-form-label" for="{{ match_form.requested_at.id_for_label }}">{{ match_form.requested_at.label }}</label>
                                     {{ match_form.requested_at }}
@@ -516,7 +711,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="home-wizard-step" data-step="4">
+                                <div class="home-wizard-kicker">Etape 5 sur 5</div>
+                                <h6 class="home-wizard-title">Un dernier message ?</h6>
+                                <p class="home-wizard-text">Ce champ est facultatif. Tu peux laisser un detail utile avant l'envoi.</p>
+                                <div class="home-wizard-summary">
+                                    <strong>Envoi final</strong>
+                                    Verifie les informations avant de terminer.
+                                </div>
                                 <div class="home-form-field">
                                     <label class="home-form-label" for="{{ match_form.message.id_for_label }}">{{ match_form.message.label }}</label>
                                     {{ match_form.message }}
@@ -525,6 +727,11 @@
                                         <div class="text-danger small mt-1">{{ error }}</div>
                                     {% endfor %}
                                 </div>
+                            </div>
+
+                            <div class="home-wizard-actions">
+                                <button type="button" class="btn btn-outline-light flex-fill" id="homeWizardPrev" hidden>Retour</button>
+                                <button type="button" class="btn btn-info flex-fill" id="homeWizardNext">Suivant</button>
                             </div>
                         </div>
                     </form>
@@ -550,6 +757,99 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById(targetId)?.classList.add("active");
         });
     });
+
+    const wizardForm = document.getElementById("homeMatchWizardForm");
+
+    if (!wizardForm) {
+        return;
+    }
+
+    const steps = Array.from(wizardForm.querySelectorAll(".home-wizard-step"));
+    const dots = Array.from(wizardForm.querySelectorAll("[data-step-dot]"));
+    const prevButton = document.getElementById("homeWizardPrev");
+    const nextButton = document.getElementById("homeWizardNext");
+    let currentStep = 0;
+
+    function getStepField(stepIndex) {
+        const fields = [
+            wizardForm.querySelector('[name="requester_name"]'),
+            wizardForm.querySelector('[name="contact_info"]'),
+            wizardForm.querySelector('[name="request_type"]'),
+            wizardForm.querySelector('[name="requested_at"]'),
+            wizardForm.querySelector('[name="message"]')
+        ];
+
+        return fields[stepIndex] || null;
+    }
+
+    function stepIsValid(stepIndex) {
+        const field = getStepField(stepIndex);
+
+        if (!field) {
+            return true;
+        }
+
+        if (!field.required) {
+            return true;
+        }
+
+        return field.checkValidity();
+    }
+
+    function refreshStepUI() {
+        steps.forEach((step, index) => {
+            step.classList.toggle("active", index === currentStep);
+        });
+
+        dots.forEach((dot, index) => {
+            dot.classList.toggle("active", index <= currentStep);
+        });
+
+        prevButton.hidden = currentStep === 0;
+        nextButton.hidden = false;
+        nextButton.textContent = currentStep === steps.length - 1 ? "Terminer" : "Suivant";
+
+        const currentField = getStepField(currentStep);
+        if (currentField) {
+            window.setTimeout(() => currentField.focus(), 120);
+        }
+    }
+
+    function goToStep(stepIndex) {
+        currentStep = Math.max(0, Math.min(stepIndex, steps.length - 1));
+        refreshStepUI();
+    }
+
+    nextButton.addEventListener("click", function () {
+        const currentField = getStepField(currentStep);
+
+        if (currentField && currentField.required && !currentField.checkValidity()) {
+            currentField.reportValidity();
+            return;
+        }
+
+        if (currentStep === steps.length - 1) {
+            if (wizardForm.requestSubmit) {
+                wizardForm.requestSubmit();
+            } else {
+                wizardForm.submit();
+            }
+            return;
+        }
+
+        goToStep(currentStep + 1);
+    });
+
+    prevButton.addEventListener("click", function () {
+        goToStep(currentStep - 1);
+    });
+
+    const firstErrorStep = steps.findIndex((step) => step.querySelector(".text-danger"));
+    if (firstErrorStep >= 0) {
+        goToStep(firstErrorStep);
+    } else {
+        refreshStepUI();
+    }
 });
 </script>
 {% endblock %}

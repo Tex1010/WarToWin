@@ -1,0 +1,428 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.members-page{
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
+}
+
+.members-hero{
+    padding:1.2rem;
+    border-radius:28px;
+    border:1px solid rgba(255,39,75,.18);
+    background:
+        radial-gradient(circle at top right, rgba(255,39,75,.22), transparent 34%),
+        linear-gradient(135deg, var(--card), var(--card-2));
+}
+
+.members-nav{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    gap:.75rem;
+    overflow-x:auto;
+    padding-bottom:.35rem;
+    scrollbar-width:thin;
+    scroll-snap-type:x proximity;
+    margin:0 auto;
+}
+
+.members-nav-btn{
+    flex:0 0 auto;
+    min-width:max-content;
+    padding:.85rem 1rem;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.04);
+    color:var(--text);
+    font-weight:700;
+    text-decoration:none;
+    transition:.25s ease;
+    scroll-snap-align:start;
+}
+
+.members-nav-btn.active{
+    background:linear-gradient(135deg, var(--primary), var(--primary-soft));
+    border-color:transparent;
+    color:#fff;
+}
+
+.members-carousel{
+    display:none;
+}
+
+.members-carousel.active{
+    display:block;
+}
+
+.members-slider{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    overflow:visible;
+    padding-bottom:0;
+}
+
+.members-slide{
+    width:100%;
+}
+
+.roster-card{
+    --roster-accent:rgba(255,255,255,.18);
+    --roster-shadow:rgba(255,255,255,.1);
+    height:100%;
+    min-height:280px;
+    padding:1rem;
+    border-radius:24px;
+    border:1px solid var(--roster-accent);
+    background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+    backdrop-filter:blur(8px);
+    transition:.3s ease;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+}
+
+.roster-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 26px var(--roster-shadow);
+}
+
+.roster-card--leader{
+    --roster-accent:rgba(250,204,21,.55);
+    --roster-shadow:rgba(250,204,21,.2);
+}
+
+.roster-card--interim{
+    --roster-accent:rgba(13,202,240,.55);
+    --roster-shadow:rgba(13,202,240,.2);
+}
+
+.roster-card--member{
+    --roster-accent:rgba(25,135,84,.55);
+    --roster-shadow:rgba(25,135,84,.2);
+}
+
+.roster-photo-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto .95rem;
+    border-radius:50%;
+    text-decoration:none;
+}
+
+.roster-photo-link:focus-visible{
+    outline:2px solid var(--text);
+    outline-offset:4px;
+}
+
+.roster-avatar{
+    width:96px;
+    height:96px;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid var(--roster-accent);
+    transition:.3s ease;
+    box-shadow:0 0 0 4px rgba(255,255,255,.03);
+}
+
+.roster-card:hover .roster-avatar,
+.roster-photo-link:hover .roster-avatar{
+    transform:scale(1.06);
+    box-shadow:0 0 25px var(--roster-shadow);
+}
+
+.members-section{
+    padding:1.1rem;
+    border-radius:26px;
+    background:linear-gradient(180deg, var(--card), var(--card-2));
+    border:1px solid var(--border);
+}
+
+.members-section-title{
+    display:flex;
+    align-items:center;
+    gap:.75rem;
+    margin-bottom:1rem;
+}
+
+.members-section-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:1rem;
+    margin-bottom:1rem;
+}
+
+.members-count-pill{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:.45rem .85rem;
+    border-radius:999px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    color:#fff;
+    font-size:.82rem;
+}
+
+.stat-card{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.stat-card h4{
+    margin:.45rem 0 .25rem;
+    font-size:clamp(1.35rem, 5vw, 1.85rem);
+    font-weight:800;
+    color:#fff;
+}
+
+.stat-card small{
+    display:block;
+    font-size:.9rem;
+    color:var(--muted);
+}
+
+.roster-role-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:.45rem .9rem;
+    border-radius:999px;
+    font-size:.78rem;
+    margin-bottom:.9rem;
+    font-weight:700;
+}
+
+.roster-role-badge--leader{
+    background:#facc15;
+    color:#111;
+}
+
+.roster-role-badge--interim{
+    background:#0dcaf0;
+    color:#111;
+}
+
+.roster-role-badge--member{
+    background:#198754;
+    color:#fff;
+}
+
+.roster-name{
+    margin-bottom:.35rem;
+    font-weight:700;
+}
+
+.roster-name--leader{
+    color:#facc15;
+}
+
+.roster-name--interim{
+    color:#0dcaf0;
+}
+
+.roster-name--member{
+    color:#32d583;
+}
+
+.roster-realname{
+    color:var(--text);
+    margin-bottom:.5rem;
+}
+
+.roster-slogan{
+    color:var(--muted) !important;
+    margin-bottom:1rem;
+}
+
+@media (max-width:768px){
+    .members-hero,
+    .members-section{
+        padding:1rem;
+        border-radius:22px;
+    }
+
+    .members-section-top{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+}
+</style>
+
+<div class="members-page">
+    <section class="members-hero text-center">
+        <i class="bi bi-people-fill text-info fs-1"></i>
+        <h1 class="fw-bold mt-2">Effectif WarToWin</h1>
+        <p class="text-secondary mb-0">Les leaders, interims et membres officiels de la team.</p>
+    </section>
+
+    <section class="members-section">
+        <div class="row text-center g-3">
+            <div class="col-4">
+                <div class="card stat-card p-3">
+                    <i class="bi bi-shield-fill-check text-warning fs-2"></i>
+                    <h4>{{ leaders|length }}</h4>
+                    <small>Leaders</small>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card stat-card p-3">
+                    <i class="bi bi-lightning-charge-fill text-info fs-2"></i>
+                    <h4>{{ interims|length }}</h4>
+                    <small>Interims</small>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card stat-card p-3">
+                    <i class="bi bi-people-fill text-success fs-2"></i>
+                    <h4>{{ members|length }}</h4>
+                    <small>Membres</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="members-section">
+        <div class="members-section-top">
+            <div class="members-section-title mb-0">
+                <i class="bi bi-layout-text-sidebar-reverse text-info fs-3"></i>
+                <h3 class="mb-0">Navigation horizontale</h3>
+            </div>
+            <span class="members-count-pill">Trie par poste</span>
+        </div>
+
+        <div class="members-nav" id="membersNav">
+            <button type="button" class="members-nav-btn active" data-target="members-panel">Membres</button>
+            <button type="button" class="members-nav-btn" data-target="interims-panel">Interims</button>
+            <button type="button" class="members-nav-btn" data-target="leaders-panel">Leaders</button>
+        </div>
+
+        <div class="admin-mini-note mt-2 mb-3">Utilise la barre horizontale pour changer de groupe. Appuie sur une photo de profil pour l'ouvrir en taille reelle.</div>
+
+        <div id="members-panel" class="members-carousel active">
+            <div class="members-section-title">
+                <i class="bi bi-people-fill text-success fs-3"></i>
+                <h3 class="mb-0">Membres</h3>
+            </div>
+            {% if members %}
+                <div class="members-slider">
+                    {% for member in members %}
+                        <div class="members-slide">
+                            <div class="roster-card roster-card--member">
+                                {% if member.photo %}
+                                    <a href="{{ member.photo.url }}" target="_blank" rel="noopener noreferrer" class="roster-photo-link" aria-label="Voir la photo de profil de {{ member.pseudo }}">
+                                        <img src="{{ member.photo.url }}" class="roster-avatar" alt="{{ member.pseudo }}">
+                                    </a>
+                                {% endif %}
+                                <span class="roster-role-badge roster-role-badge--member">Membre</span>
+                                <h5 class="roster-name roster-name--member">{{ member.pseudo }}</h5>
+                                <div class="roster-realname">{{ member.name }}</div>
+                                <small class="roster-slogan d-block">{{ member.slogan|default:"Aucun slogan" }}</small>
+                                {% if member.ff_profile_photo %}
+                                    <a href="{{ member.ff_profile_photo.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="card p-4 text-center border border-secondary">
+                    <p class="text-muted mb-0">Aucun membre affiche pour le moment.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div id="interims-panel" class="members-carousel">
+            <div class="members-section-title">
+                <i class="bi bi-lightning-charge-fill text-info fs-3"></i>
+                <h3 class="mb-0">Interims</h3>
+            </div>
+            {% if interims %}
+                <div class="members-slider">
+                    {% for interim in interims %}
+                        <div class="members-slide">
+                            <div class="roster-card roster-card--interim">
+                                {% if interim.photo %}
+                                    <a href="{{ interim.photo.url }}" target="_blank" rel="noopener noreferrer" class="roster-photo-link" aria-label="Voir la photo de profil de {{ interim.pseudo }}">
+                                        <img src="{{ interim.photo.url }}" class="roster-avatar" alt="{{ interim.pseudo }}">
+                                    </a>
+                                {% endif %}
+                                <span class="roster-role-badge roster-role-badge--interim">Interim</span>
+                                <h5 class="roster-name roster-name--interim">{{ interim.pseudo }}</h5>
+                                <div class="roster-realname">{{ interim.name }}</div>
+                                <p class="roster-slogan">{{ interim.slogan|default:"Interim War To Win" }}</p>
+                                {% if interim.ff_profile_photo %}
+                                    <a href="{{ interim.ff_profile_photo.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="card p-4 text-center border border-secondary">
+                    <p class="text-muted mb-0">Aucun interim affiche pour le moment.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div id="leaders-panel" class="members-carousel">
+            <div class="members-section-title">
+                <i class="bi bi-shield-fill-check text-warning fs-3"></i>
+                <h3 class="mb-0">Leaders</h3>
+            </div>
+            {% if leaders %}
+                <div class="members-slider">
+                    {% for leader in leaders %}
+                        <div class="members-slide">
+                            <div class="roster-card roster-card--leader">
+                                {% if leader.photo %}
+                                    <a href="{{ leader.photo.url }}" target="_blank" rel="noopener noreferrer" class="roster-photo-link" aria-label="Voir la photo de profil de {{ leader.pseudo }}">
+                                        <img src="{{ leader.photo.url }}" class="roster-avatar" alt="{{ leader.pseudo }}">
+                                    </a>
+                                {% endif %}
+                                <span class="roster-role-badge roster-role-badge--leader">Leader</span>
+                                <h5 class="roster-name roster-name--leader">{{ leader.pseudo }}</h5>
+                                <div class="roster-realname">{{ leader.name }}</div>
+                                <p class="roster-slogan">{{ leader.slogan|default:"Leader War To Win" }}</p>
+                                {% if leader.ff_profile_photo %}
+                                    <a href="{{ leader.ff_profile_photo.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="card p-4 text-center border border-secondary">
+                    <p class="text-muted mb-0">Aucun leader affiche pour le moment.</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".members-nav-btn");
+    const panels = document.querySelectorAll(".members-carousel");
+
+    buttons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const targetId = this.dataset.target;
+
+            buttons.forEach((item) => item.classList.remove("active"));
+            panels.forEach((panel) => panel.classList.remove("active"));
+
+            this.classList.add("active");
+            document.getElementById(targetId).classList.add("active");
+        });
+    });
+});
+</script>
+{% endblock %}

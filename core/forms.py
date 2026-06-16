@@ -192,6 +192,7 @@ class RecruitmentForm(forms.ModelForm):
             "whatsapp",
             "facebook_profile",
             "motivation",
+            "profile_photo",
             "profile_screenshot",
         ]
         labels = {
@@ -202,20 +203,21 @@ class RecruitmentForm(forms.ModelForm):
             "whatsapp": "Numero WhatsApp",
             "facebook_profile": "Nom ou lien du profil Facebook",
             "motivation": "Pourquoi veux-tu rejoindre la team ?",
+            "profile_photo": "Photo de profil",
             "profile_screenshot": "Capture du profil Free Fire",
         }
         widgets = {
             "full_name": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Ex: Jean Mavoungou",
+                    "placeholder": "Ex: TENDRY Tahinjanahary",
                     "autocomplete": "name",
                 }
             ),
             "pseudo": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Ex: WTW Shadow",
+                    "placeholder": "Ex: Shadow",
                     "autocapitalize": "off",
                     "spellcheck": "false",
                 }
@@ -223,7 +225,7 @@ class RecruitmentForm(forms.ModelForm):
             "free_fire_uid": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Ex: 1234567890",
+                    "placeholder": "Ex: 6017178292",
                     "inputmode": "numeric",
                 }
             ),
@@ -231,7 +233,7 @@ class RecruitmentForm(forms.ModelForm):
             "whatsapp": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Ex: +242 06 123 45 67",
+                    "placeholder": "Ex: +261 34 77 947 91",
                     "autocomplete": "tel",
                     "inputmode": "tel",
                 }
@@ -239,7 +241,7 @@ class RecruitmentForm(forms.ModelForm):
             "facebook_profile": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Ex: Jean Mavoungou ou https://facebook.com/...",
+                    "placeholder": "Ex: Tendry Tahinjanahary ou https://facebook.com/...",
                     "autocomplete": "url",
                 }
             ),
@@ -248,6 +250,12 @@ class RecruitmentForm(forms.ModelForm):
                     "class": "form-control",
                     "rows": 5,
                     "placeholder": "Parle de ton niveau, ta disponibilite, ton objectif en team et pourquoi WarToWin.",
+                }
+            ),
+            "profile_photo": forms.ClearableFileInput(
+                attrs={
+                    "class": "form-control",
+                    "accept": ".png,.jpg,.jpeg,.webp",
                 }
             ),
             "profile_screenshot": forms.ClearableFileInput(
@@ -321,6 +329,30 @@ class RecruitmentForm(forms.ModelForm):
 
         return screenshot
 
+    def clean_profile_photo(self):
+        photo = self.cleaned_data.get("profile_photo")
+
+        if not photo:
+            raise forms.ValidationError("La photo de profil est obligatoire.")
+
+        allowed_content_types = {
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+        }
+
+        if photo.content_type not in allowed_content_types:
+            raise forms.ValidationError(
+                "Formats acceptes: PNG, JPG, JPEG ou WEBP."
+            )
+
+        if photo.size > 5 * 1024 * 1024:
+            raise forms.ValidationError(
+                "Le fichier depasse 5 Mo. Choisis une image plus legere."
+            )
+
+        return photo
+
 
 class MatchRequestForm(forms.ModelForm):
     requested_at = forms.DateTimeField(
@@ -354,13 +386,13 @@ class MatchRequestForm(forms.ModelForm):
             "requester_name": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Ex: Team Phoenix",
+                    "placeholder": "Ex: W2W Team",
                 }
             ),
             "contact_info": forms.TextInput(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Ex: +242 06 123 45 67 ou lien Facebook",
+                    "placeholder": "Ex: +261 34 77 947 91 ou lien Facebook",
                 }
             ),
             "request_type": forms.Select(attrs={"class": "form-select"}),

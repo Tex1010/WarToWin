@@ -144,6 +144,11 @@ class RecruitmentApplication(models.Model):
     whatsapp = models.CharField(max_length=30, blank=True)
     facebook_profile = models.CharField(max_length=255, blank=True)
     motivation = models.TextField()
+    profile_photo = models.ImageField(
+        upload_to="applications/profile_photos/",
+        blank=True,
+        null=True,
+    )
     profile_screenshot = models.ImageField(upload_to="applications/")
     status = models.CharField(
         max_length=20,

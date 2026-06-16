@@ -47,3 +47,13 @@ venv\Scripts\activate
 waitress-serve --host=10.0.2.76 --port=8000 wartowin.wsgi:application
 
 D:\cloudflared\cloudflared.exe tunnel --config D:\cloudflared\config.yml run wartowin
+
+HAMAFA USER
+python manage.py shell
+from django.contrib.auth.models import User
+User.objects.all()
+User.objects.filter(username="-------------------------------").delete()
+
+raha tsy tadidy : 
+for u in User.objects.all():
+    print(u.username)

@@ -29,7 +29,8 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".trycloudflare.com",
-    '10.0.2.28'
+    '10.0.2.28',
+    '10.0.2.76'
 ]
 
 
@@ -141,18 +142,32 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Templates
 
 TEMPLATES[0]['DIRS'] = [
+    BASE_DIR / 'wartowin' / 'templates',
     BASE_DIR / 'templates',
 ]
 
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+if DEBUG:
+    # Local HTTP access (IP/phone) needs non-secure cookies, otherwise login loops.
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    # Avoid COOP warning on non-HTTPS local origins.
+    SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+else:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin"
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
     "http://127.0.0.1",
+    "http://10.0.2.76:8000",
+    "http://10.0.2.76",
+    "http://10.0.2.28:8000",
+    "http://10.0.2.28",
     "https://*.trycloudflare.com",
 ]
 

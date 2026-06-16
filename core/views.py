@@ -310,6 +310,7 @@ def accept_application(request, pk):
         Member.objects.create(
             name=application.full_name,
             pseudo=application.pseudo,
+            photo=application.profile_photo,
             slogan=f"Niveau {application.get_level_display()}",
             ff_profile_photo=application.profile_screenshot,
         )
@@ -383,6 +384,13 @@ def reject_match_request(request, pk):
 @staff_member_required(login_url="/login/")
 @require_POST
 def delete_match_request(request, pk):
+    if request.user.username != "admin":
+        messages.error(
+            request,
+            "Seul l'utilisateur admin peut supprimer une demande de match.",
+        )
+        return redirect("admin_panel")
+
     match_request = get_object_or_404(MatchRequest, pk=pk)
     match_request.delete()
     messages.success(request, "Demande de match supprimee de l'historique.")
