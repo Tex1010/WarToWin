@@ -1,12 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+.admin-close-link{
+    width:42px;
+    height:42px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-size:1.35rem;
+    line-height:1;
+}
+</style>
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
         <h1 class="text-info mb-1">Compte: {{ member.pseudo }}</h1>
         <div class="text-muted">{{ member.name }}</div>
     </div>
-    <a href="/admin-panel/user-accounts/" class="btn btn-outline-light">Retour</a>
+    <div class="d-flex align-items-center gap-2">
+        <a href="/admin-panel/user-accounts/" class="btn btn-outline-light">Retour</a>
+        <a href="/admin-panel/" class="btn btn-outline-light admin-close-link" aria-label="Fermer">&times;</a>
+    </div>
 </div>
 
 <div class="row g-4">
@@ -64,4 +79,3 @@
     </div>
 </div>
 {% endblock %}
-

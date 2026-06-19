@@ -165,6 +165,8 @@ def build_admin_context():
         "members": Member.objects.all(),
         "leaders": Leader.objects.all(),
         "rules": Rule.objects.all(),
+        "leader_form": LeaderForm(),
+        "rule_form": RuleForm(),
         "settings": team_settings,
         "settings_form": TeamSettingsForm(instance=team_settings),
         "pending_applications": pending_applications,
@@ -433,6 +435,8 @@ def create_member_account(request, member_id):
         )
     else:
         messages.info(request, f"{member.pseudo} a deja un compte.")
+    if "/admin-panel/" in request.META.get("HTTP_REFERER", ""):
+        return redirect("admin_panel")
     return redirect("user_accounts")
 
 

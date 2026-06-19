@@ -89,6 +89,14 @@ class RuleForm(forms.ModelForm):
     class Meta:
         model = Rule
         fields = ["title", "description"]
+        labels = {
+            "title": "Titre",
+            "description": "Description",
+        }
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 5}),
+        }
 
 
 class TeamSettingsForm(forms.ModelForm):
@@ -411,7 +419,7 @@ class MatchRequestForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["request_type"].choices = [
-            ("", "Choisis TvT ou TvG"),
+            ("", "Choisis TvT, TvG ou FvF"),
             *MatchRequest.REQUEST_TYPE_CHOICES,
         ]
 

@@ -193,10 +193,12 @@ class MatchRequest(models.Model):
 
     TYPE_TVT = "tvt"
     TYPE_TVG = "tvg"
+    TYPE_FVF = "fvf"
 
     REQUEST_TYPE_CHOICES = [
         (TYPE_TVT, "TvT"),
         (TYPE_TVG, "TvG"),
+        (TYPE_FVF, "FvF"),
     ]
 
     requester_name = models.CharField(max_length=120)
@@ -222,6 +224,25 @@ class MatchRequest(models.Model):
 
     class Meta:
         ordering = ["requested_at", "-created_at"]
+
+    @property
+    def contact_info_short(self):
+        contact = (self.contact_info or "").strip()
+        if not contact:
+            return ""
+        if len(contact) <= 26:
+            return contact
+        return f"{contact[:23]}..."
+
+    @property
+    def contact_info_masked(self):
+        contact = (self.contact_info or "").strip()
+        if not contact:
+            return ""
+        if len(contact) <= 4:
+            return f"{contact[:1]}***"
+        masked_length = min(8, max(4, len(contact) - 5))
+        return f"{contact[:3]}{'*' * masked_length}{contact[-2:]}"
 
     def __str__(self):
         return f"{self.requester_name} - {self.get_request_type_display()}"

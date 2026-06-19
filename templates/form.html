@@ -1,10 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+.admin-close-link{
+    width:42px;
+    height:42px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    font-size:1.35rem;
+    line-height:1;
+}
+</style>
 
 <div class="container">
 
-    <h2 class="text-info mb-4">{{ title }}</h2>
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+        <h2 class="text-info mb-0">{{ title }}</h2>
+        <a href="/admin-panel/" class="btn btn-outline-light admin-close-link" aria-label="Fermer">&times;</a>
+    </div>
 
     <form method="POST" enctype="multipart/form-data"
           class="bg-dark p-4 rounded"

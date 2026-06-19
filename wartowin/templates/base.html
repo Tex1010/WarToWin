@@ -541,11 +541,9 @@ input[type="file"].form-control::file-selector-button{
     .modal-dialog-scrollable .modal-body,
     #homeQuickActionsModal .modal-body{
         padding:1rem;
-        padding-bottom:1.25rem;
+        padding-bottom:calc(7rem + env(safe-area-inset-bottom));
     }
 
-    .modal-dialog-scrollable .modal-body form > .btn.btn-info.w-100:last-child,
-    .modal-dialog-scrollable .modal-body form .row > .col-12 > .btn.btn-info.w-100:last-child,
     #homeQuickActionsModal .modal-body form > .btn.btn-info.w-100:last-child,
     #homeQuickActionsModal .modal-body form .row > .col-12 > .btn.btn-info.w-100:last-child{
         display:none !important;
@@ -766,8 +764,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const modalConfigs = [
-        { modalId: "homeQuickActionsModal", submitLabel: "Envoyer la demande" },
-        { modalId: "adminSettingsModal", submitLabel: "Mettre a jour l'apparence" }
+        { modalId: "homeQuickActionsModal", submitLabel: "Envoyer la demande" }
     ];
 
     let activeConfig = null;

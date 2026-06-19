@@ -509,7 +509,7 @@
                         <a href="/join/" class="btn btn-info btn-lg px-4">Rejoindre la Team</a>
                         <a href="/members/" class="btn btn-outline-light btn-lg px-4">Voir les membres</a>
                         <button type="button" class="btn btn-outline-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#homeQuickActionsModal">
-                            Demande TvG/GvG
+                            Demande TvT/TvG
                         </button>
                     </div>
 
@@ -555,11 +555,6 @@
                 <div class="section-overline">Direction</div>
                 <h2 class="section-title-home">Leaders</h2>
             </div>
-            <p class="section-subtitle">Les responsables visibles de la team.</p>
-        </div>
-
-        <div class="admin-mini-note mt-2 mb-3">
-            Fais defiler pour voir la liste complete. Appuie sur une photo pour l'ouvrir en taille reelle.
         </div>
 
         <div id="home-leaders-panel" class="home-roster-panel active">
@@ -622,7 +617,7 @@
             <div class="modal-body">
                 <div class="feature-card">
                     <div class="d-flex justify-content-between align-items-center gap-2 mb-2 flex-wrap">
-                        <h5 class="text-light mb-0">Demandes de match (TvT / TvG)</h5>
+                        <h5 class="text-light mb-0">Demandes de match (TvT / TvG / FvF)</h5>
                         <span class="badge bg-info">Option</span>
                     </div>
                     <p class="text-muted mb-3">Remplis une etape a la fois pour garder une fenetre plus courte et plus claire.</p>
@@ -670,7 +665,7 @@
                             <div class="home-wizard-step" data-step="2">
                                 <div class="home-wizard-kicker">Etape 3 sur 5</div>
                                 <h6 class="home-wizard-title">Quel type de match veux-tu ?</h6>
-                                <p class="home-wizard-text">Choisis simplement le mode de demande entre TvT et TvG.</p>
+                                <p class="home-wizard-text">Choisis simplement le mode de demande entre TvT, TvG et FvF.</p>
                                 <div class="home-form-field">
                                     <label class="home-form-label" for="{{ match_form.request_type.id_for_label }}">{{ match_form.request_type.label }}</label>
                                     {{ match_form.request_type }}

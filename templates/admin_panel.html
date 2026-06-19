@@ -40,6 +40,104 @@
     scrollbar-width:thin;
 }
 
+.admin-section-nav{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:1rem;
+}
+
+.admin-nav-card{
+    padding:1rem;
+    border-radius:22px;
+    background:linear-gradient(180deg, rgba(18,17,22,.97), rgba(11,10,14,.95));
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 16px 36px rgba(0,0,0,.18);
+}
+
+.admin-nav-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:.75rem;
+    margin-bottom:.85rem;
+}
+
+.admin-nav-title{
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
+    font-weight:800;
+    color:#fff;
+}
+
+.admin-nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.65rem;
+}
+
+.admin-nav-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:48px;
+    padding:.75rem 1rem;
+    border-radius:16px;
+    text-decoration:none;
+    font-weight:700;
+    color:#fff;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    transition:.25s ease;
+}
+
+.admin-nav-link:hover{
+    border-color:rgba(255,39,75,.35);
+    color:#fff;
+    transform:translateY(-1px);
+}
+
+.admin-nav-link.full{
+    width:100%;
+}
+
+.admin-modal .modal-dialog{
+    max-width:min(1200px, calc(100vw - 1rem));
+}
+
+.admin-modal .modal-content{
+    background:linear-gradient(180deg, rgba(18,17,22,.99), rgba(10,10,14,.98));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:26px;
+    overflow:hidden;
+}
+
+.admin-modal .modal-header{
+    position:sticky;
+    top:0;
+    z-index:3;
+    background:linear-gradient(180deg, rgba(18,17,22,.99), rgba(18,17,22,.92));
+    backdrop-filter:blur(10px);
+}
+
+.admin-modal .modal-body{
+    padding:1.1rem;
+}
+
+.admin-modal .modal-header,
+.admin-modal .modal-footer{
+    border-color:rgba(255,255,255,.08);
+}
+
+.admin-modal .table-responsive{
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.admin-section{
+    scroll-margin-top:96px;
+}
+
 .admin-action-btn{
     display:inline-flex;
     align-items:center;
@@ -55,28 +153,21 @@
 }
 
 .admin-roster-nav{
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
     width:100%;
     gap:.75rem;
-    overflow-x:auto;
-    padding-bottom:.35rem;
-    scrollbar-width:thin;
-    scroll-snap-type:x proximity;
 }
 
 .admin-roster-btn{
-    flex:0 0 auto;
-    min-width:max-content;
+    width:100%;
     padding:.85rem 1rem;
-    border-radius:999px;
+    border-radius:18px;
     border:1px solid rgba(255,255,255,.08);
     background:rgba(255,255,255,.04);
     color:#fff;
     font-weight:800;
     transition:.25s ease;
-    scroll-snap-align:start;
 }
 
 .admin-roster-btn.active{
@@ -92,19 +183,47 @@
     display:block;
 }
 
-.admin-roster-slider{
-    display:grid;
-    grid-auto-flow:column;
-    grid-auto-columns:100%;
+.admin-roster-list{
+    display:flex;
+    flex-direction:column;
     gap:1rem;
-    overflow-x:auto;
-    padding-bottom:.5rem;
-    scrollbar-width:thin;
-    scroll-snap-type:x mandatory;
 }
 
-.admin-roster-slide{
-    scroll-snap-align:start;
+.admin-roster-entry{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:1rem;
+    flex-wrap:wrap;
+    padding:1rem;
+    border-radius:22px;
+    border:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(180deg, rgba(18,17,22,.97), rgba(11,10,14,.95));
+}
+
+.admin-roster-main{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    min-width:0;
+    flex:1 1 auto;
+}
+
+.admin-roster-content{
+    min-width:0;
+}
+
+.admin-roster-actions{
+    display:flex;
+    align-items:center;
+    gap:.75rem;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    flex:1 1 100%;
+}
+
+.admin-roster-actions > *{
+    flex:1 1 150px;
 }
 
 .admin-mobile-list{
@@ -160,6 +279,50 @@
     background:rgba(255,255,255,.04);
     color:#fff;
     font-size:.8rem;
+}
+
+.admin-contact-card{
+    display:flex;
+    flex-direction:column;
+    gap:.75rem;
+    margin-bottom:1rem;
+    padding:.95rem;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.03);
+}
+
+.admin-contact-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:.75rem;
+    flex-wrap:wrap;
+}
+
+.admin-inline-note{
+    font-size:.8rem;
+    color:var(--muted);
+}
+
+.admin-contact-value{
+    width:100%;
+    padding:.85rem 1rem;
+    border-radius:16px;
+    text-align:left;
+    white-space:normal;
+    word-break:break-word;
+    font-size:.94rem;
+}
+
+.admin-contact-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.55rem;
+}
+
+.admin-contact-actions .btn{
+    flex:1 1 120px;
 }
 
 .admin-identity-tag{
@@ -232,6 +395,30 @@
 }
 
 @media (max-width:768px){
+    .admin-modal .modal-dialog{
+        width:calc(100vw - 1rem);
+        max-width:none;
+        margin:.5rem auto;
+    }
+
+    .admin-modal .modal-content{
+        min-height:calc(100dvh - 1rem);
+    }
+
+    .admin-modal .modal-body{
+        padding:1rem;
+        padding-bottom:calc(7rem + env(safe-area-inset-bottom));
+    }
+
+    .admin-section-nav{
+        grid-template-columns:1fr;
+    }
+
+    .admin-nav-head{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
     .admin-item-head{
         flex-direction:column;
     }
@@ -246,8 +433,25 @@
         align-items:flex-start;
     }
 
+    .admin-roster-main{
+        width:100%;
+    }
+
+    .admin-roster-actions{
+        width:100%;
+    }
+
+    .admin-action-btn,
+    .admin-nav-link{
+        min-height:52px;
+    }
+
     .theme-swatch-grid{
         grid-template-columns:1fr 1fr;
+    }
+
+    .admin-contact-actions .btn{
+        flex:1 1 calc(50% - .55rem);
     }
 }
 </style>
@@ -274,18 +478,18 @@
                 <i class="bi bi-person-plus-fill"></i>
                 Ajouter un membre
             </button>
-            <a href="/add-leader/" class="btn btn-warning admin-action-btn">
+            <button type="button" class="btn btn-warning admin-action-btn" data-bs-toggle="modal" data-bs-target="#addLeaderModal">
                 <i class="bi bi-stars"></i>
                 Ajouter un leader
-            </a>
-            <a href="/add-rule/" class="btn btn-light admin-action-btn">
+            </button>
+            <button type="button" class="btn btn-light admin-action-btn" data-bs-toggle="modal" data-bs-target="#addRuleModal">
                 <i class="bi bi-journal-plus"></i>
                 Ajouter un reglement
-            </a>
-            <a href="/admin-panel/user-accounts/" class="btn btn-outline-light admin-action-btn">
+            </button>
+            <button type="button" class="btn btn-outline-light admin-action-btn" data-bs-toggle="modal" data-bs-target="#userAccountsModal">
                 <i class="bi bi-person-badge-fill"></i>
                 Comptes users
-            </a>
+            </button>
         </div>
     </div>
 
@@ -322,517 +526,726 @@
         </div>
     </div>
 
-    <div class="card p-4 mb-5 border border-secondary">
-        <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
-            <h3 class="text-warning mb-0">Identite et theme</h3>
-            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#adminSettingsModal">
-                Parametres interface
-            </button>
-        </div>
-
-        <div class="text-center text-lg-start admin-preview-card">
-            <div class="admin-mini-note mb-2">Apercu de l'identite affichee sur l'accueil</div>
-            {% if settings.logo %}
-                <img src="{{ settings.logo.url }}" class="admin-preview-logo mb-3" alt="Logo de la team">
-            {% else %}
-                <div class="admin-preview-logo d-inline-flex align-items-center justify-content-center mb-3">
-                    <span class="fs-2 fw-bold text-info">{{ settings.team_tag|default:"W2W" }}</span>
-                </div>
-            {% endif %}
-            <div class="admin-identity-tag">{{ settings.team_tag|default:"W2W" }}</div>
-            <h5 class="text-info mb-1">{{ settings.team_name }}</h5>
-            <div class="admin-mini-note mb-2">Police: {{ settings.get_font_choice_display }}</div>
-            <p class="text-muted mb-2">{{ settings.welcome_text }}</p>
-            <div class="theme-swatch-grid">
-                <div class="theme-swatch" style="background: {{ settings.background_color }};">
-                    <span class="theme-swatch-label">Fond</span>
-                    <span class="theme-swatch-value">{{ settings.background_color }}</span>
-                </div>
-                <div class="theme-swatch" style="background: {{ settings.primary_color }};">
-                    <span class="theme-swatch-label">Principale</span>
-                    <span class="theme-swatch-value">{{ settings.primary_color }}</span>
-                </div>
-                <div class="theme-swatch" style="background: {{ settings.accent_color }};">
-                    <span class="theme-swatch-label">Accent</span>
-                    <span class="theme-swatch-value">{{ settings.accent_color }}</span>
-                </div>
+    <div class="admin-section-nav mb-5">
+        <div class="admin-nav-card">
+            <div class="admin-nav-head">
+                <span class="admin-nav-title">
+                    <i class="bi bi-palette-fill text-info"></i>
+                    Identite et theme
+                </span>
+                <span class="admin-mini-note mb-0">Interface</span>
             </div>
-            <div class="admin-mini-note">
-                Clique sur “Parametres interface” pour modifier l'apparence.
+            <div class="admin-nav-links">
+                <button type="button" class="admin-nav-link full" data-bs-toggle="modal" data-bs-target="#adminIdentityModal">Ouvrir</button>
+            </div>
+        </div>
+        <div class="admin-nav-card">
+            <div class="admin-nav-head">
+                <span class="admin-nav-title">
+                    <i class="bi bi-person-fill-exclamation text-warning"></i>
+                    Candidatures
+                </span>
+                <span class="admin-mini-note mb-0">Acces rapide</span>
+            </div>
+            <div class="admin-nav-links">
+                <button type="button" class="admin-nav-link" data-bs-toggle="modal" data-bs-target="#adminPendingApplicationsModal">En attente</button>
+                <button type="button" class="admin-nav-link" data-bs-toggle="modal" data-bs-target="#adminReviewedApplicationsModal">Historique</button>
+            </div>
+        </div>
+        <div class="admin-nav-card">
+            <div class="admin-nav-head">
+                <span class="admin-nav-title">
+                    <i class="bi bi-controller text-info"></i>
+                    Demandes de match
+                </span>
+                <span class="admin-mini-note mb-0">Acces rapide</span>
+            </div>
+            <div class="admin-nav-links">
+                <button type="button" class="admin-nav-link" data-bs-toggle="modal" data-bs-target="#adminPendingMatchesModal">En attente</button>
+                <button type="button" class="admin-nav-link" data-bs-toggle="modal" data-bs-target="#adminReviewedMatchesModal">Historique</button>
+            </div>
+        </div>
+        <div class="admin-nav-card">
+            <div class="admin-nav-head">
+                <span class="admin-nav-title">
+                    <i class="bi bi-journal-text text-light"></i>
+                    Reglements
+                </span>
+                <span class="admin-mini-note mb-0">Contenu</span>
+            </div>
+            <div class="admin-nav-links">
+                <button type="button" class="admin-nav-link full" data-bs-toggle="modal" data-bs-target="#adminRulesModal">Ouvrir</button>
+            </div>
+        </div>
+        <div class="admin-nav-card">
+            <div class="admin-nav-head">
+                <span class="admin-nav-title">
+                    <i class="bi bi-people-fill text-warning"></i>
+                    Effectif
+                </span>
+                <span class="admin-mini-note mb-0">Gestion</span>
+            </div>
+            <div class="admin-nav-links">
+                <button type="button" class="admin-nav-link full" data-bs-toggle="modal" data-bs-target="#adminRosterModal">Ouvrir</button>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="adminSettingsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content bg-dark text-white border border-info">
+    <div class="modal fade admin-modal" id="adminIdentityModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
                 <div class="modal-header">
-                    <h5 class="modal-title">Parametres de l'interface</h5>
+                    <h5 class="modal-title">Identite et theme</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="/admin-panel/settings/" enctype="multipart/form-data"
-                          data-confirm-title="Confirmer la modification"
-                          data-confirm-message="Veux-tu vraiment enregistrer les changements d'apparence et d'identite ?"
-                          data-confirm-button="Oui, modifier">
-                        {% csrf_token %}
-                        <div class="row g-3">
-                            <div class="col-12 col-md-4">
-                                <label class="form-label">{{ settings_form.team_tag.label }}</label>
-                                {{ settings_form.team_tag }}
-                            </div>
-                            <div class="col-12 col-md-8">
-                                <label class="form-label">{{ settings_form.team_name.label }}</label>
-                                {{ settings_form.team_name }}
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">{{ settings_form.welcome_text.label }}</label>
-                                {{ settings_form.welcome_text }}
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">{{ settings_form.logo.label }}</label>
-                                {{ settings_form.logo }}
-                                <div class="form-text">Formats acceptes: PNG, JPG, JPEG et WEBP.</div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">{{ settings_form.font_choice.label }}</label>
-                                {{ settings_form.font_choice }}
-                                <div class="form-text">Choisis une des 3 polices disponibles.</div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="card p-3 h-100">
-                                    <div class="form-text mb-2">Apercu de la police</div>
-                                    <div class="fs-4" style="font-family:var(--heading-font);">WarToWin</div>
-                                    <div class="text-muted">Texte d'exemple pour l'interface.</div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <h5 class="text-light mb-2">Couleurs du theme</h5>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.background_color.label }}</label>
-                                {{ settings_form.background_color }}
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.background_soft_color.label }}</label>
-                                {{ settings_form.background_soft_color }}
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.card_color.label }}</label>
-                                {{ settings_form.card_color }}
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.card_soft_color.label }}</label>
-                                {{ settings_form.card_soft_color }}
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.primary_color.label }}</label>
-                                {{ settings_form.primary_color }}
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.primary_soft_color.label }}</label>
-                                {{ settings_form.primary_soft_color }}
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.accent_color.label }}</label>
-                                {{ settings_form.accent_color }}
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.text_color.label }}</label>
-                                {{ settings_form.text_color }}
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <label class="form-label">{{ settings_form.muted_color.label }}</label>
-                                {{ settings_form.muted_color }}
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-info w-100">Mettre a jour l'apparence</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="text-info mb-0">Candidatures en attente</h2>
-        {% if pending_count %}
-            <span class="badge bg-danger">{{ pending_count }} nouvelle{{ pending_count|pluralize }}</span>
-        {% endif %}
-    </div>
-
-    {% if pending_applications %}
-        <div class="row g-4 mb-5">
-            {% for application in pending_applications %}
-                <div class="col-12">
-                    <div class="card p-4 border border-danger">
-                        <div class="row g-4 align-items-start">
-                            <div class="col-lg-3">
-                                {% if application.profile_photo %}
-                                <div class="ratio ratio-1x1 rounded overflow-hidden border border-secondary mb-3">
-                                    <img src="{{ application.profile_photo.url }}" class="w-100 h-100 object-fit-cover" alt="Photo de profil du candidat">
-                                </div>
-                                <a href="{{ application.profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm w-100 mb-3">
-                                    Voir la photo
-                                </a>
+                    <div class="row g-4">
+                        <div class="col-12 col-xl-4">
+                            <div class="text-center text-lg-start admin-preview-card h-100">
+                                <div class="admin-mini-note mb-2">Apercu de l'identite affichee sur l'accueil</div>
+                                {% if settings.logo %}
+                                    <img src="{{ settings.logo.url }}" class="admin-preview-logo mb-3" alt="Logo de la team">
+                                {% else %}
+                                    <div class="admin-preview-logo d-inline-flex align-items-center justify-content-center mb-3">
+                                        <span class="fs-2 fw-bold text-info">{{ settings.team_tag|default:"W2W" }}</span>
+                                    </div>
                                 {% endif %}
-                                <div class="ratio ratio-4x3 rounded overflow-hidden border border-secondary">
-                                    <img src="{{ application.profile_screenshot.url }}" class="w-100 h-100 object-fit-cover" alt="Capture du profil Free Fire">
+                                <div class="admin-identity-tag">{{ settings.team_tag|default:"W2W" }}</div>
+                                <h5 class="text-info mb-1">{{ settings.team_name }}</h5>
+                                <div class="admin-mini-note mb-2">Police: {{ settings.get_font_choice_display }}</div>
+                                <p class="text-muted mb-2">{{ settings.welcome_text }}</p>
+                                <div class="theme-swatch-grid">
+                                    <div class="theme-swatch" style="background: {{ settings.background_color }};">
+                                        <span class="theme-swatch-label">Fond</span>
+                                        <span class="theme-swatch-value">{{ settings.background_color }}</span>
+                                    </div>
+                                    <div class="theme-swatch" style="background: {{ settings.primary_color }};">
+                                        <span class="theme-swatch-label">Principale</span>
+                                        <span class="theme-swatch-value">{{ settings.primary_color }}</span>
+                                    </div>
+                                    <div class="theme-swatch" style="background: {{ settings.accent_color }};">
+                                        <span class="theme-swatch-label">Accent</span>
+                                        <span class="theme-swatch-value">{{ settings.accent_color }}</span>
+                                    </div>
                                 </div>
-                                <a href="{{ application.profile_screenshot.url }}" target="_blank" class="btn btn-outline-light btn-sm w-100 mt-3">
-                                    Voir la capture
-                                </a>
                             </div>
-                            <div class="col-lg-5">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge bg-info">{{ application.pseudo }}</span>
-                                    <span class="badge bg-secondary">{{ application.get_level_display }}</span>
-                                    {% if application.profile_photo %}
-                                        <span class="badge bg-dark border border-info">Photo fournie</span>
-                                    {% endif %}
-                                    <span class="badge bg-dark border border-danger">Nouveau</span>
+                        </div>
+                        <div class="col-12 col-xl-8">
+                            <form method="post" action="/admin-panel/settings/" enctype="multipart/form-data"
+                                  data-confirm-title="Confirmer la modification"
+                                  data-confirm-message="Veux-tu vraiment enregistrer les changements d'apparence et d'identite ?"
+                                  data-confirm-button="Oui, modifier">
+                                {% csrf_token %}
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">{{ settings_form.team_tag.label }}</label>
+                                        {{ settings_form.team_tag }}
+                                    </div>
+                                    <div class="col-12 col-md-8">
+                                        <label class="form-label">{{ settings_form.team_name.label }}</label>
+                                        {{ settings_form.team_name }}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">{{ settings_form.welcome_text.label }}</label>
+                                        {{ settings_form.welcome_text }}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">{{ settings_form.logo.label }}</label>
+                                        {{ settings_form.logo }}
+                                        <div class="form-text">Formats acceptes: PNG, JPG, JPEG et WEBP.</div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">{{ settings_form.font_choice.label }}</label>
+                                        {{ settings_form.font_choice }}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="card p-3 h-100">
+                                            <div class="form-text mb-2">Apercu de la police</div>
+                                            <div class="fs-4" style="font-family:var(--heading-font);">WarToWin</div>
+                                            <div class="text-muted">Texte d'exemple pour l'interface.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <h5 class="text-light mb-2">Couleurs du theme</h5>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.background_color.label }}</label>
+                                        {{ settings_form.background_color }}
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.background_soft_color.label }}</label>
+                                        {{ settings_form.background_soft_color }}
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.card_color.label }}</label>
+                                        {{ settings_form.card_color }}
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.card_soft_color.label }}</label>
+                                        {{ settings_form.card_soft_color }}
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.primary_color.label }}</label>
+                                        {{ settings_form.primary_color }}
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.primary_soft_color.label }}</label>
+                                        {{ settings_form.primary_soft_color }}
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.accent_color.label }}</label>
+                                        {{ settings_form.accent_color }}
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.text_color.label }}</label>
+                                        {{ settings_form.text_color }}
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <label class="form-label">{{ settings_form.muted_color.label }}</label>
+                                        {{ settings_form.muted_color }}
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-info w-100">Mettre a jour l'apparence</button>
+                                    </div>
                                 </div>
-                                <h4 class="text-light">{{ application.full_name }}</h4>
-                                <p class="text-muted mb-2">UID: {{ application.free_fire_uid }}</p>
-                                <p class="text-muted mb-2">
-                                    WhatsApp:
-                                    {% if application.whatsapp %}
-                                        {{ application.whatsapp }}
-                                    {% else %}
-                                        Non renseigne
-                                    {% endif %}
-                                </p>
-                                <p class="text-muted mb-2">
-                                    Facebook:
-                                    {% if application.facebook_profile %}
-                                        {{ application.facebook_profile }}
-                                    {% else %}
-                                        Non renseigne
-                                    {% endif %}
-                                </p>
-                                <p class="mb-0">{{ application.motivation }}</p>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="small text-muted mb-3">
-                                    Recue le {{ application.created_at|date:"d/m/Y H:i" }}
-                                </div>
-
-                                <form method="post" action="/applications/{{ application.id }}/accept/" class="mb-3"
-                                      data-confirm-title="Accepter la candidature"
-                                      data-confirm-message="Veux-tu vraiment accepter cette candidature ?"
-                                      data-confirm-button="Oui, accepter">
-                                    {% csrf_token %}
-                                    <textarea name="admin_note" class="form-control mb-2" rows="3" placeholder="Note admin optionnelle"></textarea>
-                                    <button type="submit" class="btn btn-success w-100">Accepter la candidature</button>
-                                </form>
-
-                                <form method="post" action="/applications/{{ application.id }}/reject/"
-                                      data-confirm-title="Refuser la candidature"
-                                      data-confirm-message="Veux-tu vraiment refuser cette candidature ?"
-                                      data-confirm-button="Oui, refuser">
-                                    {% csrf_token %}
-                                    <textarea name="admin_note" class="form-control mb-2" rows="3" placeholder="Motif ou note de refus"></textarea>
-                                    <button type="submit" class="btn btn-danger w-100">Refuser la candidature</button>
-                                </form>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="card p-4 mb-5 border border-secondary text-center">
-            <p class="text-muted mb-0">Aucune candidature en attente pour le moment.</p>
-        </div>
-    {% endif %}
-
-    <h2 class="text-warning mb-3">Historique des candidatures</h2>
-    <div class="admin-mobile-list mb-5">
-        {% for application in reviewed_applications %}
-            <div class="admin-item-card">
-                <div class="admin-item-head">
-                    <div>
-                        <h4 class="text-light mb-1">{{ application.pseudo }}</h4>
-                        <div class="text-light">{{ application.full_name }}</div>
-                    </div>
-                    <div>
-                        {% if application.status == 'accepted' %}
-                            <span class="admin-status-pill"><i class="bi bi-check-circle-fill text-success"></i> Acceptee</span>
-                        {% else %}
-                            <span class="admin-status-pill"><i class="bi bi-x-circle-fill text-danger"></i> Refusee</span>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="admin-meta">
-                    <span class="badge bg-dark border border-secondary">UID {{ application.free_fire_uid }}</span>
-                    <span class="badge bg-dark border border-secondary">{{ application.reviewed_at|date:"d/m/Y H:i" }}</span>
-                    <span class="badge bg-dark border border-secondary">Par {{ application.reviewed_by.username|default:"inconnu" }}</span>
-                </div>
-
-                <p class="admin-desc mb-2">{{ application.admin_note|default:"Aucune note admin." }}</p>
-
-                <div class="admin-actions-row">
-                    {% if user.username == 'admin' %}
-                    <form method="post" action="/applications/{{ application.id }}/delete/"
-                          data-confirm-title="Supprimer la candidature"
-                          data-confirm-message="Veux-tu vraiment supprimer cette candidature de l'historique ?"
-                          data-confirm-button="Oui, supprimer">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm w-100">
-                            <i class="bi bi-trash3-fill"></i>
-                            Supprimer
-                        </button>
-                    </form>
-                    {% endif %}
-                </div>
             </div>
-        {% empty %}
-            <div class="card p-4 text-center border border-secondary">
-                <p class="text-muted mb-0">Aucun historique de candidature pour le moment.</p>
-            </div>
-        {% endfor %}
+        </div>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="text-info mb-0">Demandes de match en attente</h2>
-        {% if pending_match_count %}
-            <span class="badge bg-danger">{{ pending_match_count }} nouvelle{{ pending_match_count|pluralize }}</span>
-        {% endif %}
-    </div>
-
-    {% if pending_match_requests %}
-        <div class="row g-4 mb-5">
-            {% for request in pending_match_requests %}
-                <div class="col-12">
-                    <div class="card p-4 border border-info">
+    <div class="modal fade admin-modal" id="adminPendingApplicationsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Candidatures en attente</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {% if pending_applications %}
                         <div class="row g-4">
-                            <div class="col-lg-8">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge bg-info">{{ request.get_request_type_display }}</span>
-                                    <span class="badge bg-dark border border-info">{{ request.requested_at|date:"d/m/Y H:i" }}</span>
+                            {% for application in pending_applications %}
+                                <div class="col-12">
+                                    <div class="card p-4 border border-danger">
+                                        <div class="row g-4 align-items-start">
+                                            <div class="col-lg-3">
+                                                {% if application.profile_photo %}
+                                                <div class="ratio ratio-1x1 rounded overflow-hidden border border-secondary mb-3">
+                                                    <img src="{{ application.profile_photo.url }}" class="w-100 h-100 object-fit-cover" alt="Photo de profil du candidat">
+                                                </div>
+                                                <a href="{{ application.profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm w-100 mb-3">
+                                                    Voir la photo
+                                                </a>
+                                                {% endif %}
+                                                <div class="ratio ratio-4x3 rounded overflow-hidden border border-secondary">
+                                                    <img src="{{ application.profile_screenshot.url }}" class="w-100 h-100 object-fit-cover" alt="Capture du profil Free Fire">
+                                                </div>
+                                                <a href="{{ application.profile_screenshot.url }}" target="_blank" class="btn btn-outline-light btn-sm w-100 mt-3">
+                                                    Voir la capture
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                                    <span class="badge bg-info">{{ application.pseudo }}</span>
+                                                    <span class="badge bg-secondary">{{ application.get_level_display }}</span>
+                                                    {% if application.profile_photo %}
+                                                        <span class="badge bg-dark border border-info">Photo fournie</span>
+                                                    {% endif %}
+                                                    <span class="badge bg-dark border border-danger">Nouveau</span>
+                                                </div>
+                                                <h4 class="text-light">{{ application.full_name }}</h4>
+                                                <p class="text-muted mb-2">UID: {{ application.free_fire_uid }}</p>
+                                                <p class="text-muted mb-2">WhatsApp: {{ application.whatsapp|default:"Non renseigne" }}</p>
+                                                <p class="text-muted mb-2">Facebook: {{ application.facebook_profile|default:"Non renseigne" }}</p>
+                                                <p class="mb-0">{{ application.motivation }}</p>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="small text-muted mb-3">Recue le {{ application.created_at|date:"d/m/Y H:i" }}</div>
+                                                <form method="post" action="/applications/{{ application.id }}/accept/" class="mb-3"
+                                                      data-confirm-title="Accepter la candidature"
+                                                      data-confirm-message="Veux-tu vraiment accepter cette candidature ?"
+                                                      data-confirm-button="Oui, accepter">
+                                                    {% csrf_token %}
+                                                    <textarea name="admin_note" class="form-control mb-2" rows="3" placeholder="Note admin optionnelle"></textarea>
+                                                    <button type="submit" class="btn btn-success w-100">Accepter la candidature</button>
+                                                </form>
+                                                <form method="post" action="/applications/{{ application.id }}/reject/"
+                                                      data-confirm-title="Refuser la candidature"
+                                                      data-confirm-message="Veux-tu vraiment refuser cette candidature ?"
+                                                      data-confirm-button="Oui, refuser">
+                                                    {% csrf_token %}
+                                                    <textarea name="admin_note" class="form-control mb-2" rows="3" placeholder="Motif ou note de refus"></textarea>
+                                                    <button type="submit" class="btn btn-danger w-100">Refuser la candidature</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <h4 class="text-light mb-2">{{ request.requester_name }}</h4>
-                                <p class="text-muted mb-2">
-                                    Contact:
-                                    {% if request.contact_info %}
-                                        {{ request.contact_info }}
-                                    {% else %}
-                                        Non renseigne
-                                    {% endif %}
-                                </p>
-                                <p class="text-muted mb-2">Envoyee le {{ request.created_at|date:"d/m/Y H:i" }}</p>
-                                <p class="mb-0">{{ request.message|default:"Aucun message supplementaire." }}</p>
-                            </div>
-                            <div class="col-lg-4">
-                                <form method="post" action="/match-requests/{{ request.id }}/accept/" class="mb-3"
-                                      data-confirm-title="Accepter la demande"
-                                      data-confirm-message="Veux-tu vraiment accepter cette demande de match ?"
-                                      data-confirm-button="Oui, accepter">
-                                    {% csrf_token %}
-                                    <textarea name="admin_note" class="form-control mb-2" rows="3" placeholder="Note admin optionnelle"></textarea>
-                                    <button type="submit" class="btn btn-success w-100">Accepter la demande</button>
-                                </form>
-                                <form method="post" action="/match-requests/{{ request.id }}/reject/"
-                                      data-confirm-title="Refuser la demande"
-                                      data-confirm-message="Veux-tu vraiment refuser cette demande de match ?"
-                                      data-confirm-button="Oui, refuser">
-                                    {% csrf_token %}
-                                    <textarea name="admin_note" class="form-control mb-2" rows="3" placeholder="Motif ou note de refus"></textarea>
-                                    <button type="submit" class="btn btn-danger w-100">Refuser la demande</button>
-                                </form>
-                            </div>
+                            {% endfor %}
                         </div>
+                    {% else %}
+                        <div class="card p-4 border border-secondary text-center">
+                            <p class="text-muted mb-0">Aucune candidature en attente pour le moment.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade admin-modal" id="adminReviewedApplicationsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Historique des candidatures</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="admin-mobile-list">
+                        {% for application in reviewed_applications %}
+                            <div class="admin-item-card">
+                                <div class="admin-item-head">
+                                    <div>
+                                        <h4 class="text-light mb-1">{{ application.pseudo }}</h4>
+                                        <div class="text-light">{{ application.full_name }}</div>
+                                    </div>
+                                    <div>
+                                        {% if application.status == 'accepted' %}
+                                            <span class="admin-status-pill"><i class="bi bi-check-circle-fill text-success"></i> Acceptee</span>
+                                        {% else %}
+                                            <span class="admin-status-pill"><i class="bi bi-x-circle-fill text-danger"></i> Refusee</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="admin-meta">
+                                    <span class="badge bg-dark border border-secondary">UID {{ application.free_fire_uid }}</span>
+                                    <span class="badge bg-dark border border-secondary">{{ application.reviewed_at|date:"d/m/Y H:i" }}</span>
+                                    <span class="badge bg-dark border border-secondary">Par {{ application.reviewed_by.username|default:"inconnu" }}</span>
+                                </div>
+                                <p class="admin-desc mb-2">{{ application.admin_note|default:"Aucune note admin." }}</p>
+                                <div class="admin-actions-row">
+                                    {% if user.username == 'admin' %}
+                                    <form method="post" action="/applications/{{ application.id }}/delete/"
+                                          data-confirm-title="Supprimer la candidature"
+                                          data-confirm-message="Veux-tu vraiment supprimer cette candidature de l'historique ?"
+                                          data-confirm-button="Oui, supprimer">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm w-100">
+                                            <i class="bi bi-trash3-fill"></i>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="card p-4 text-center border border-secondary">
+                                <p class="text-muted mb-0">Aucun historique de candidature pour le moment.</p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
-    {% else %}
-        <div class="card p-4 mb-5 border border-secondary text-center">
-            <p class="text-muted mb-0">Aucune demande de match en attente pour le moment.</p>
-        </div>
-    {% endif %}
+    </div>
 
-    <h2 class="text-warning mb-3">Historique des demandes de match</h2>
-    <div class="admin-mobile-list mb-5">
-        {% for match_request in reviewed_match_requests %}
-            <div class="admin-item-card">
-                <div class="admin-item-head">
-                    <div>
-                        <h4 class="text-light mb-1">{{ match_request.requester_name }}</h4>
-                        <div class="text-light">{{ match_request.get_request_type_display }} le {{ match_request.requested_at|date:"d/m/Y H:i" }}</div>
+    <div class="modal fade admin-modal" id="adminPendingMatchesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Demandes de match en attente</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {% if pending_match_requests %}
+                        <div class="row g-4">
+                            {% for request in pending_match_requests %}
+                                <div class="col-12">
+                                    <div class="card p-4 border border-info">
+                                        <div class="row g-4">
+                                            <div class="col-lg-8">
+                                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                                    <span class="badge bg-info">{{ request.get_request_type_display }}</span>
+                                                    <span class="badge bg-dark border border-info">{{ request.requested_at|date:"d/m/Y H:i" }}</span>
+                                                </div>
+                                                <h4 class="text-light mb-2">{{ request.requester_name }}</h4>
+                                                {% if request.contact_info %}
+                                                    <div class="admin-contact-card" data-contact-tools>
+                                                        <div class="admin-contact-head">
+                                                            <span class="admin-status-pill">
+                                                                <i class="bi bi-shield-lock-fill text-info"></i>
+                                                                Contact protege
+                                                            </span>
+                                                            <span class="admin-inline-note">Masque, coupe ou affiche avant de copier.</span>
+                                                        </div>
+                                                        <span class="badge bg-dark border border-secondary admin-contact-value"
+                                                              data-contact-value
+                                                              data-contact-masked="{{ request.contact_info_masked }}"
+                                                              data-contact-short="{{ request.contact_info_short }}"
+                                                              data-contact-full="{{ request.contact_info }}">{{ request.contact_info_masked }}</span>
+                                                        <div class="admin-contact-actions">
+                                                            <button type="button" class="btn btn-info btn-sm" data-contact-mode="masked">Masque</button>
+                                                            <button type="button" class="btn btn-outline-light btn-sm" data-contact-mode="short">Coupe</button>
+                                                            <button type="button" class="btn btn-outline-light btn-sm" data-contact-mode="full">Afficher</button>
+                                                            <button type="button" class="btn btn-outline-light btn-sm" data-contact-copy>Copier</button>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <p class="text-muted mb-2">Contact: Non renseigne</p>
+                                                {% endif %}
+                                                <p class="text-muted mb-2">Envoyee le {{ request.created_at|date:"d/m/Y H:i" }}</p>
+                                                <p class="mb-0">{{ request.message|default:"Aucun message supplementaire." }}</p>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <form method="post" action="/match-requests/{{ request.id }}/accept/" class="mb-3"
+                                                      data-confirm-title="Accepter la demande"
+                                                      data-confirm-message="Veux-tu vraiment accepter cette demande de match ?"
+                                                      data-confirm-button="Oui, accepter">
+                                                    {% csrf_token %}
+                                                    <textarea name="admin_note" class="form-control mb-2" rows="3" placeholder="Note admin optionnelle"></textarea>
+                                                    <button type="submit" class="btn btn-success w-100">Accepter la demande</button>
+                                                </form>
+                                                <form method="post" action="/match-requests/{{ request.id }}/reject/"
+                                                      data-confirm-title="Refuser la demande"
+                                                      data-confirm-message="Veux-tu vraiment refuser cette demande de match ?"
+                                                      data-confirm-button="Oui, refuser">
+                                                    {% csrf_token %}
+                                                    <textarea name="admin_note" class="form-control mb-2" rows="3" placeholder="Motif ou note de refus"></textarea>
+                                                    <button type="submit" class="btn btn-danger w-100">Refuser la demande</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="card p-4 border border-secondary text-center">
+                            <p class="text-muted mb-0">Aucune demande de match en attente pour le moment.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade admin-modal" id="adminReviewedMatchesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Historique des demandes de match</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="admin-mobile-list">
+                        {% for match_request in reviewed_match_requests %}
+                            <div class="admin-item-card">
+                                <div class="admin-item-head">
+                                    <div>
+                                        <h4 class="text-light mb-1">{{ match_request.requester_name }}</h4>
+                                        <div class="text-light">{{ match_request.get_request_type_display }} le {{ match_request.requested_at|date:"d/m/Y H:i" }}</div>
+                                    </div>
+                                    <div>
+                                        {% if match_request.status == 'accepted' %}
+                                            <span class="admin-status-pill"><i class="bi bi-check-circle-fill text-success"></i> Acceptee</span>
+                                        {% else %}
+                                            <span class="admin-status-pill"><i class="bi bi-x-circle-fill text-danger"></i> Refusee</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="admin-meta">
+                                    <span class="badge bg-dark border border-secondary">{{ match_request.reviewed_at|date:"d/m/Y H:i" }}</span>
+                                    <span class="badge bg-dark border border-secondary">Par {{ match_request.reviewed_by.username|default:"inconnu" }}</span>
+                                </div>
+                                {% if match_request.contact_info %}
+                                    <div class="admin-contact-card" data-contact-tools>
+                                        <div class="admin-contact-head">
+                                            <span class="admin-status-pill">
+                                                <i class="bi bi-eye-slash-fill text-info"></i>
+                                                Contact protege
+                                            </span>
+                                            <span class="admin-inline-note">Historique avec affichage controle du contact.</span>
+                                        </div>
+                                        <span class="badge bg-dark border border-secondary admin-contact-value"
+                                              data-contact-value
+                                              data-contact-masked="{{ match_request.contact_info_masked }}"
+                                              data-contact-short="{{ match_request.contact_info_short }}"
+                                              data-contact-full="{{ match_request.contact_info }}">{{ match_request.contact_info_masked }}</span>
+                                        <div class="admin-contact-actions">
+                                            <button type="button" class="btn btn-info btn-sm" data-contact-mode="masked">Masque</button>
+                                            <button type="button" class="btn btn-outline-light btn-sm" data-contact-mode="short">Coupe</button>
+                                            <button type="button" class="btn btn-outline-light btn-sm" data-contact-mode="full">Afficher</button>
+                                            <button type="button" class="btn btn-outline-light btn-sm" data-contact-copy>Copier</button>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <p class="admin-desc mb-2">{{ match_request.admin_note|default:"Aucune note admin." }}</p>
+                                <div class="admin-actions-row">
+                                    {% if request.user.username == 'admin' %}
+                                    <form method="post" action="/match-requests/{{ match_request.id }}/delete/"
+                                          data-confirm-title="Supprimer la demande"
+                                          data-confirm-message="Veux-tu vraiment supprimer cette demande de match de l'historique ?"
+                                          data-confirm-button="Oui, supprimer">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm w-100">
+                                            <i class="bi bi-trash3-fill"></i>
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="card p-4 text-center border border-secondary">
+                                <p class="text-muted mb-0">Aucun historique de demande de match pour le moment.</p>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div>
-                        {% if match_request.status == 'accepted' %}
-                            <span class="admin-status-pill"><i class="bi bi-check-circle-fill text-success"></i> Acceptee</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade admin-modal" id="adminRosterModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Effectif</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between align-items-center gap-3 mb-3 flex-wrap">
+                        <span class="admin-mini-note mb-0">Choisis le groupe puis consulte les profils un par un.</span>
+                    </div>
+                    <div class="admin-roster-nav" id="adminRosterNav">
+                        <button type="button" class="admin-roster-btn active" data-target="admin-members-panel">Membres</button>
+                        <button type="button" class="admin-roster-btn" data-target="admin-leaders-panel">Leaders</button>
+                    </div>
+                    <div id="admin-members-panel" class="admin-roster-panel active mt-3">
+                        {% if members %}
+                            <div class="admin-roster-list">
+                                {% for member in members %}
+                                    <div class="admin-roster-entry border border-info">
+                                        <div class="admin-roster-main">
+                                            {% if member.photo %}
+                                                <img src="{{ member.photo.url }}" class="admin-avatar" alt="{{ member.pseudo }}">
+                                            {% endif %}
+                                            <div class="admin-roster-content">
+                                                <h5 class="text-info mb-1">{{ member.pseudo }}</h5>
+                                                <div class="text-light">{{ member.name }}</div>
+                                                <small class="text-muted">{{ member.slogan|default:"Aucun slogan" }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="admin-roster-actions">
+                                            {% if member.ff_profile_photo %}
+                                                <a href="{{ member.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
+                                            {% endif %}
+                                            <a href="/edit-member/{{ member.id }}/" class="btn btn-warning btn-sm">Modifier</a>
+                                            <form method="post" action="/delete-member/{{ member.id }}/"
+                                                  data-confirm-title="Supprimer le membre"
+                                                  data-confirm-message="Veux-tu vraiment supprimer ce membre ?"
+                                                  data-confirm-button="Oui, supprimer">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger btn-sm w-100">Supprimer</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         {% else %}
-                            <span class="admin-status-pill"><i class="bi bi-x-circle-fill text-danger"></i> Refusee</span>
+                            <div class="card p-4 text-center border border-secondary">
+                                <p class="text-muted mb-0">Aucun membre enregistre.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div id="admin-leaders-panel" class="admin-roster-panel mt-3">
+                        {% if leaders %}
+                            <div class="admin-roster-list">
+                                {% for leader in leaders %}
+                                    <div class="admin-roster-entry border border-warning">
+                                        <div class="admin-roster-main">
+                                            {% if leader.photo %}
+                                                <img src="{{ leader.photo.url }}" class="admin-avatar" alt="{{ leader.pseudo }}">
+                                            {% endif %}
+                                            <div class="admin-roster-content">
+                                                <h5 class="text-warning mb-1">{{ leader.pseudo }}</h5>
+                                                <div class="text-light">{{ leader.name }}</div>
+                                                <small class="text-muted">{{ leader.slogan|default:"Aucun slogan" }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="admin-roster-actions">
+                                            {% if leader.ff_profile_photo %}
+                                                <a href="{{ leader.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm">Voir la photo FF</a>
+                                            {% endif %}
+                                            <a href="/edit-leader/{{ leader.id }}/" class="btn btn-warning btn-sm">Modifier</a>
+                                            <form method="post" action="/delete-leader/{{ leader.id }}/"
+                                                  data-confirm-title="Supprimer le leader"
+                                                  data-confirm-message="Veux-tu vraiment supprimer ce leader ?"
+                                                  data-confirm-button="Oui, supprimer">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger btn-sm w-100">Supprimer</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="card p-4 text-center border border-secondary">
+                                <p class="text-muted mb-0">Aucun leader enregistre.</p>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
-
-                <div class="admin-meta">
-                    {% if match_request.contact_info %}
-                        <span class="badge bg-dark border border-secondary">{{ match_request.contact_info }}</span>
-                    {% endif %}
-                    <span class="badge bg-dark border border-secondary">{{ match_request.reviewed_at|date:"d/m/Y H:i" }}</span>
-                    <span class="badge bg-dark border border-secondary">Par {{ match_request.reviewed_by.username|default:"inconnu" }}</span>
-                </div>
-
-                <p class="admin-desc mb-2">{{ match_request.admin_note|default:"Aucune note admin." }}</p>
-
-                <div class="admin-actions-row">
-                    {% if request.user.username == 'admin' %}
-                    <form method="post" action="/match-requests/{{ match_request.id }}/delete/"
-                          data-confirm-title="Supprimer la demande"
-                          data-confirm-message="Veux-tu vraiment supprimer cette demande de match de l'historique ?"
-                          data-confirm-button="Oui, supprimer">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm w-100">
-                            <i class="bi bi-trash3-fill"></i>
-                            Supprimer
-                        </button>
-                    </form>
-                    {% endif %}
-                </div>
             </div>
-        {% empty %}
-            <div class="card p-4 text-center border border-secondary">
-                <p class="text-muted mb-0">Aucun historique de demande de match pour le moment.</p>
-            </div>
-        {% endfor %}
+        </div>
     </div>
 
-    <section class="admin-item-card mb-5">
-        <div class="d-flex justify-content-between align-items-center gap-3 mb-3 flex-wrap">
-            <h2 class="text-info mb-0">Effectif</h2>
-            <span class="admin-mini-note mb-0">Affichage une carte a la fois (glisse horizontalement)</span>
-        </div>
-
-        <div class="admin-roster-nav" id="adminRosterNav">
-            <button type="button" class="admin-roster-btn active" data-target="admin-members-panel">Membres</button>
-            <button type="button" class="admin-roster-btn" data-target="admin-leaders-panel">Leaders</button>
-        </div>
-
-        <div class="admin-mini-note mt-2 mb-3">Astuce: change de groupe avec la barre, puis swipe gauche/droite pour parcourir.</div>
-
-        <div id="admin-members-panel" class="admin-roster-panel active">
-            {% if members %}
-                <div class="admin-roster-slider">
-                    {% for member in members %}
-                        <div class="admin-roster-slide">
-                            <div class="card p-3 border border-info">
-                                <div class="admin-profile-stack">
-                                    {% if member.photo %}
-                                        <img src="{{ member.photo.url }}" class="admin-avatar" alt="{{ member.pseudo }}">
-                                    {% endif %}
-                                    <div class="flex-grow-1">
-                                        <h5 class="text-info mb-1">{{ member.pseudo }}</h5>
-                                        <div class="text-light">{{ member.name }}</div>
-                                        <small class="text-muted">{{ member.slogan|default:"Aucun slogan" }}</small>
+    <div class="modal fade admin-modal" id="adminRulesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reglements</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="admin-mobile-list">
+                        {% for rule in rules %}
+                            <div class="admin-item-card">
+                                <div class="admin-item-head">
+                                    <div>
+                                        <h4 class="text-light mb-2">{{ rule.title }}</h4>
+                                        <p class="admin-desc mb-0">{{ rule.description|default:"Aucune description." }}</p>
                                     </div>
+                                    <span class="admin-status-pill"><i class="bi bi-journal-text text-info"></i> Reglement</span>
                                 </div>
-                                <div class="d-flex gap-2 mt-3 flex-wrap">
-                                    {% if member.ff_profile_photo %}
-                                        <a href="{{ member.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm flex-fill">Voir la photo FF</a>
-                                    {% endif %}
-                                    <a href="/edit-member/{{ member.id }}/" class="btn btn-warning btn-sm flex-fill">Modifier</a>
-                                    <form method="post" action="/delete-member/{{ member.id }}/" class="flex-fill"
-                                          data-confirm-title="Supprimer le membre"
-                                          data-confirm-message="Veux-tu vraiment supprimer ce membre ?"
+                                <div class="admin-actions-row mt-3">
+                                    <a href="/edit-rule/{{ rule.id }}/" class="btn btn-warning btn-sm w-100">Modifier</a>
+                                    <form method="post" action="/delete-rule/{{ rule.id }}/"
+                                          data-confirm-title="Supprimer le reglement"
+                                          data-confirm-message="Veux-tu vraiment supprimer ce reglement ?"
                                           data-confirm-button="Oui, supprimer">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-danger btn-sm w-100">Supprimer</button>
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="card p-4 text-center border border-secondary">
-                    <p class="text-muted mb-0">Aucun membre enregistre.</p>
-                </div>
-            {% endif %}
-        </div>
-
-        <div id="admin-leaders-panel" class="admin-roster-panel">
-            {% if leaders %}
-                <div class="admin-roster-slider">
-                    {% for leader in leaders %}
-                        <div class="admin-roster-slide">
-                            <div class="card p-3 border border-warning">
-                                <div class="admin-profile-stack">
-                                    {% if leader.photo %}
-                                        <img src="{{ leader.photo.url }}" class="admin-avatar" alt="{{ leader.pseudo }}">
-                                    {% endif %}
-                                    <div class="flex-grow-1">
-                                        <h5 class="text-warning mb-1">{{ leader.pseudo }}</h5>
-                                        <div class="text-light">{{ leader.name }}</div>
-                                        <small class="text-muted">{{ leader.slogan|default:"Aucun slogan" }}</small>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 mt-3 flex-wrap">
-                                    {% if leader.ff_profile_photo %}
-                                        <a href="{{ leader.ff_profile_photo.url }}" target="_blank" class="btn btn-outline-light btn-sm flex-fill">Voir la photo FF</a>
-                                    {% endif %}
-                                    <a href="/edit-leader/{{ leader.id }}/" class="btn btn-warning btn-sm flex-fill">Modifier</a>
-                                    <form method="post" action="/delete-leader/{{ leader.id }}/" class="flex-fill"
-                                          data-confirm-title="Supprimer le leader"
-                                          data-confirm-message="Veux-tu vraiment supprimer ce leader ?"
-                                          data-confirm-button="Oui, supprimer">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger btn-sm w-100">Supprimer</button>
-                                    </form>
-                                </div>
+                        {% empty %}
+                            <div class="card p-4 text-center border border-secondary">
+                                <p class="text-muted mb-0">Aucun reglement enregistre.</p>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="card p-4 text-center border border-secondary">
-                    <p class="text-muted mb-0">Aucun leader enregistre.</p>
-                </div>
-            {% endif %}
-        </div>
-
-    </section>
-
-    <h2 class="text-light mb-3">Reglements</h2>
-    <div class="admin-mobile-list">
-        {% for rule in rules %}
-            <div class="admin-item-card">
-                <div class="admin-item-head">
-                    <div>
-                        <h4 class="text-light mb-2">{{ rule.title }}</h4>
-                        <p class="admin-desc mb-0">{{ rule.description|default:"Aucune description." }}</p>
+                        {% endfor %}
                     </div>
-                    <span class="admin-status-pill"><i class="bi bi-journal-text text-info"></i> Reglement</span>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="admin-actions-row mt-3">
-                    <a href="/edit-rule/{{ rule.id }}/" class="btn btn-warning btn-sm w-100">
-                        <i class="bi bi-pencil-square"></i>
-                        Modifier
-                    </a>
-                    <form method="post" action="/delete-rule/{{ rule.id }}/"
-                          data-confirm-title="Supprimer le reglement"
-                          data-confirm-message="Veux-tu vraiment supprimer ce reglement ?"
-                          data-confirm-button="Oui, supprimer">
+    <div class="modal fade admin-modal" id="addLeaderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un leader</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/add-leader/" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm w-100">
-                            <i class="bi bi-trash3-fill"></i>
-                            Supprimer
-                        </button>
+                        {{ leader_form.as_p }}
+                        <button type="submit" class="btn btn-warning w-100">Enregistrer</button>
                     </form>
                 </div>
             </div>
-        {% empty %}
-            <div class="card p-4 text-center border border-secondary">
-                <p class="text-muted mb-0">Aucun reglement enregistre.</p>
+        </div>
+    </div>
+
+    <div class="modal fade admin-modal" id="addRuleModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un reglement</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/add-rule/">
+                        {% csrf_token %}
+                        {{ rule_form.as_p }}
+                        <button type="submit" class="btn btn-info w-100">Enregistrer</button>
+                    </form>
+                </div>
             </div>
-        {% endfor %}
+        </div>
+    </div>
+
+    <div class="modal fade admin-modal" id="userAccountsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Comptes users</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Membre</th>
+                                    <th>Username</th>
+                                    <th>Statut</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member in members %}
+                                    <tr>
+                                        <td>
+                                            <div class="fw-bold text-light">{{ member.pseudo }}</div>
+                                            <div class="text-muted small">{{ member.name }}</div>
+                                        </td>
+                                        <td>
+                                            {% if member.user %}
+                                                <span class="badge bg-info">{{ member.user.username }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">Aucun</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if member.user %}
+                                                {% if member.user.is_active %}
+                                                    <span class="badge bg-success">Actif</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">Desactive</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="badge bg-secondary">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            {% if member.user %}
+                                                <a class="btn btn-warning btn-sm" href="/admin-panel/user-accounts/{{ member.id }}/">Modifier</a>
+                                            {% else %}
+                                                <form method="post" action="/admin-panel/user-accounts/{{ member.id }}/create/" class="d-inline"
+                                                      data-confirm-title="Creer un compte"
+                                                      data-confirm-message="Creer un compte pour {{ member.pseudo }} ?"
+                                                      data-confirm-button="Oui, creer">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-info btn-sm">Creer</button>
+                                                </form>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted py-4">Aucun membre.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="modal fade" id="addMemberModal" tabindex="-1" aria-hidden="true">
@@ -878,6 +1291,66 @@ document.addEventListener("DOMContentLoaded", function () {
             this.classList.add("active");
             document.getElementById(targetId)?.classList.add("active");
         });
+    });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const contactCards = document.querySelectorAll("[data-contact-tools]");
+
+    if (!contactCards.length) {
+        return;
+    }
+
+    contactCards.forEach((card) => {
+        const value = card.querySelector("[data-contact-value]");
+        const modeButtons = card.querySelectorAll("[data-contact-mode]");
+        const copyButton = card.querySelector("[data-contact-copy]");
+
+        if (!value || !modeButtons.length) {
+            return;
+        }
+
+        function setMode(mode) {
+            const nextValue = value.dataset[`contact${mode.charAt(0).toUpperCase()}${mode.slice(1)}`] || "";
+            value.textContent = nextValue;
+
+            modeButtons.forEach((button) => {
+                const isActive = button.dataset.contactMode === mode;
+                button.classList.toggle("btn-info", isActive);
+                button.classList.toggle("btn-outline-light", !isActive);
+            });
+        }
+
+        modeButtons.forEach((button) => {
+            button.addEventListener("click", function () {
+                setMode(this.dataset.contactMode);
+            });
+        });
+
+        if (copyButton) {
+            copyButton.addEventListener("click", async function () {
+                const fullContact = value.dataset.contactFull || "";
+                const initialLabel = copyButton.textContent;
+
+                if (!fullContact) {
+                    return;
+                }
+
+                try {
+                    await navigator.clipboard.writeText(fullContact);
+                    copyButton.textContent = "Copie";
+                } catch (error) {
+                    window.prompt("Copie le contact :", fullContact);
+                }
+
+                window.setTimeout(() => {
+                    copyButton.textContent = initialLabel;
+                }, 1400);
+            });
+        }
+
+        setMode("masked");
     });
 });
 </script>
